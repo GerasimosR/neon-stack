@@ -2,10 +2,10 @@ package com.seniordev.neonstack.engine
 
 class Board {
     companion object {
-        const val WIDTH = 10
+        const val WIDTH = 9
         const val BUFFER_ROWS = 2
-        const val VISIBLE_ROWS = 18
-        const val TOTAL_ROWS = BUFFER_ROWS + VISIBLE_ROWS // 20
+        const val VISIBLE_ROWS = 16
+        const val TOTAL_ROWS = BUFFER_ROWS + VISIBLE_ROWS // 18
     }
 
     // grid[y][x]: 0 = empty, > 0 = BlockShape.id
@@ -25,19 +25,14 @@ class Board {
     fun isValidPosition(piece: ActivePiece, offset: Point = piece.position, state: RotationState = piece.rotation): Boolean {
         val minos = piece.getWorldMinos(offset, state)
         for (mino in minos) {
-            // Check horizontal bounds
             if (mino.x !in 0 until WIDTH) {
                 return false
             }
-            // Check bottom floor bound
             if (mino.y >= TOTAL_ROWS) {
                 return false
             }
-            // If block is above the ceiling (y < 0), allow it in spawn zone unless x is invalid
-            if (mino.y >= 0) {
-                if (grid[mino.y][mino.x] != 0) {
-                    return false
-                }
+            if (mino.y >= 0 && grid[mino.y][mino.x] != 0) {
+                return false
             }
         }
         return true
@@ -56,7 +51,7 @@ class Board {
     }
 
     /**
-     * Calculates the landing position (hard drop / projection guide) for the given active piece.
+     * Calculates the landing position (hard drop / laser rail impact) for the given active piece.
      */
     fun getDropPosition(piece: ActivePiece): Point {
         var dropY = piece.position.y
@@ -113,19 +108,11 @@ class Board {
     }
 
     /**
-     * 3-corner Pivot Spin detection for T-shaped pieces.
-     * @param piece The active piece (must be T)
-     * @param lastActionWasRotate True if the action immediately prior to locking was a rotation
-     * @param lastKickIndex 0 for basic rotation, 1..4 for wall kicks (test 5 is index 4)
+     * Neon Stack Overclock Spin detection: rewards tight rotational tucks
+     * for both CROWN (4-cell) and ELBOW (3-cell) pieces.
      */
-    fun checkPivotSpin(piece: ActivePiece, lastActionWasRotate: Boolean, lastKickIndex: Int): SpinBonus {
-        if (piece.type != BlockShape.T || !lastActionWasRotate) {
-            return SpinBonus.NONE
-        }
-
-        // Crown piece center is at position + (1, 1)
-        val cx = piece.position.x + 1
-        val cy = piece.position.y + 1
+    fun checkOverclockSpin(piece: ActivePiece, lastActionWasRotate: Boolean, lastKickIndex: Int): SpinBonus {
+        if (!lastActionWasRotate) return SpinBonus.NONE
 
         fun isOccupied(x: Int, y: Int): Boolean {
             if (x !in 0 until WIDTH || y >= TOTAL_ROWS) return true
@@ -133,27 +120,37 @@ class Board {
             return grid[y][x] != 0
         }
 
-        val tl = isOccupied(cx - 1, cy - 1)
-        val tr = isOccupied(cx + 1, cy - 1)
-        val bl = isOccupied(cx - 1, cy + 1)
-        val br = isOccupied(cx + 1, cy + 1)
+        return when (piece.type) {
+            BlockShape.CROWN -> {
+                val cx = piece.position.x + 1
+                val cy = piece.position.y + 1
+                val tl = isOccupied(cx - 1, cy - 1)
+                val tr = isOccupied(cx + 1, cy - 1)
+                val bl = isOccupied(cx - 1, cy + 1)
+                val br = isOccupied(cx + 1, cy + 1)
+                val occupiedCorners = (if (tl) 1 else 0) + (if (tr) 1 else 0) + (if (bl) 1 else 0) + (if (br) 1 else 0)
+                if (occupiedCorners < 3) return SpinBonus.NONE
 
-        val totalOccupied = (if (tl) 1 else 0) + (if (tr) 1 else 0) + (if (bl) 1 else 0) + (if (br) 1 else 0)
-        if (totalOccupied < 3) {
-            return SpinBonus.NONE
-        }
-
-        val (front1, front2) = when (piece.rotation) {
-            RotationState.SPAWN -> Pair(tl, tr)
-            RotationState.CLOCKWISE -> Pair(tr, br)
-            RotationState.FLIP -> Pair(bl, br)
-            RotationState.COUNTER_CLOCKWISE -> Pair(tl, bl)
-        }
-
-        return if ((front1 && front2) || lastKickIndex == 4) {
-            SpinBonus.FULL
-        } else {
-            SpinBonus.MINI
+                val (front1, front2) = when (piece.rotation) {
+                    RotationState.SPAWN -> Pair(tl, tr)
+                    RotationState.CLOCKWISE -> Pair(tr, br)
+                    RotationState.FLIP -> Pair(bl, br)
+                    RotationState.COUNTER_CLOCKWISE -> Pair(tl, bl)
+                }
+                if ((front1 && front2) || lastKickIndex >= 3) SpinBonus.FULL else SpinBonus.MINI
+            }
+            BlockShape.ELBOW -> {
+                // Check if the 3-cell elbow was tucked under an overhang (occupied block directly above any cell)
+                val minos = piece.getWorldMinos()
+                val minoSet = minos.toSet()
+                val hasOverhang = minos.any { m ->
+                    val above = Point(m.x, m.y - 1)
+                    !minoSet.contains(above) && isOccupied(above.x, above.y)
+                }
+                if (!hasOverhang) return SpinBonus.NONE
+                if (lastKickIndex > 0) SpinBonus.FULL else SpinBonus.MINI
+            }
+            else -> SpinBonus.NONE
         }
     }
 

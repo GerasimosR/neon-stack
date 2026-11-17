@@ -231,26 +231,6 @@ fun WelcomeScreen(
                             modifier = Modifier.padding(start = 4.dp)
                         )
 
-                        val classicBest = maxOf(state.classicBestScore, state.highScore)
-                        val classicStatText = if (classicBest > 0L) {
-                            "BEST  %,d".format(classicBest)
-                        } else {
-                            "ENDLESS ARCADE"
-                        }
-
-                        ModeLaunchCard(
-                            title = "ENDLESS",
-                            badge = "CLASSIC ARCADE",
-                            badgeTextColor = ClassicBadgeText,
-                            subtitle = "7-Bag • Pivot Spins • Endless Speed",
-                            statText = classicStatText,
-                            statColor = if (classicBest > 0L) AccentYellow else TextSecondary,
-                            accentColor = AccentCyan,
-                            icon = { EndlessBlocksVectorIcon(tint = AccentCyan, size = 26.dp) },
-                            contentDescription = "Play Endless Mode",
-                            onClick = onStartClassic
-                        )
-
                         val rogueStatText = when {
                             state.rogueBestFloor > 0 && state.rogueRuns > 0 ->
                                 "BEST FLOOR ${state.rogueBestFloor}  •  ${state.rogueRuns} RUNS"
@@ -274,6 +254,26 @@ fun WelcomeScreen(
                             contentDescription = "Play Rogue Spire Mode",
                             onClick = onStartRogue
                         )
+
+                        val classicBest = maxOf(state.classicBestScore, state.highScore)
+                        val classicStatText = if (classicBest > 0L) {
+                            "BEST  %,d".format(classicBest)
+                        } else {
+                            "9×16 ENDLESS ARCADE"
+                        }
+
+                        ModeLaunchCard(
+                            title = "ENDLESS",
+                            badge = "9×16 ARCADE",
+                            badgeTextColor = ClassicBadgeText,
+                            subtitle = "9-Bag • Overclock Spins • Speed Scaling",
+                            statText = classicStatText,
+                            statColor = if (classicBest > 0L) AccentYellow else TextSecondary,
+                            accentColor = AccentCyan,
+                            icon = { EndlessBlocksVectorIcon(tint = AccentCyan, size = 26.dp) },
+                            contentDescription = "Play Endless Mode",
+                            onClick = onStartClassic
+                        )
                     }
 
                     // 4. Compact Bottom Controls Dock (Clean, Font-Scale Safe, Single Accent System)
@@ -290,7 +290,7 @@ fun WelcomeScreen(
                         val controlHint = if (state.controlMode == ControlMode.GESTURES) {
                             "Drag to move • Tap to rotate • Flick down to slam"
                         } else {
-                            "Dual-thumb arcade pad • Tap HOLD anytime"
+                            "Dual-thumb arcade pad • Tap VAULT anytime"
                         }
                         Text(
                             text = controlHint,
@@ -738,13 +738,13 @@ private fun WelcomeBackdropCanvas(modifier: Modifier = Modifier) {
 
     val pieces = remember {
         listOf(
-            BackdropPiece(BlockShape.I, RotationState.CLOCKWISE, 0.08f, 0.10f, 1.0f, 18f, 0.11f),
-            BackdropPiece(BlockShape.T, RotationState.SPAWN, 0.28f, 0.45f, 2.0f, 20f, 0.10f),
-            BackdropPiece(BlockShape.L, RotationState.FLIP, 0.54f, 0.75f, 1.0f, 17f, 0.09f),
-            BackdropPiece(BlockShape.S, RotationState.CLOCKWISE, 0.78f, 0.25f, 2.0f, 19f, 0.10f),
-            BackdropPiece(BlockShape.O, RotationState.SPAWN, 0.88f, 0.65f, 1.0f, 16f, 0.10f),
-            BackdropPiece(BlockShape.Z, RotationState.SPAWN, 0.15f, 0.82f, 2.0f, 17f, 0.08f),
-            BackdropPiece(BlockShape.J, RotationState.COUNTER_CLOCKWISE, 0.68f, 0.05f, 1.0f, 18f, 0.09f)
+            BackdropPiece(BlockShape.BEAM, RotationState.CLOCKWISE, 0.08f, 0.10f, 1.0f, 18f, 0.11f),
+            BackdropPiece(BlockShape.CROWN, RotationState.SPAWN, 0.28f, 0.45f, 2.0f, 20f, 0.10f),
+            BackdropPiece(BlockShape.ELBOW, RotationState.FLIP, 0.54f, 0.75f, 1.0f, 18f, 0.10f),
+            BackdropPiece(BlockShape.PULSE, RotationState.CLOCKWISE, 0.78f, 0.25f, 2.0f, 19f, 0.10f),
+            BackdropPiece(BlockShape.CORE, RotationState.SPAWN, 0.88f, 0.65f, 1.0f, 16f, 0.10f),
+            BackdropPiece(BlockShape.ZAG, RotationState.SPAWN, 0.15f, 0.82f, 2.0f, 17f, 0.08f),
+            BackdropPiece(BlockShape.HOOK_L, RotationState.COUNTER_CLOCKWISE, 0.68f, 0.05f, 1.0f, 18f, 0.09f)
         )
     }
 

@@ -57,15 +57,15 @@ data class Relic(
             ),
             Relic(
                 id = RelicId.DOUBLE_HOLD,
-                name = "Dual Hold Chamber",
-                description = "Enables holding pieces twice before requiring a lock.",
+                name = "Dual Vault Chamber",
+                description = "Enables vaulting pieces twice before requiring a lock.",
                 icon = "dual_hold",
                 rarity = RelicRarity.RARE
             ),
             Relic(
                 id = RelicId.GOLDEN_I_BAG,
                 name = "Beam Conduit",
-                description = "Injects an additional straight Beam block into every 7-piece bag cycle.",
+                description = "Injects an additional straight Beam into every 9-piece bag cycle.",
                 icon = "diamond",
                 rarity = RelicRarity.LEGENDARY
             ),

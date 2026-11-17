@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
 import com.seniordev.neonstack.engine.*
+import com.seniordev.neonstack.engine.Point
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.hypot
@@ -46,83 +47,111 @@ class NeonStackCanvasView @JvmOverloads constructor(
 
     var gestureListener: GameGestureListener? = null
 
-    // Paints
+    // Paints (pre-allocated for zero GC churn during 120Hz rendering)
     private val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.parseColor("#0C0E14")
-    }
-    private val boardBgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#121622")
     }
     private val boardAmbientPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
     }
     private val gridLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#1B2236")
-        strokeWidth = 2f
+        color = Color.parseColor("#182034")
+        strokeWidth = 1.6f
         style = Paint.Style.STROKE
     }
     private val boardBorderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#38486E")
-        strokeWidth = 4f
+        color = Color.parseColor("#35476D")
+        strokeWidth = 3.5f
         style = Paint.Style.STROKE
     }
-    private val blockPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+
+    // Neon Glass Circuit Module Paints
+    private val moduleCorePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.parseColor("#0E1422")
         style = Paint.Style.FILL
     }
-    private val blockHighlightPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(80, 255, 255, 255)
+    private val moduleTintPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
     }
-    private val blockShadowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(80, 0, 0, 0)
-        style = Paint.Style.FILL
-    }
-    private val blockInnerFacetPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        style = Paint.Style.FILL
-    }
-    private val ghostPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val moduleGlowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
-        strokeWidth = 3f
     }
-    private val ghostFillPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private val moduleRimPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+    }
+    private val moduleNodePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
     }
+    private val moduleSparkPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(215, 255, 255, 255)
+        style = Paint.Style.FILL
+    }
+    private val bridgeConduitPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.ROUND
+    }
+
+    // Laser Drop-Rail Paints
+    private val laserBeamPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+    }
+    private val laserRailPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.STROKE
+        strokeWidth = 2.6f
+    }
+    private val impactBarGlowPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+    }
+    private val impactBarCorePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.argb(225, 255, 255, 255)
+        style = Paint.Style.FILL
+    }
+
+    // Top Command Dock Paints
     private val panelPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#141926")
+        color = Color.parseColor("#131928")
         style = Paint.Style.FILL
     }
     private val panelBorderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#252E46")
-        style = Paint.Style.STROKE
-        strokeWidth = 3f
-    }
-    private val emptySlotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#252E46")
+        color = Color.parseColor("#25304A")
         style = Paint.Style.STROKE
         strokeWidth = 2.5f
-        pathEffect = DashPathEffect(floatArrayOf(10f, 8f), 0f)
+    }
+    private val emptySlotPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = Color.parseColor("#283450")
+        style = Paint.Style.STROKE
+        strokeWidth = 2.2f
+        pathEffect = DashPathEffect(floatArrayOf(9f, 7f), 0f)
     }
     private val textHeaderPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#7A8BAF")
-        textSize = 28f
+        color = Color.parseColor("#7E91B8")
+        textSize = 24f
         typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
         textAlign = Paint.Align.CENTER
+        letterSpacing = 0.14f
     }
     private val floatingTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.parseColor("#FFD700")
+        color = Color.parseColor("#FFD166")
         textSize = 42f
         typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
         textAlign = Paint.Align.CENTER
-        setShadowLayer(8f, 0f, 0f, Color.parseColor("#FFA000"))
+        setShadowLayer(10f, 0f, 0f, Color.parseColor("#FF2EE6"))
     }
     private val particlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
     }
+    private val lineFlashPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
+    }
 
-    // Dynamic Layout Measurements
+    // Reusable drawing geometry to avoid allocations in onDraw
+    private val tempRect = RectF()
+    private val tempNodePath = Path()
+
+    // Dynamic Layout Measurements (Unified Top Command Dock: VAULT + QUEUE above 9x16 matrix)
     private val boardRect = RectF()
-    private val holdRect = RectF()
-    private val nextRect = RectF()
+    private val vaultRect = RectF()
+    private val queueRect = RectF()
     private var cellSize = 0f
 
     // Next-Gen AGSL Runtime Shaders (Android 13+)
@@ -142,8 +171,7 @@ class NeonStackCanvasView @JvmOverloads constructor(
     private data class FloatingBanner(
         val text: String,
         val startTime: Long,
-        val durationMs: Long = 900L,
-        var yOffset: Float = 0f
+        val durationMs: Long = 900L
     )
     private val floatingBanners = mutableListOf<FloatingBanner>()
 
@@ -208,7 +236,6 @@ class NeonStackCanvasView @JvmOverloads constructor(
                 val stepX = (baseCell * 0.55f).coerceIn(14f * density, 24f * density)
                 val stepY = (baseCell * 0.65f).coerceIn(16f * density, 26f * density)
 
-                // 1:1 horizontal finger-tracking slide
                 var movedHorizontallyNow = false
                 while (abs(x - dragAnchorX) >= stepX) {
                     if (x > dragAnchorX) {
@@ -226,7 +253,6 @@ class NeonStackCanvasView @JvmOverloads constructor(
                     invalidate()
                 }
 
-                // Vertical soft-drop drag & high-velocity downward flick slam
                 val totalDy = y - downY
                 val totalDx = x - downX
                 if (!movedHorizontallyNow && y - dragAnchorY >= stepY && totalDy > abs(totalDx) * 0.9f) {
@@ -265,14 +291,12 @@ class NeonStackCanvasView @JvmOverloads constructor(
                     vy > 1150f * density &&
                     totalDy > abs(totalDx) * 1.25f
                 ) {
-                    // Quick downward flick = Hard Drop
                     gestureListener?.onHardDrop()
                     invalidate()
                 } else if (!hasDragged &&
                     abs(totalDx) >= quickSwipeSlop &&
                     abs(totalDx) > abs(totalDy) * 1.1f
                 ) {
-                    // Quick horizontal flick left/right (short thumb swipe)
                     if (totalDx > 0f) {
                         gestureListener?.onSwipeRight()
                     } else {
@@ -283,18 +307,16 @@ class NeonStackCanvasView @JvmOverloads constructor(
                     totalDy >= quickSwipeSlop &&
                     totalDy > abs(totalDx) * 1.2f
                 ) {
-                    // Short downward swipe = Soft Drop
                     gestureListener?.onSwipeDown()
                     invalidate()
                 } else if (!hasDragged && hypot(totalDx.toDouble(), totalDy.toDouble()) <= tapSlop) {
-                    // Instant 0ms tap detection
-                    val holdTouchSlop = 12f * density
-                    val hitHold = x >= (holdRect.left - holdTouchSlop) &&
-                        x <= (holdRect.right + holdTouchSlop) &&
-                        y >= (holdRect.top - holdTouchSlop) &&
-                        y <= (holdRect.bottom + holdTouchSlop)
+                    val vaultTouchSlop = 12f * density
+                    val hitVault = x >= (vaultRect.left - vaultTouchSlop) &&
+                        x <= (vaultRect.right + vaultTouchSlop) &&
+                        y >= (vaultRect.top - vaultTouchSlop) &&
+                        y <= (vaultRect.bottom + vaultTouchSlop)
 
-                    if (hitHold) {
+                    if (hitVault) {
                         gestureListener?.onHold()
                     } else if (x < width * 0.35f) {
                         gestureListener?.onDoubleTapRotateCcw()
@@ -334,64 +356,34 @@ class NeonStackCanvasView @JvmOverloads constructor(
     }
 
     private fun calculateLayout(viewWidth: Int, viewHeight: Int) {
-        val horizontalPadding = 6f
-        val verticalPadding = 8f
-        val panelGap = 10f
+        val horizontalPadding = 8f
+        val verticalPadding = 6f
+        val dockGap = 10f
 
-        if (isFullScreenGestureMode) {
-            // Full-Screen Gesture Layout:
-            // Compact horizontal HOLD + NEXT tray at top, massive 10x18 matrix below!
-            val topTrayHeight = (viewHeight * 0.10f).coerceIn(112f, 165f)
-            val trayBottom = verticalPadding + topTrayHeight
-            val boardAreaTop = trayBottom + panelGap
-            val boardAreaH = (viewHeight - boardAreaTop - verticalPadding).coerceAtLeast(100f)
+        // Unified Top Command Dock (VAULT + QUEUE) above a large centered 9x16 matrix
+        val dockFraction = if (isFullScreenGestureMode) 0.11f else 0.135f
+        val topDockHeight = (viewHeight * dockFraction).coerceIn(96f, 152f)
+        val dockBottom = verticalPadding + topDockHeight
+        val boardAreaTop = dockBottom + dockGap
+        val boardAreaH = (viewHeight - boardAreaTop - verticalPadding).coerceAtLeast(100f)
 
-            val maxCellW = (viewWidth - horizontalPadding * 2) / Board.WIDTH.toFloat()
-            val maxCellH = boardAreaH / Board.VISIBLE_ROWS.toFloat()
-            cellSize = minOf(maxCellW, maxCellH)
-            textHeaderPaint.textSize = (cellSize * 0.34f).coerceIn(20f, 28f)
+        val maxCellW = (viewWidth - horizontalPadding * 2) / Board.WIDTH.toFloat()
+        val maxCellH = boardAreaH / Board.VISIBLE_ROWS.toFloat()
+        cellSize = minOf(maxCellW, maxCellH)
+        textHeaderPaint.textSize = (cellSize * 0.34f).coerceIn(19f, 26f)
 
-            val boardW = cellSize * Board.WIDTH
-            val boardH = cellSize * Board.VISIBLE_ROWS
-            val boardLeft = (viewWidth - boardW) / 2f
-            val boardTop = boardAreaTop + (boardAreaH - boardH) / 2f
-            boardRect.set(boardLeft, boardTop, boardLeft + boardW, boardTop + boardH)
+        val boardW = cellSize * Board.WIDTH
+        val boardH = cellSize * Board.VISIBLE_ROWS
+        val boardLeft = (viewWidth - boardW) / 2f
+        val boardTop = boardAreaTop + (boardAreaH - boardH) / 2f
+        boardRect.set(boardLeft, boardTop, boardLeft + boardW, boardTop + boardH)
 
-            // Align top tray neatly to board width
-            val trayWidth = maxOf(boardW, viewWidth - horizontalPadding * 2 - 8f)
-            val trayLeft = (viewWidth - trayWidth) / 2f
-            val holdW = trayWidth * 0.28f
-            holdRect.set(trayLeft, verticalPadding, trayLeft + holdW, trayBottom)
-            nextRect.set(holdRect.right + panelGap, verticalPadding, trayLeft + trayWidth, trayBottom)
-        } else {
-            // Symmetrical Neo-Arcade Pad Layout: HOLD | BOARD | NEXT
-            val targetWidthUnits = 15.6f
-            val targetHeightUnits = Board.VISIBLE_ROWS + 0.3f
-
-            val maxCellW = (viewWidth - horizontalPadding * 2 - panelGap * 2) / targetWidthUnits
-            val maxCellH = (viewHeight - verticalPadding * 2) / targetHeightUnits
-
-            cellSize = minOf(maxCellW, maxCellH)
-            textHeaderPaint.textSize = (cellSize * 0.42f).coerceIn(22f, 32f)
-
-            val boardW = cellSize * Board.WIDTH
-            val boardH = cellSize * Board.VISIBLE_ROWS
-
-            val boardLeft = (viewWidth - boardW) / 2f
-            val boardTop = maxOf(verticalPadding, (viewHeight - boardH) / 2f)
-            boardRect.set(boardLeft, boardTop, boardLeft + boardW, boardTop + boardH)
-
-            val availableSideW = boardLeft - horizontalPadding - panelGap
-            val sidePanelW = minOf(cellSize * 2.65f, availableSideW).coerceAtLeast(cellSize * 2.1f)
-            val sidePanelH = cellSize * 3.1f
-
-            val holdLeft = maxOf(horizontalPadding, boardLeft - sidePanelW - panelGap)
-            holdRect.set(holdLeft, boardTop, holdLeft + sidePanelW, boardTop + sidePanelH)
-
-            val nextLeft = minOf(viewWidth - horizontalPadding - sidePanelW, boardRect.right + panelGap)
-            val nextH = minOf(cellSize * 8.4f, boardH)
-            nextRect.set(nextLeft, boardTop, nextLeft + sidePanelW, boardTop + nextH)
-        }
+        // Dock spans at least board width (up to full padded width for generous breathing room)
+        val dockWidth = minOf(viewWidth - horizontalPadding * 2, maxOf(boardW, viewWidth * 0.90f))
+        val dockLeft = (viewWidth - dockWidth) / 2f
+        val vaultW = dockWidth * 0.28f
+        vaultRect.set(dockLeft, verticalPadding, dockLeft + vaultW, dockBottom)
+        queueRect.set(vaultRect.right + dockGap, verticalPadding, dockLeft + dockWidth, dockBottom)
 
         // Radial ambient cyber glow behind playfield
         val cx = boardRect.centerX()
@@ -401,8 +393,8 @@ class NeonStackCanvasView @JvmOverloads constructor(
             cx, cy, radius,
             intArrayOf(
                 Color.parseColor("#18243C"),
-                Color.parseColor("#121826"),
-                Color.parseColor("#0C0E14")
+                Color.parseColor("#111726"),
+                Color.parseColor("#0B0E16")
             ),
             floatArrayOf(0.0f, 0.55f, 1.0f),
             Shader.TileMode.CLAMP
@@ -431,8 +423,7 @@ class NeonStackCanvasView @JvmOverloads constructor(
             shaderManager.triggerShockwave(boardRect.centerX(), boardRect.centerY())
         }
 
-        // Spawn particles along cleared rows
-        val eng = engine ?: return
+        if (engine == null) return
         for (row in rows) {
             val visibleRow = row - Board.BUFFER_ROWS
             if (visibleRow < 0) continue
@@ -449,6 +440,7 @@ class NeonStackCanvasView @JvmOverloads constructor(
                     Color.parseColor("#FF2EE6"),
                     Color.parseColor("#FFB703"),
                     Color.parseColor("#38BDF8"),
+                    Color.parseColor("#FF3D8B"),
                     Color.parseColor("#FFFFFF")
                 )
                 val c = colors[Random.nextInt(colors.size)]
@@ -464,7 +456,6 @@ class NeonStackCanvasView @JvmOverloads constructor(
         val eng = engine ?: return
         val now = SystemClock.uptimeMillis()
 
-        // Handle screen shake
         var shakeOffsetX = 0f
         var shakeOffsetY = 0f
         if (now < shakeDecayTime && shakeMagnitude > 0f) {
@@ -477,38 +468,30 @@ class NeonStackCanvasView @JvmOverloads constructor(
         canvas.save()
         canvas.translate(shakeOffsetX, shakeOffsetY)
 
-        // Draw Canvas Background
         canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
 
-        // Draw Hold Box
-        drawHoldPanel(canvas, eng)
+        // Top Command Dock (VAULT + QUEUE)
+        drawVaultPanel(canvas, eng)
+        drawQueuePanel(canvas, eng)
 
-        // Draw Next Queue Box
-        drawNextPanel(canvas, eng)
-
-        // Draw Playfield Matrix
+        // 9x16 Playfield Matrix
         drawPlayfield(canvas, eng, now)
 
-        // Draw Floating Banners
+        // Visual FX Overlays
         drawFloatingBanners(canvas, now)
-
-        // Draw Particles
-        drawParticles(canvas, now)
+        drawParticles(canvas)
 
         canvas.restore()
 
-        // Game loop auto-refresh
         if (eng.status == GameStatus.RUNNING || particles.isNotEmpty() || floatingBanners.isNotEmpty()) {
             postInvalidateOnAnimation()
         }
     }
 
     private fun drawPlayfield(canvas: Canvas, eng: NeonStackEngine, now: Long) {
-        // Draw board background with radial ambient cyber glow
-        canvas.drawRoundRect(boardRect, 8f, 8f, boardAmbientPaint)
-        canvas.drawRoundRect(boardRect, 8f, 8f, boardBorderPaint)
+        canvas.drawRoundRect(boardRect, 12f, 12f, boardAmbientPaint)
 
-        // Draw grid lines
+        // Subtle cyber grid lines
         for (col in 1 until Board.WIDTH) {
             val x = boardRect.left + col * cellSize
             canvas.drawLine(x, boardRect.top, x, boardRect.bottom, gridLinePaint)
@@ -518,7 +501,7 @@ class NeonStackCanvasView @JvmOverloads constructor(
             canvas.drawLine(boardRect.left, y, boardRect.right, y, gridLinePaint)
         }
 
-        // Draw locked blocks
+        // Draw locked Neon Glass Circuit Modules
         val grid = eng.board.grid
         for (y in Board.BUFFER_ROWS until Board.TOTAL_ROWS) {
             val screenRow = y - Board.BUFFER_ROWS
@@ -527,65 +510,44 @@ class NeonStackCanvasView @JvmOverloads constructor(
                 if (blockId > 0) {
                     val blockShape = BlockShape.fromId(blockId)
                     val color = blockShape?.colorHex?.toInt() ?: Color.GRAY
-                    drawMino(canvas, boardRect.left + x * cellSize, boardRect.top + screenRow * cellSize, cellSize, color)
-                }
-            }
-        }
-
-        // Draw Ghost Piece
-        val currentPiece = eng.currentPiece
-        if (currentPiece != null && eng.status == GameStatus.RUNNING) {
-            val dropPos = eng.getGhostPiecePosition()
-            if (dropPos != null && dropPos.y != currentPiece.position.y) {
-                val ghostMinos = currentPiece.getWorldMinos(dropPos, currentPiece.rotation)
-                val ghostColor = currentPiece.type.colorHex.toInt()
-                for (mino in ghostMinos) {
-                    val screenRow = mino.y - Board.BUFFER_ROWS
-                    if (screenRow in 0 until Board.VISIBLE_ROWS) {
-                        drawGhostMino(
-                            canvas,
-                            boardRect.left + mino.x * cellSize,
-                            boardRect.top + screenRow * cellSize,
-                            cellSize,
-                            ghostColor
-                        )
-                    }
-                }
-            }
-
-            // Draw Active Piece
-            val activeMinos = currentPiece.getWorldMinos()
-            val pieceColor = currentPiece.type.colorHex.toInt()
-            for (mino in activeMinos) {
-                val screenRow = mino.y - Board.BUFFER_ROWS
-                if (screenRow in 0 until Board.VISIBLE_ROWS) {
-                    drawMino(
-                        canvas,
-                        boardRect.left + mino.x * cellSize,
-                        boardRect.top + screenRow * cellSize,
-                        cellSize,
-                        pieceColor
+                    drawNeonModule(
+                        canvas = canvas,
+                        x = boardRect.left + x * cellSize,
+                        y = boardRect.top + screenRow * cellSize,
+                        size = cellSize,
+                        color = color,
+                        isActive = false
                     )
                 }
             }
         }
 
-        // Draw Line Clear Flash Animation
+        // Draw Laser Drop-Rails + Active Fused Neon Circuit Piece
+        val currentPiece = eng.currentPiece
+        if (currentPiece != null && eng.status == GameStatus.RUNNING) {
+            val dropPos = eng.getGhostPiecePosition()
+            val pieceColor = currentPiece.type.colorHex.toInt()
+
+            if (dropPos != null && dropPos.y > currentPiece.position.y) {
+                drawLaserDropRails(canvas, currentPiece, dropPos, pieceColor)
+            }
+
+            drawConnectedActivePiece(canvas, currentPiece.getWorldMinos(), pieceColor)
+        }
+
+        // Line Clear Flash Animation
         val lineAnim = activeLineClearAnim
         if (lineAnim != null) {
             val elapsed = now - lineAnim.startTime
             if (elapsed < lineAnim.durationMs) {
                 val progress = elapsed.toFloat() / lineAnim.durationMs
-                val alpha = ((1f - progress) * 220).toInt()
-                val flashPaint = Paint().apply {
-                    color = Color.argb(alpha, 255, 255, 255)
-                    style = Paint.Style.FILL
-                }
+                val alpha = ((1f - progress) * 230).toInt()
+                lineFlashPaint.color = Color.argb(alpha, 255, 255, 255)
                 for (row in lineAnim.rows) {
                     val screenRow = row - Board.BUFFER_ROWS
                     if (screenRow in 0 until Board.VISIBLE_ROWS) {
                         val rowTop = boardRect.top + screenRow * cellSize
-                        canvas.drawRect(boardRect.left, rowTop, boardRect.right, rowTop + cellSize, flashPaint)
+                        canvas.drawRect(boardRect.left, rowTop, boardRect.right, rowTop + cellSize, lineFlashPaint)
                     }
                 }
             } else {
@@ -593,169 +555,280 @@ class NeonStackCanvasView @JvmOverloads constructor(
             }
         }
 
-        // Draw outer board border
-        canvas.drawRoundRect(boardRect, 8f, 8f, boardBorderPaint)
+        // Outer neon playfield frame
+        canvas.drawRoundRect(boardRect, 12f, 12f, boardBorderPaint)
     }
 
-    private fun drawHoldPanel(canvas: Canvas, eng: NeonStackEngine) {
-        canvas.drawRoundRect(holdRect, 12f, 12f, panelPaint)
-        canvas.drawRoundRect(holdRect, 12f, 12f, panelBorderPaint)
+    /**
+     * Draws Neon Stack's signature Laser Drop-Rails: vertical translucent projection rails
+     * framing the active piece's horizontal column span down to glowing surface impact bars.
+     */
+    private fun drawLaserDropRails(
+        canvas: Canvas,
+        activePiece: ActivePiece,
+        dropPos: Point,
+        color: Int
+    ) {
+        val activeMinos = activePiece.getWorldMinos()
+        val dropMinos = activePiece.getWorldMinos(dropPos, activePiece.rotation)
 
-        val headerY = holdRect.top + textHeaderPaint.textSize + 8f
-        canvas.drawText("HOLD", holdRect.centerX(), headerY, textHeaderPaint)
+        val minCol = dropMinos.minOf { it.x }
+        val maxCol = dropMinos.maxOf { it.x }
 
-        val held = eng.holdPiece
-        if (held != null) {
-            val color = if (eng.canHold) held.colorHex.toInt() else Color.parseColor("#5A6275")
-            val contentTop = headerY + 6f
-            val contentH = (holdRect.bottom - contentTop - 8f).coerceAtLeast(16f)
-            val contentW = (holdRect.width() - 16f).coerceAtLeast(16f)
-            val miniCell = minOf(cellSize * 0.50f, contentW / 4.2f, contentH / 2.6f)
-            val minos = held.getMinos(RotationState.SPAWN)
+        val topScreenRow = (activeMinos.maxOf { it.y } - Board.BUFFER_ROWS + 1).coerceIn(0, Board.VISIBLE_ROWS)
+        val bottomScreenRow = (dropMinos.maxOf { it.y } - Board.BUFFER_ROWS + 1).coerceIn(0, Board.VISIBLE_ROWS)
+        if (bottomScreenRow <= topScreenRow) return
 
-            val minX = minos.minOf { it.x }
-            val maxX = minos.maxOf { it.x }
-            val minY = minos.minOf { it.y }
-            val maxY = minos.maxOf { it.y }
-            val pieceW = (maxX - minX + 1) * miniCell
-            val pieceH = (maxY - minY + 1) * miniCell
+        val beamLeft = boardRect.left + minCol * cellSize + 2f
+        val beamRight = boardRect.left + (maxCol + 1) * cellSize - 2f
+        val beamTop = boardRect.top + topScreenRow * cellSize
+        val beamBottom = boardRect.top + bottomScreenRow * cellSize
 
-            val startX = holdRect.centerX() - pieceW / 2f - minX * miniCell
-            val startY = contentTop + contentH / 2f - pieceH / 2f - minY * miniCell
+        val r = Color.red(color)
+        val g = Color.green(color)
+        val b = Color.blue(color)
 
-            for (m in minos) {
-                drawMino(canvas, startX + m.x * miniCell, startY + m.y * miniCell, miniCell, color)
+        // Subtle translucent projection corridor
+        laserBeamPaint.shader = LinearGradient(
+            0f, beamTop, 0f, beamBottom,
+            Color.argb(8, r, g, b),
+            Color.argb(34, r, g, b),
+            Shader.TileMode.CLAMP
+        )
+        canvas.drawRect(beamLeft, beamTop, beamRight, beamBottom, laserBeamPaint)
+        laserBeamPaint.shader = null
+
+        // Left & right crisp vertical laser guide rails
+        laserRailPaint.shader = LinearGradient(
+            0f, beamTop, 0f, beamBottom,
+            Color.argb(30, r, g, b),
+            Color.argb(175, r, g, b),
+            Shader.TileMode.CLAMP
+        )
+        canvas.drawLine(beamLeft, beamTop, beamLeft, beamBottom, laserRailPaint)
+        canvas.drawLine(beamRight, beamTop, beamRight, beamBottom, laserRailPaint)
+        laserRailPaint.shader = null
+
+        // Glowing surface impact pads directly beneath the lowest landing block in each column
+        val lowestByCol = mutableMapOf<Int, Int>()
+        for (m in dropMinos) {
+            val prev = lowestByCol[m.x]
+            if (prev == null || m.y > prev) {
+                lowestByCol[m.x] = m.y
             }
+        }
+
+        val padHeight = (cellSize * 0.14f).coerceIn(4f, 8f)
+        for ((col, worldY) in lowestByCol) {
+            val screenRow = worldY - Board.BUFFER_ROWS
+            if (screenRow !in 0 until Board.VISIBLE_ROWS) continue
+            val cellLeft = boardRect.left + col * cellSize + 3f
+            val cellRight = boardRect.left + (col + 1) * cellSize - 3f
+            val padBottom = boardRect.top + (screenRow + 1) * cellSize - 1.5f
+            val padTop = padBottom - padHeight
+
+            impactBarGlowPaint.color = Color.argb(170, r, g, b)
+            tempRect.set(cellLeft, padTop - 2f, cellRight, padBottom + 1f)
+            canvas.drawRoundRect(tempRect, padHeight, padHeight, impactBarGlowPaint)
+
+            tempRect.set(cellLeft + 3f, padTop + padHeight * 0.28f, cellRight - 3f, padBottom - padHeight * 0.28f)
+            canvas.drawRoundRect(tempRect, padHeight, padHeight, impactBarCorePaint)
+        }
+    }
+
+    /**
+     * Renders the active piece as a fused Neon Glass Circuit assembly with luminous energy
+     * conduits bridging adjacent cells.
+     */
+    private fun drawConnectedActivePiece(canvas: Canvas, worldMinos: List<Point>, color: Int) {
+        val minoSet = worldMinos.toSet()
+
+        // 1. Draw each neon glass module
+        for (mino in worldMinos) {
+            val screenRow = mino.y - Board.BUFFER_ROWS
+            if (screenRow in 0 until Board.VISIBLE_ROWS) {
+                drawNeonModule(
+                    canvas = canvas,
+                    x = boardRect.left + mino.x * cellSize,
+                    y = boardRect.top + screenRow * cellSize,
+                    size = cellSize,
+                    color = color,
+                    isActive = true
+                )
+            }
+        }
+
+        // 2. Fuse adjacent cells with luminous energy bridges across shared seams
+        val r = Color.red(color)
+        val g = Color.green(color)
+        val b = Color.blue(color)
+        bridgeConduitPaint.color = Color.argb(215, r, g, b)
+        bridgeConduitPaint.strokeWidth = (cellSize * 0.13f).coerceAtLeast(3f)
+
+        for (mino in worldMinos) {
+            val sr = mino.y - Board.BUFFER_ROWS
+            if (sr !in 0 until Board.VISIBLE_ROWS) continue
+            val cx = boardRect.left + mino.x * cellSize + cellSize * 0.5f
+            val cy = boardRect.top + sr * cellSize + cellSize * 0.5f
+
+            // Right neighbor bridge
+            val rightNeighbor = Point(mino.x + 1, mino.y)
+            if (minoSet.contains(rightNeighbor)) {
+                val nx = boardRect.left + rightNeighbor.x * cellSize + cellSize * 0.5f
+                canvas.drawLine(cx + cellSize * 0.16f, cy, nx - cellSize * 0.16f, cy, bridgeConduitPaint)
+            }
+            // Bottom neighbor bridge
+            val bottomNeighbor = Point(mino.x, mino.y + 1)
+            val bsr = bottomNeighbor.y - Board.BUFFER_ROWS
+            if (minoSet.contains(bottomNeighbor) && bsr in 0 until Board.VISIBLE_ROWS) {
+                val ny = boardRect.top + bsr * cellSize + cellSize * 0.5f
+                canvas.drawLine(cx, cy + cellSize * 0.16f, cx, ny - cellSize * 0.16f, bridgeConduitPaint)
+            }
+        }
+    }
+
+    /**
+     * Signature Neon Glass Circuit Module renderer (dark obsidian translucent core,
+     * outer neon halo, luminous circuit rim, and glowing diamond center node).
+     */
+    private fun drawNeonModule(
+        canvas: Canvas,
+        x: Float,
+        y: Float,
+        size: Float,
+        color: Int,
+        isActive: Boolean
+    ) {
+        val gap = (size * 0.08f).coerceIn(1.5f, 3.2f)
+        val left = x + gap
+        val top = y + gap
+        val right = x + size - gap
+        val bottom = y + size - gap
+        val radius = size * 0.24f
+
+        val r = Color.red(color)
+        val g = Color.green(color)
+        val b = Color.blue(color)
+
+        // 1. Dark obsidian cyber-glass core
+        tempRect.set(left, top, right, bottom)
+        canvas.drawRoundRect(tempRect, radius, radius, moduleCorePaint)
+
+        // 2. Translucent neon tint wash inside glass body
+        moduleTintPaint.color = Color.argb(if (isActive) 86 else 64, r, g, b)
+        canvas.drawRoundRect(tempRect, radius, radius, moduleTintPaint)
+
+        // 3. Soft neon rim glow halo
+        val rimWidth = (size * 0.085f).coerceIn(1.6f, 3.4f)
+        moduleGlowPaint.color = Color.argb(if (isActive) 95 else 65, r, g, b)
+        moduleGlowPaint.strokeWidth = rimWidth * 2.1f
+        canvas.drawRoundRect(tempRect, radius, radius, moduleGlowPaint)
+
+        // 4. Crisp luminous neon outer border
+        moduleRimPaint.color = Color.argb(if (isActive) 255 else 225, r, g, b)
+        moduleRimPaint.strokeWidth = rimWidth
+        canvas.drawRoundRect(tempRect, radius, radius, moduleRimPaint)
+
+        // 5. Glowing center micro-circuit diamond node + specular core
+        val cx = (left + right) * 0.5f
+        val cy = (top + bottom) * 0.5f
+        val nodeR = size * (if (isActive) 0.145f else 0.115f)
+        tempNodePath.reset()
+        tempNodePath.moveTo(cx, cy - nodeR)
+        tempNodePath.lineTo(cx + nodeR, cy)
+        tempNodePath.lineTo(cx, cy + nodeR)
+        tempNodePath.lineTo(cx - nodeR, cy)
+        tempNodePath.close()
+
+        moduleNodePaint.color = Color.argb(if (isActive) 240 else 190, r, g, b)
+        canvas.drawPath(tempNodePath, moduleNodePaint)
+
+        if (size >= 14f) {
+            canvas.drawCircle(cx, cy, nodeR * 0.36f, moduleSparkPaint)
+        }
+    }
+
+    private fun drawVaultPanel(canvas: Canvas, eng: NeonStackEngine) {
+        canvas.drawRoundRect(vaultRect, 14f, 14f, panelPaint)
+        canvas.drawRoundRect(vaultRect, 14f, 14f, panelBorderPaint)
+
+        val headerY = vaultRect.top + textHeaderPaint.textSize + 6f
+        canvas.drawText("VAULT", vaultRect.centerX(), headerY, textHeaderPaint)
+
+        val vaulted = eng.holdPiece
+        if (vaulted != null) {
+            val color = if (eng.canHold) vaulted.colorHex.toInt() else Color.parseColor("#5A6275")
+            val contentTop = headerY + 4f
+            val contentH = (vaultRect.bottom - contentTop - 8f).coerceAtLeast(16f)
+            val contentW = (vaultRect.width() - 16f).coerceAtLeast(16f)
+            val miniCell = minOf(cellSize * 0.44f, contentW / 4.2f, contentH / 2.6f)
+            drawMiniShape(canvas, vaulted, vaultRect.centerX(), contentTop + contentH / 2f, miniCell, color)
         } else {
-            // Subtle dashed empty slot outline to balance visually with NEXT panel
-            val slotInsetX = holdRect.width() * 0.16f
-            val slotTop = headerY + 10f
-            val slotBottom = holdRect.bottom - 12f
-            if (slotBottom > slotTop + 12f) {
-                val slotRect = RectF(
-                    holdRect.left + slotInsetX,
+            val slotInsetX = vaultRect.width() * 0.18f
+            val slotTop = headerY + 8f
+            val slotBottom = vaultRect.bottom - 10f
+            if (slotBottom > slotTop + 10f) {
+                tempRect.set(
+                    vaultRect.left + slotInsetX,
                     slotTop,
-                    holdRect.right - slotInsetX,
+                    vaultRect.right - slotInsetX,
                     slotBottom
                 )
-                canvas.drawRoundRect(slotRect, 10f, 10f, emptySlotPaint)
+                canvas.drawRoundRect(tempRect, 10f, 10f, emptySlotPaint)
             }
         }
     }
 
-    private fun drawNextPanel(canvas: Canvas, eng: NeonStackEngine) {
-        canvas.drawRoundRect(nextRect, 12f, 12f, panelPaint)
-        canvas.drawRoundRect(nextRect, 12f, 12f, panelBorderPaint)
+    private fun drawQueuePanel(canvas: Canvas, eng: NeonStackEngine) {
+        canvas.drawRoundRect(queueRect, 14f, 14f, panelPaint)
+        canvas.drawRoundRect(queueRect, 14f, 14f, panelBorderPaint)
 
-        val headerY = nextRect.top + textHeaderPaint.textSize + 8f
-        canvas.drawText("NEXT", nextRect.centerX(), headerY, textHeaderPaint)
+        val headerY = queueRect.top + textHeaderPaint.textSize + 6f
+        canvas.drawText("QUEUE", queueRect.centerX(), headerY, textHeaderPaint)
 
         val nextPieces = eng.randomizer.peek(3)
-        if (isFullScreenGestureMode) {
-            // Horizontal 3-piece queue in full-screen top tray
-            val contentTop = headerY + 6f
-            val contentH = (nextRect.bottom - contentTop - 8f).coerceAtLeast(16f)
-            val slotW = nextRect.width() / 3f
-            val miniCell = minOf(cellSize * 0.42f, (slotW - 14f) / 4.2f, contentH / 2.6f)
+        val contentTop = headerY + 4f
+        val contentH = (queueRect.bottom - contentTop - 8f).coerceAtLeast(16f)
+        val slotW = queueRect.width() / 3f
+        val miniCell = minOf(cellSize * 0.42f, (slotW - 14f) / 4.2f, contentH / 2.6f)
 
-            for (i in nextPieces.indices) {
-                val type = nextPieces[i]
-                val minos = type.getMinos(RotationState.SPAWN)
-                val minX = minos.minOf { it.x }
-                val maxX = minos.maxOf { it.x }
-                val minY = minos.minOf { it.y }
-                val maxY = minos.maxOf { it.y }
-                val pieceW = (maxX - minX + 1) * miniCell
-                val pieceH = (maxY - minY + 1) * miniCell
-
-                val centerX = nextRect.left + i * slotW + slotW / 2f
-                val centerY = contentTop + contentH / 2f
-                val startX = centerX - pieceW / 2f - minX * miniCell
-                val startY = centerY - pieceH / 2f - minY * miniCell
-
-                for (m in minos) {
-                    drawMino(canvas, startX + m.x * miniCell, startY + m.y * miniCell, miniCell, type.colorHex.toInt())
-                }
-            }
-        } else {
-            // Classic vertical 3-piece queue beside board
-            val miniCell = cellSize * 0.50f
-            val contentTop = headerY + 10f
-            val itemHeight = (nextRect.bottom - contentTop - 8f) / 3f
-
-            for (i in nextPieces.indices) {
-                val type = nextPieces[i]
-                val minos = type.getMinos(RotationState.SPAWN)
-                val minX = minos.minOf { it.x }
-                val maxX = minos.maxOf { it.x }
-                val minY = minos.minOf { it.y }
-                val maxY = minos.maxOf { it.y }
-                val pieceW = (maxX - minX + 1) * miniCell
-                val pieceH = (maxY - minY + 1) * miniCell
-
-                val centerY = contentTop + i * itemHeight + itemHeight / 2f
-                val startX = nextRect.centerX() - pieceW / 2f - minX * miniCell
-                val startY = centerY - pieceH / 2f - minY * miniCell
-
-                for (m in minos) {
-                    drawMino(canvas, startX + m.x * miniCell, startY + m.y * miniCell, miniCell, type.colorHex.toInt())
-                }
-            }
+        for (i in nextPieces.indices) {
+            val shape = nextPieces[i]
+            val centerX = queueRect.left + i * slotW + slotW / 2f
+            val centerY = contentTop + contentH / 2f
+            drawMiniShape(canvas, shape, centerX, centerY, miniCell, shape.colorHex.toInt())
         }
     }
 
-    private fun drawMino(canvas: Canvas, x: Float, y: Float, size: Float, color: Int) {
-        val gap = 1.5f
-        val rect = RectF(x + gap, y + gap, x + size - gap, y + size - gap)
-        val radius = size * 0.15f
+    private fun drawMiniShape(
+        canvas: Canvas,
+        shape: BlockShape,
+        centerX: Float,
+        centerY: Float,
+        miniCell: Float,
+        color: Int
+    ) {
+        val minos = shape.getMinos(RotationState.SPAWN)
+        val minX = minos.minOf { it.x }
+        val maxX = minos.maxOf { it.x }
+        val minY = minos.minOf { it.y }
+        val maxY = minos.maxOf { it.y }
+        val pieceW = (maxX - minX + 1) * miniCell
+        val pieceH = (maxY - minY + 1) * miniCell
 
-        // Base fill
-        blockPaint.color = color
-        canvas.drawRoundRect(rect, radius, radius, blockPaint)
+        val startX = centerX - pieceW / 2f - minX * miniCell
+        val startY = centerY - pieceH / 2f - minY * miniCell
 
-        // Top-left highlight bevel
-        val hlPath = Path().apply {
-            moveTo(rect.left, rect.bottom)
-            lineTo(rect.left, rect.top + radius)
-            quadTo(rect.left, rect.top, rect.left + radius, rect.top)
-            lineTo(rect.right, rect.top)
-            lineTo(rect.right - size * 0.22f, rect.top + size * 0.22f)
-            lineTo(rect.left + size * 0.22f, rect.top + size * 0.22f)
-            lineTo(rect.left + size * 0.22f, rect.bottom - size * 0.22f)
-            close()
+        for (m in minos) {
+            drawNeonModule(
+                canvas = canvas,
+                x = startX + m.x * miniCell,
+                y = startY + m.y * miniCell,
+                size = miniCell,
+                color = color,
+                isActive = true
+            )
         }
-        canvas.drawPath(hlPath, blockHighlightPaint)
-
-        // Bottom-right shadow bevel
-        val shPath = Path().apply {
-            moveTo(rect.right, rect.top)
-            lineTo(rect.right, rect.bottom - radius)
-            quadTo(rect.right, rect.bottom, rect.right - radius, rect.bottom)
-            lineTo(rect.left, rect.bottom)
-            lineTo(rect.left + size * 0.22f, rect.bottom - size * 0.22f)
-            lineTo(rect.right - size * 0.22f, rect.bottom - size * 0.22f)
-            lineTo(rect.right - size * 0.22f, rect.top + size * 0.22f)
-            close()
-        }
-        canvas.drawPath(shPath, blockShadowPaint)
-
-        // Center jewel facet reflection
-        val innerMargin = size * 0.28f
-        val innerRect = RectF(rect.left + innerMargin, rect.top + innerMargin, rect.right - innerMargin, rect.bottom - innerMargin)
-        blockInnerFacetPaint.color = Color.argb(40, 255, 255, 255)
-        canvas.drawRoundRect(innerRect, radius * 0.5f, radius * 0.5f, blockInnerFacetPaint)
-    }
-
-    private fun drawGhostMino(canvas: Canvas, x: Float, y: Float, size: Float, color: Int) {
-        val gap = 2f
-        val rect = RectF(x + gap, y + gap, x + size - gap, y + size - gap)
-        val radius = size * 0.15f
-
-        ghostFillPaint.color = Color.argb(35, Color.red(color), Color.green(color), Color.blue(color))
-        canvas.drawRoundRect(rect, radius, radius, ghostFillPaint)
-
-        ghostPaint.color = Color.argb(140, Color.red(color), Color.green(color), Color.blue(color))
-        canvas.drawRoundRect(rect, radius, radius, ghostPaint)
     }
 
     private fun drawFloatingBanners(canvas: Canvas, now: Long) {
@@ -776,14 +849,14 @@ class NeonStackCanvasView @JvmOverloads constructor(
         }
     }
 
-    private fun drawParticles(canvas: Canvas, now: Long) {
-        val dt = 0.016f // ~60fps
+    private fun drawParticles(canvas: Canvas) {
+        val dt = 0.016f
         val iter = particles.iterator()
         while (iter.hasNext()) {
             val p = iter.next()
             p.x += p.vx * dt
             p.y += p.vy * dt
-            p.vy += 280f * dt // Gravity
+            p.vy += 280f * dt
             p.alpha -= 1.8f * dt
 
             if (p.alpha <= 0f) {

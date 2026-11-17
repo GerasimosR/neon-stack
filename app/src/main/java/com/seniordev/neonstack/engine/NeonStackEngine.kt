@@ -326,8 +326,8 @@ class NeonStackEngine(
         board.lock(piece)
         emitEvent(GameEvent.PieceLocked(piece.type))
 
-        // Check Pivot Spin
-        val spin = board.checkPivotSpin(piece, lastActionWasRotate, lastKickIndex)
+        // Check Overclock Spin
+        val spin = board.checkOverclockSpin(piece, lastActionWasRotate, lastKickIndex)
 
         // Check line clears
         val completedRows = board.findCompletedRows()

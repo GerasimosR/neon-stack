@@ -135,13 +135,13 @@ fun ArcadeGamepad(
             }
         }
 
-        // 2. CENTER WELL — Hold Action
+        // 2. CENTER WELL — Vault Action
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             SculptedActionPad(
-                contentDescription = "Hold piece",
+                contentDescription = "Vault piece",
                 onClick = onHold,
                 accentColor = AccentCyan,
                 shape = CircleShape,
@@ -151,7 +151,7 @@ fun ArcadeGamepad(
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "HOLD",
+                text = "VAULT",
                 color = TextSecondary,
                 fontSize = 9.sp,
                 fontWeight = FontWeight.Bold,

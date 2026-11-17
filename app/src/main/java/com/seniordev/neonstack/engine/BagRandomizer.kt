@@ -3,6 +3,9 @@ package com.seniordev.neonstack.engine
 import java.util.LinkedList
 import java.util.Random
 
+/**
+ * Fair 9-Bag Prism Randomizer ensuring all 9 unique shapes appear once per cycle.
+ */
 class BagRandomizer(private val random: Random = Random()) {
     private val queue = LinkedList<BlockShape>()
     var extraIConduit: Boolean = false
@@ -15,7 +18,7 @@ class BagRandomizer(private val random: Random = Random()) {
     private fun refillBag() {
         val bag = BlockShape.entries.toMutableList()
         if (extraIConduit) {
-            bag.add(BlockShape.I)
+            bag.add(BlockShape.BEAM)
         }
         // Fisher-Yates shuffle
         for (i in bag.indices.reversed()) {
@@ -28,10 +31,10 @@ class BagRandomizer(private val random: Random = Random()) {
     }
 
     fun nextPiece(): BlockShape {
-        if (queue.size < 7) {
+        if (queue.size < BlockShape.entries.size) {
             refillBag()
         }
-        return queue.poll() ?: BlockShape.T
+        return queue.poll() ?: BlockShape.CROWN
     }
 
     fun peek(count: Int = 3): List<BlockShape> {

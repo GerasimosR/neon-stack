@@ -254,7 +254,7 @@ fun NeonStackScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "DRAG MOVE  •  TAP ROTATE  •  FLICK SLAM  •  TAP HOLD",
+                                    text = "DRAG MOVE  •  TAP ROTATE  •  FLICK SLAM  •  TAP VAULT",
                                     color = TextSecondary.copy(alpha = 0.55f),
                                     fontSize = 9.sp,
                                     fontWeight = FontWeight.Bold,

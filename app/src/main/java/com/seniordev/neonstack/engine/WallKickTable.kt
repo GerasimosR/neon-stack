@@ -1,73 +1,54 @@
 package com.seniordev.neonstack.engine
 
+/**
+ * Custom Neon Stack Omni-Kick Table tuned for mixed 3-cell and 4-cell prism shapes
+ * on a 9x16 playfield.
+ */
 object WallKickTable {
-    // Standard 3x3 piece kick offsets (Y+ is downwards)
-    private val STANDARD_KICKS = mapOf(
-        Pair(RotationState.SPAWN, RotationState.CLOCKWISE) to arrayOf(
-            Point(0, 0), Point(-1, 0), Point(-1, -1), Point(0, 2), Point(-1, 2)
-        ),
-        Pair(RotationState.CLOCKWISE, RotationState.SPAWN) to arrayOf(
-            Point(0, 0), Point(1, 0), Point(1, 1), Point(0, -2), Point(1, -2)
-        ),
-        Pair(RotationState.CLOCKWISE, RotationState.FLIP) to arrayOf(
-            Point(0, 0), Point(1, 0), Point(1, 1), Point(0, -2), Point(1, -2)
-        ),
-        Pair(RotationState.FLIP, RotationState.CLOCKWISE) to arrayOf(
-            Point(0, 0), Point(-1, 0), Point(-1, -1), Point(0, 2), Point(-1, 2)
-        ),
-        Pair(RotationState.FLIP, RotationState.COUNTER_CLOCKWISE) to arrayOf(
-            Point(0, 0), Point(1, 0), Point(1, -1), Point(0, 2), Point(1, 2)
-        ),
-        Pair(RotationState.COUNTER_CLOCKWISE, RotationState.FLIP) to arrayOf(
-            Point(0, 0), Point(-1, 0), Point(-1, 1), Point(0, -2), Point(-1, -2)
-        ),
-        Pair(RotationState.COUNTER_CLOCKWISE, RotationState.SPAWN) to arrayOf(
-            Point(0, 0), Point(-1, 0), Point(-1, 1), Point(0, -2), Point(-1, -2)
-        ),
-        Pair(RotationState.SPAWN, RotationState.COUNTER_CLOCKWISE) to arrayOf(
-            Point(0, 0), Point(1, 0), Point(1, -1), Point(0, 2), Point(1, 2)
-        )
-    )
-
-    // Beam (I) kick offsets (Y+ is downwards)
-    private val BEAM_KICKS = mapOf(
-        Pair(RotationState.SPAWN, RotationState.CLOCKWISE) to arrayOf(
-            Point(0, 0), Point(-2, 0), Point(1, 0), Point(-2, 1), Point(1, -2)
-        ),
-        Pair(RotationState.CLOCKWISE, RotationState.SPAWN) to arrayOf(
-            Point(0, 0), Point(2, 0), Point(-1, 0), Point(2, -1), Point(-1, 2)
-        ),
-        Pair(RotationState.CLOCKWISE, RotationState.FLIP) to arrayOf(
-            Point(0, 0), Point(-1, 0), Point(2, 0), Point(-1, -2), Point(2, 1)
-        ),
-        Pair(RotationState.FLIP, RotationState.CLOCKWISE) to arrayOf(
-            Point(0, 0), Point(1, 0), Point(-2, 0), Point(1, 2), Point(-2, -1)
-        ),
-        Pair(RotationState.FLIP, RotationState.COUNTER_CLOCKWISE) to arrayOf(
-            Point(0, 0), Point(2, 0), Point(-1, 0), Point(2, -1), Point(-1, 2)
-        ),
-        Pair(RotationState.COUNTER_CLOCKWISE, RotationState.FLIP) to arrayOf(
-            Point(0, 0), Point(-2, 0), Point(1, 0), Point(-2, 1), Point(1, -2)
-        ),
-        Pair(RotationState.COUNTER_CLOCKWISE, RotationState.SPAWN) to arrayOf(
-            Point(0, 0), Point(1, 0), Point(-2, 0), Point(1, 2), Point(-2, -1)
-        ),
-        Pair(RotationState.SPAWN, RotationState.COUNTER_CLOCKWISE) to arrayOf(
-            Point(0, 0), Point(-1, 0), Point(2, 0), Point(-1, -2), Point(2, 1)
-        )
-    )
-
     private val ZERO_KICK = arrayOf(Point(0, 0))
 
+    // Clockwise pivot offsets: prioritize natural nudge, opposite nudge, tuck down, then lift
+    private val STANDARD_CW_KICKS = arrayOf(
+        Point(0, 0),
+        Point(-1, 0),
+        Point(1, 0),
+        Point(0, 1),
+        Point(-1, 1),
+        Point(1, 1),
+        Point(0, -1)
+    )
+
+    // Counter-clockwise pivot offsets (mirrored horizontal priority)
+    private val STANDARD_CCW_KICKS = arrayOf(
+        Point(0, 0),
+        Point(1, 0),
+        Point(-1, 0),
+        Point(0, 1),
+        Point(1, 1),
+        Point(-1, 1),
+        Point(0, -1)
+    )
+
+    // Extended 4-cell Beam kick offsets (handles 2-cell wall clearance cleanly)
+    private val BEAM_KICKS = arrayOf(
+        Point(0, 0),
+        Point(-1, 0),
+        Point(1, 0),
+        Point(-2, 0),
+        Point(2, 0),
+        Point(0, 1),
+        Point(0, -1),
+        Point(0, -2)
+    )
+
     fun getKicks(type: BlockShape, from: RotationState, to: RotationState): Array<Point> {
-        if (type == BlockShape.O || from == to) {
+        if (type == BlockShape.CORE || from == to) {
             return ZERO_KICK
         }
-        val key = Pair(from, to)
-        return if (type == BlockShape.I) {
-            BEAM_KICKS[key] ?: ZERO_KICK
-        } else {
-            STANDARD_KICKS[key] ?: ZERO_KICK
+        if (type == BlockShape.BEAM) {
+            return BEAM_KICKS
         }
+        val isCw = (from.rotateCw() == to)
+        return if (isCw) STANDARD_CW_KICKS else STANDARD_CCW_KICKS
     }
 }

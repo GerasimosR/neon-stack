@@ -53,16 +53,16 @@ class ScoreSystem {
     }
 
     fun onPieceLockedWithoutClear(spin: SpinBonus): LineClearReward? {
-        combo = -1 // Combo broken
+        combo = -1 // Chain broken
         if (spin != SpinBonus.NONE) {
-            val pts = if (spin == SpinBonus.MINI) 100 * level else 400 * level
+            val pts = if (spin == SpinBonus.MINI) 150 * level else 500 * level
             score += pts
             spinsCount++
             return LineClearReward(
                 points = pts,
                 isBackToBack = false,
                 comboCount = 0,
-                message = if (spin == SpinBonus.MINI) "PIVOT MINI!" else "PIVOT SPIN!"
+                message = if (spin == SpinBonus.MINI) "OVERCLOCK MINI!" else "OVERCLOCK SPIN!"
             )
         }
         return null
@@ -74,7 +74,7 @@ class ScoreSystem {
         combo++
 
         val isDifficult = lines == 4 || spin != SpinBonus.NONE
-        val b2bBonus = isBackToBackEligible && isDifficult
+        val surgeBonus = isBackToBackEligible && isDifficult
 
         val basePoints: Int
         val label: String
@@ -84,17 +84,17 @@ class ScoreSystem {
                 singlesCount++
                 when (spin) {
                     SpinBonus.NONE -> {
-                        basePoints = 100 * level
+                        basePoints = 150 * level
                         label = "SINGLE"
                     }
                     SpinBonus.MINI -> {
-                        basePoints = 200 * level
-                        label = "PIVOT MINI SINGLE!"
+                        basePoints = 300 * level
+                        label = "OVERCLOCK MINI!"
                         spinsCount++
                     }
                     SpinBonus.FULL -> {
-                        basePoints = 800 * level
-                        label = "PIVOT SINGLE!"
+                        basePoints = 900 * level
+                        label = "OVERCLOCK SINGLE!"
                         spinsCount++
                     }
                 }
@@ -103,17 +103,17 @@ class ScoreSystem {
                 doublesCount++
                 when (spin) {
                     SpinBonus.NONE -> {
-                        basePoints = 300 * level
+                        basePoints = 400 * level
                         label = "DOUBLE"
                     }
                     SpinBonus.MINI -> {
-                        basePoints = 400 * level
-                        label = "PIVOT MINI DOUBLE!"
+                        basePoints = 600 * level
+                        label = "OVERCLOCK DOUBLE!"
                         spinsCount++
                     }
                     SpinBonus.FULL -> {
-                        basePoints = 1200 * level
-                        label = "PIVOT DOUBLE!"
+                        basePoints = 1400 * level
+                        label = "OVERCLOCK DOUBLE!"
                         spinsCount++
                     }
                 }
@@ -122,19 +122,19 @@ class ScoreSystem {
                 triplesCount++
                 when (spin) {
                     SpinBonus.NONE -> {
-                        basePoints = 500 * level
+                        basePoints = 750 * level
                         label = "TRIPLE"
                     }
                     else -> {
-                        basePoints = 1600 * level
-                        label = "PIVOT TRIPLE!"
+                        basePoints = 1900 * level
+                        label = "OVERCLOCK TRIPLE!"
                         spinsCount++
                     }
                 }
             }
             4 -> {
                 quadsCount++
-                basePoints = 800 * level
+                basePoints = 1200 * level
                 label = "QUAD CLEAR!"
             }
             else -> {
@@ -143,9 +143,9 @@ class ScoreSystem {
             }
         }
 
-        var awardPoints = if (b2bBonus) (basePoints * 1.5).toInt() else basePoints
+        var awardPoints = if (surgeBonus) (basePoints * 1.5).toInt() else basePoints
         if (combo > 0) {
-            awardPoints += 50 * combo * level
+            awardPoints += 75 * combo * level
         }
 
         score += awardPoints
@@ -157,14 +157,14 @@ class ScoreSystem {
         }
 
         val message = buildString {
-            if (b2bBonus) append("B2B ")
+            if (surgeBonus) append("SURGE ")
             append(label)
-            if (combo > 0) append(" (COMBO x$combo)")
+            if (combo > 0) append(" (CHAIN x$combo)")
         }
 
         return LineClearReward(
             points = awardPoints,
-            isBackToBack = b2bBonus,
+            isBackToBack = surgeBonus,
             comboCount = combo,
             message = message
         )
