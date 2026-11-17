@@ -1,0 +1,163 @@
+<resources>
+    <string name="app_name">Neon Stack</string>
+    <string name="brand_title">NEON STACK</string>
+    <string name="brand_subtitle">ÉDITION ARCADE</string>
+
+    <!-- Top & HUD Labels -->
+    <string name="score_label">SCORE</string>
+    <string name="best_label">RECORD</string>
+    <string name="level_label">NIVEAU</string>
+    <string name="lines_label">LIGNES</string>
+    <string name="floor_label">ÉTAGE</string>
+    <string name="boss_label">BOSS</string>
+    <string name="quota_label">QUOTA</string>
+    <string name="relics_label">RELIQUES :</string>
+    <string name="vault_label">RÉSERVE</string>
+    <string name="queue_label">SUIVANTS</string>
+    <string name="slam_label">SLAM</string>
+    <string name="get_ready">PRÊT</string>
+
+    <!-- Welcome Screen -->
+    <string name="hall_of_fame">HALL OF FAME</string>
+    <string name="choose_mode">CHOISIR UN MODE</string>
+    <string name="mode_rogue_title">ROGUE SPIRE</string>
+    <string name="mode_rogue_badge">DECKBUILDER</string>
+    <string name="mode_rogue_subtitle">Quotas d\'étage • Reliques • Boss</string>
+    <string name="mode_rogue_short_badge">TOUR</string>
+    <string name="mode_rogue_stat_floor_runs">RECORD ÉTAGE %1$d • %2$d PARTIES</string>
+    <string name="mode_rogue_stat_floor">RECORD ÉTAGE %1$d</string>
+    <string name="mode_rogue_stat_runs">%1$d PARTIES • 9 RELIQUES</string>
+    <string name="mode_rogue_stat_default">9 RELIQUES • BOSS TOUS LES 3 ÉTAGES</string>
+
+    <string name="mode_endless_title">SANS FIN</string>
+    <string name="mode_endless_badge">ARCADE 9×16</string>
+    <string name="mode_endless_subtitle">12 Polyominos • Spins Overclock</string>
+    <string name="mode_endless_short_badge">SANS FIN</string>
+    <string name="mode_endless_stat_best">RECORD %1$s</string>
+    <string name="mode_endless_stat_default">ARCADE SANS FIN 9×16</string>
+
+    <!-- Controls & Hints -->
+    <string name="control_arcade_pad">PAD ARCADE</string>
+    <string name="control_gestures">GESTES</string>
+    <string name="control_pad_short">PAD</string>
+    <string name="control_touch_short">TACTILE</string>
+    <string name="control_hint_pad">Double pad • Touchez RÉSERVE à tout moment</string>
+    <string name="control_hint_gestures">Glisser bouger • Taper pivoter • Bas pour slam</string>
+    <string name="gesture_hud_hint">GLISSER • TAPER PIVOTER • BAS SLAM • RÉSERVE</string>
+
+    <!-- Settings & Pause -->
+    <string name="settings">PARAMÈTRES</string>
+    <string name="language_label">LANGUE</string>
+    <string name="language_auto">AUTO</string>
+    <string name="sound">Effets sonores</string>
+    <string name="sound_subtitle">Effets arcade synthétisés</string>
+    <string name="music">Musique Chiptune</string>
+    <string name="music_subtitle">Tempo dynamique par niveau</string>
+    <string name="haptics">Vibrations</string>
+    <string name="haptics_subtitle">Retour tactile sur pose &amp; lignes</string>
+    <string name="crt_filter">Filtre CRT Rétro</string>
+    <string name="crt_subtitle">Lignes phosphore d\'écran rétro</string>
+    <string name="controls_label">Contrôles</string>
+
+    <string name="pause">PAUSE</string>
+    <string name="game_paused">JEU EN PAUSE</string>
+    <string name="resume">REPRENDRE</string>
+    <string name="restart">REJOUER</string>
+    <string name="main_menu">MENU PRINCIPAL</string>
+    <string name="quit">QUITTER</string>
+    <string name="hard_drop">CHUTE RAPIDE</string>
+    <string name="hold">RÉSERVE</string>
+
+    <!-- Calibration -->
+    <string name="calibration_studio">CALIBRAGE</string>
+    <string name="pro_calibration_studio">STUDIO DE CALIBRAGE</string>
+    <string name="calibration_summary">DAS %1$dms • ARR %2$dms • Chute %3$dms</string>
+    <string name="das_label">DAS (Délai initial) :</string>
+    <string name="arr_label">ARR (Répétition) :</string>
+    <string name="arr_instant">0 ms (INSTANTANÉ)</string>
+    <string name="soft_drop_label">Vitesse chute douce :</string>
+    <string name="ms_value">%1$d ms</string>
+    <string name="reset">RÉINIT.</string>
+    <string name="apply">APPLIQUER</string>
+
+    <!-- Leaderboard -->
+    <string name="arcade_leaderboard">CLASSEMENT ARCADE</string>
+    <string name="view_leaderboard">VOIR LE CLASSEMENT</string>
+    <string name="top_legends">TOP 10 LÉGENDES ARCADE</string>
+    <string name="rank_prefix">RANG #%1$d : </string>
+    <string name="rank_achieved">RANG #%1$d AU CLASSEMENT !</string>
+    <string name="tag_button">OK</string>
+    <string name="close">FERMER</string>
+    <string name="leaderboard_meta">N%1$d · %2$dL</string>
+
+    <!-- Game Over -->
+    <string name="game_over">PARTIE TERMINÉE</string>
+    <string name="final_score">Score final :</string>
+    <string name="best_score_colon">Meilleur score :</string>
+    <string name="lines_cleared_colon">Lignes effacées :</string>
+    <string name="level_reached_colon">Niveau atteint :</string>
+    <string name="quads_spins_colon">Quadruples / Spins :</string>
+    <string name="mode_colon">Mode :</string>
+    <string name="floors_cleared_colon">Étages terminés :</string>
+    <string name="relics_drafted_colon">Reliques choisies :</string>
+    <string name="new_high_score">NOUVEAU RECORD !</string>
+    <string name="play_again">REJOUER</string>
+
+    <!-- Relic Draft -->
+    <string name="floor_cleared_title">ÉTAGE %1$d TERMINÉ !</string>
+    <string name="draft_relic_subtitle">CHOISISSEZ UNE RELIQUE</string>
+    <string name="rarity_common">COMMUNE</string>
+    <string name="rarity_rare">RARE</string>
+    <string name="rarity_legendary">LÉGENDAIRE</string>
+
+    <!-- Relics -->
+    <string name="relic_midas_name">Toucher de Midas</string>
+    <string name="relic_midas_desc">25% des blocs deviennent Dorés. Les effacer accorde +400 points bonus.</string>
+    <string name="relic_drill_name">Foreuse d\'impact</string>
+    <string name="relic_drill_desc">Le slam traverse 1 bloc bloquant directement sous le point de chute.</string>
+    <string name="relic_chrono_name">Tampon Chrono</string>
+    <string name="relic_chrono_desc">Étend le délai de pose à 850ms et autorise jusqu\'à 25 mouvements/rotations.</string>
+    <string name="relic_surge_name">Surcharge Quadruple</string>
+    <string name="relic_surge_desc">Effacer 4 lignes rapporte 3x points et vaporise la ligne inférieure.</string>
+    <string name="relic_dual_vault_name">Double Réserve</string>
+    <string name="relic_dual_vault_desc">Permet de mettre en réserve deux fois avant de poser une pièce.</string>
+    <string name="relic_conduit_name">Conduit Faisceau</string>
+    <string name="relic_conduit_desc">Ajoute un faisceau droit supplémentaire à chaque cycle de 12 pièces.</string>
+    <string name="relic_bomb_name">Cœur Cinétique</string>
+    <string name="relic_bomb_desc">Un slam de 10+ lignes déclenche une onde de choc effaçant les blocs voisins.</string>
+    <string name="relic_laser_name">Laser Nettoyeur</string>
+    <string name="relic_laser_desc">Vaporise automatiquement la ligne du bas après chaque étage terminé.</string>
+    <string name="relic_anchor_name">Ancre Gravitationnelle</string>
+    <string name="relic_anchor_desc">La chute douce passe en hyper-vitesse et rapporte 3 points par case.</string>
+
+    <!-- Floating In-Game Clear Banners -->
+    <string name="banner_single">SIMPLE</string>
+    <string name="banner_double">DOUBLE</string>
+    <string name="banner_triple">TRIPLE</string>
+    <string name="banner_quad">QUADRUPLE !</string>
+    <string name="banner_quad_surge">SURCHARGE 3X !</string>
+    <string name="banner_spin_mini">OVERCLOCK MINI !</string>
+    <string name="banner_spin_full">SPIN OVERCLOCK !</string>
+    <string name="banner_spin_single">OVERCLOCK SIMPLE !</string>
+    <string name="banner_spin_double">OVERCLOCK DOUBLE !</string>
+    <string name="banner_spin_triple">OVERCLOCK TRIPLE !</string>
+    <string name="banner_surge_prefix">SÉRIE %1$s</string>
+    <string name="banner_chain_suffix">%1$s (CHAÎNE x%2$d)</string>
+
+    <!-- Accessibility -->
+    <string name="cd_open_hall_of_fame">Ouvrir le Hall of Fame</string>
+    <string name="cd_open_settings">Ouvrir les paramètres</string>
+    <string name="cd_close_settings">Fermer les paramètres</string>
+    <string name="cd_play_rogue">Jouer à Rogue Spire</string>
+    <string name="cd_play_endless">Jouer au mode Sans Fin</string>
+    <string name="cd_select_controls">Choisir les contrôles %1$s</string>
+    <string name="cd_open_calibration">Ouvrir le studio de calibrage</string>
+    <string name="cd_pause_game">Mettre en pause</string>
+    <string name="cd_move_left">Déplacer à gauche</string>
+    <string name="cd_move_right">Déplacer à droite</string>
+    <string name="cd_soft_drop">Chute douce</string>
+    <string name="cd_vault_piece">Mettre en réserve</string>
+    <string name="cd_hard_drop">Chute rapide (Slam)</string>
+    <string name="cd_rotate_ccw">Pivoter à gauche</string>
+    <string name="cd_rotate_cw">Pivoter à droite</string>
+</resources>

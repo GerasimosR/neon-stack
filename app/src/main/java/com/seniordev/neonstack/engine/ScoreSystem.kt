@@ -4,7 +4,10 @@ data class LineClearReward(
     val points: Int,
     val isBackToBack: Boolean,
     val comboCount: Int,
-    val message: String
+    val message: String,
+    val lines: Int = 0,
+    val spin: SpinBonus = SpinBonus.NONE,
+    val isQuadSurge: Boolean = false
 )
 
 class ScoreSystem {
@@ -62,7 +65,9 @@ class ScoreSystem {
                 points = pts,
                 isBackToBack = false,
                 comboCount = 0,
-                message = if (spin == SpinBonus.MINI) "OVERCLOCK MINI!" else "OVERCLOCK SPIN!"
+                message = if (spin == SpinBonus.MINI) "OVERCLOCK MINI!" else "OVERCLOCK SPIN!",
+                lines = 0,
+                spin = spin
             )
         }
         return null
@@ -166,7 +171,9 @@ class ScoreSystem {
             points = awardPoints,
             isBackToBack = surgeBonus,
             comboCount = combo,
-            message = message
+            message = message,
+            lines = lines,
+            spin = spin
         )
     }
 

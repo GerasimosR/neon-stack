@@ -13,14 +13,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.seniordev.neonstack.R
 import com.seniordev.neonstack.engine.rogue.GameMode
 import com.seniordev.neonstack.engine.rogue.Relic
 import com.seniordev.neonstack.engine.rogue.RelicRarity
@@ -34,15 +37,17 @@ fun TopHeaderBar(
     onLeaderboardClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val cdLeaderboard = stringResource(R.string.cd_open_hall_of_fame)
+    val cdPause = stringResource(R.string.cd_pause_game)
+
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 2.dp, vertical = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Dynamic Title + Non-Destructive Mode Badge
         val isRogue = state.gameMode == GameMode.ROGUE
-        val titleText = if (isRogue) "ROGUE SPIRE" else "NEON STACK"
+        val titleText = if (isRogue) stringResource(R.string.mode_rogue_title) else stringResource(R.string.brand_title)
         val titleColor = if (isRogue) AccentPink else AccentCyan
 
         Row(
@@ -54,12 +59,13 @@ fun TopHeaderBar(
                 color = titleColor,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Black,
-                letterSpacing = 1.4.sp
+                letterSpacing = 1.4.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            // Compact Mode Badge (non-destructive; mode switching happens from Welcome Screen)
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(8.dp))
@@ -73,16 +79,17 @@ fun TopHeaderBar(
                     Spacer(modifier = Modifier.width(3.dp))
                 }
                 Text(
-                    text = if (isRogue) "SPIRE" else "ENDLESS",
+                    text = if (isRogue) stringResource(R.string.mode_rogue_short_badge) else stringResource(R.string.mode_endless_short_badge),
                     color = titleColor,
                     fontSize = 9.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 0.8.sp
+                    letterSpacing = 0.6.sp,
+                    maxLines = 1
                 )
             }
         }
 
-        // Leaderboard Trophy Button (Clean 40dp Box, zero overlap)
+        // Leaderboard Trophy Button
         Box(
             modifier = Modifier
                 .size(40.dp)
@@ -90,7 +97,7 @@ fun TopHeaderBar(
                 .background(BtnNormal)
                 .border(1.5.dp, BorderCard, RoundedCornerShape(11.dp))
                 .semantics {
-                    contentDescription = "Open Arcade Leaderboard Hall of Fame"
+                    contentDescription = cdLeaderboard
                     role = Role.Button
                 }
                 .clickable(onClick = onLeaderboardClick),
@@ -101,7 +108,7 @@ fun TopHeaderBar(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        // Pause Button (Clean 40dp Box, zero overlap)
+        // Pause Button
         Box(
             modifier = Modifier
                 .size(40.dp)
@@ -109,7 +116,7 @@ fun TopHeaderBar(
                 .background(BtnNormal)
                 .border(1.5.dp, BorderCard, RoundedCornerShape(11.dp))
                 .semantics {
-                    contentDescription = "Pause game"
+                    contentDescription = cdPause
                     role = Role.Button
                 }
                 .clickable(onClick = onPauseClick),
@@ -132,7 +139,7 @@ fun ScoreStatsRow(
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         if (state.gameMode == GameMode.ROGUE) {
-            val floorTitle = if (state.isBossFloor) "BOSS" else "FLOOR"
+            val floorTitle = if (state.isBossFloor) stringResource(R.string.boss_label) else stringResource(R.string.floor_label)
             val floorVal = "${state.currentFloor}"
             val floorColor = if (state.isBossFloor) AccentPink else AccentCyan
             val linesClearedOnFloor = state.targetLinesForFloor - state.linesRemainingOnFloor
@@ -147,32 +154,32 @@ fun ScoreStatsRow(
                 modifier = Modifier.weight(1f)
             )
             StatCard(
-                title = "QUOTA",
+                title = stringResource(R.string.quota_label),
                 value = "$linesClearedOnFloor/${state.targetLinesForFloor}",
                 valueColor = AccentYellow,
                 modifier = Modifier.weight(1f)
             )
             StatCard(
-                title = "SCORE",
+                title = stringResource(R.string.score_label),
                 value = "%,d".format(state.score),
                 valueColor = TextPrimary,
                 modifier = Modifier.weight(1.2f)
             )
         } else {
             StatCard(
-                title = "SCORE",
+                title = stringResource(R.string.score_label),
                 value = "%,d".format(state.score),
                 valueColor = TextPrimary,
                 modifier = Modifier.weight(1.2f)
             )
             StatCard(
-                title = "LEVEL",
+                title = stringResource(R.string.level_label),
                 value = state.level.toString(),
                 valueColor = AccentCyan,
                 modifier = Modifier.weight(1f)
             )
             StatCard(
-                title = "LINES",
+                title = stringResource(R.string.lines_label),
                 value = state.lines.toString(),
                 valueColor = AccentPink,
                 modifier = Modifier.weight(1f)
@@ -197,7 +204,7 @@ fun ActiveRelicsRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "RELICS:",
+            text = stringResource(R.string.relics_label),
             color = TextSecondary,
             fontSize = 10.sp,
             fontWeight = FontWeight.Bold,
@@ -226,7 +233,7 @@ fun ActiveRelicsRow(
                     modifier = Modifier.padding(end = 4.dp)
                 )
                 Text(
-                    text = relic.name.uppercase(),
+                    text = relic.localizedName().uppercase(),
                     color = rarityColor,
                     fontSize = 9.sp,
                     fontWeight = FontWeight.Bold
@@ -265,7 +272,9 @@ private fun StatCard(
                 color = TextSecondary,
                 fontSize = 9.sp,
                 fontWeight = FontWeight.Bold,
-                letterSpacing = 1.sp
+                letterSpacing = 0.8.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
         }
         Spacer(modifier = Modifier.height(1.dp))

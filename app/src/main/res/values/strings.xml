@@ -1,19 +1,163 @@
 <resources>
     <string name="app_name">Neon Stack</string>
+    <string name="brand_title">NEON STACK</string>
+    <string name="brand_subtitle">ARCADE EDITION</string>
+
+    <!-- Top & HUD Labels -->
     <string name="score_label">SCORE</string>
     <string name="best_label">BEST</string>
     <string name="level_label">LEVEL</string>
     <string name="lines_label">LINES</string>
+    <string name="floor_label">FLOOR</string>
+    <string name="boss_label">BOSS</string>
+    <string name="quota_label">QUOTA</string>
+    <string name="relics_label">RELICS:</string>
+    <string name="vault_label">VAULT</string>
+    <string name="queue_label">QUEUE</string>
+    <string name="slam_label">SLAM</string>
+    <string name="get_ready">GET READY</string>
+
+    <!-- Welcome Screen -->
+    <string name="hall_of_fame">HALL OF FAME</string>
+    <string name="choose_mode">CHOOSE MODE</string>
+    <string name="mode_rogue_title">ROGUE SPIRE</string>
+    <string name="mode_rogue_badge">DECKBUILDER</string>
+    <string name="mode_rogue_subtitle">Floor Quotas • Relics • Bosses</string>
+    <string name="mode_rogue_short_badge">SPIRE</string>
+    <string name="mode_rogue_stat_floor_runs">BEST FLOOR %1$d • %2$d RUNS</string>
+    <string name="mode_rogue_stat_floor">BEST FLOOR %1$d</string>
+    <string name="mode_rogue_stat_runs">%1$d RUNS • 9 RELICS</string>
+    <string name="mode_rogue_stat_default">9 RELICS • BOSS EVERY 3RD FLOOR</string>
+
+    <string name="mode_endless_title">ENDLESS</string>
+    <string name="mode_endless_badge">9×16 ARCADE</string>
+    <string name="mode_endless_subtitle">12-Bag Polyominoes • Overclock Spins</string>
+    <string name="mode_endless_short_badge">ENDLESS</string>
+    <string name="mode_endless_stat_best">BEST %1$s</string>
+    <string name="mode_endless_stat_default">9×16 ENDLESS ARCADE</string>
+
+    <!-- Controls & Hints -->
+    <string name="control_arcade_pad">ARCADE PAD</string>
+    <string name="control_gestures">GESTURES</string>
+    <string name="control_pad_short">PAD</string>
+    <string name="control_touch_short">TOUCH</string>
+    <string name="control_hint_pad">Dual-thumb arcade pad • Tap VAULT anytime</string>
+    <string name="control_hint_gestures">Drag to move • Tap to rotate • Flick down to slam</string>
+    <string name="gesture_hud_hint">DRAG MOVE • TAP ROTATE • FLICK SLAM • TAP VAULT</string>
+
+    <!-- Settings & Pause -->
+    <string name="settings">SETTINGS</string>
+    <string name="language_label">LANGUAGE</string>
+    <string name="language_auto">AUTO</string>
+    <string name="sound">Sound FX</string>
+    <string name="sound_subtitle">Synthesized arcade effects</string>
+    <string name="music">Chiptune Music</string>
+    <string name="music_subtitle">Dynamic level-reactive BGM</string>
+    <string name="haptics">Haptics</string>
+    <string name="haptics_subtitle">Tactile lock &amp; clear feedback</string>
+    <string name="crt_filter">Retro CRT Scanlines</string>
+    <string name="crt_subtitle">Subtle phosphor screen shader</string>
+    <string name="controls_label">Controls</string>
+
     <string name="pause">PAUSE</string>
+    <string name="game_paused">GAME PAUSED</string>
     <string name="resume">RESUME</string>
     <string name="restart">RESTART</string>
-    <string name="game_over">GAME OVER</string>
-    <string name="final_score">Final Score</string>
-    <string name="new_high_score">NEW HIGH SCORE!</string>
+    <string name="main_menu">MAIN MENU</string>
+    <string name="quit">QUIT</string>
     <string name="hard_drop">HARD DROP</string>
     <string name="hold">VAULT</string>
-    <string name="sound">Sound FX</string>
-    <string name="haptics">Vibration</string>
-    <string name="settings">SETTINGS</string>
-    <string name="quit">QUIT</string>
+
+    <!-- Calibration -->
+    <string name="calibration_studio">CALIBRATION STUDIO</string>
+    <string name="pro_calibration_studio">PRO CALIBRATION STUDIO</string>
+    <string name="calibration_summary">DAS %1$dms • ARR %2$dms • Drop %3$dms</string>
+    <string name="das_label">DAS (Shift Delay):</string>
+    <string name="arr_label">ARR (Repeat Rate):</string>
+    <string name="arr_instant">0 ms (INSTANT)</string>
+    <string name="soft_drop_label">Soft Drop Repeat:</string>
+    <string name="ms_value">%1$d ms</string>
+    <string name="reset">RESET</string>
+    <string name="apply">APPLY</string>
+
+    <!-- Leaderboard -->
+    <string name="arcade_leaderboard">ARCADE LEADERBOARD</string>
+    <string name="view_leaderboard">VIEW LEADERBOARD</string>
+    <string name="top_legends">TOP 10 ARCADE LEGENDS</string>
+    <string name="rank_prefix">RANK #%1$d: </string>
+    <string name="rank_achieved">RANK #%1$d ON LEADERBOARD!</string>
+    <string name="tag_button">TAG</string>
+    <string name="close">CLOSE</string>
+    <string name="leaderboard_meta">L%1$d · %2$dL</string>
+
+    <!-- Game Over -->
+    <string name="game_over">GAME OVER</string>
+    <string name="final_score">Final Score:</string>
+    <string name="best_score_colon">Best Score:</string>
+    <string name="lines_cleared_colon">Lines Cleared:</string>
+    <string name="level_reached_colon">Level Reached:</string>
+    <string name="quads_spins_colon">Quads / Spins:</string>
+    <string name="mode_colon">Mode:</string>
+    <string name="floors_cleared_colon">Floors Cleared:</string>
+    <string name="relics_drafted_colon">Relics Drafted:</string>
+    <string name="new_high_score">NEW HIGH SCORE!</string>
+    <string name="play_again">PLAY AGAIN</string>
+
+    <!-- Relic Draft -->
+    <string name="floor_cleared_title">FLOOR %1$d CLEARED!</string>
+    <string name="draft_relic_subtitle">DRAFT A RELIC MODIFIER</string>
+    <string name="rarity_common">COMMON</string>
+    <string name="rarity_rare">RARE</string>
+    <string name="rarity_legendary">LEGENDARY</string>
+
+    <!-- Relics -->
+    <string name="relic_midas_name">Midas Touch</string>
+    <string name="relic_midas_desc">25% of spawned blocks turn Gold. Clearing them awards +400 bonus points each.</string>
+    <string name="relic_drill_name">Overhang Drill</string>
+    <string name="relic_drill_desc">Hard drops drill through 1 obstructed overhang block directly beneath the landing site.</string>
+    <string name="relic_chrono_name">Chrono Buffer</string>
+    <string name="relic_chrono_desc">Expands Lock Delay to 850ms and permits up to 25 rotation/movement resets.</string>
+    <string name="relic_surge_name">Quad Surge</string>
+    <string name="relic_surge_desc">4-line clears award 3x points and instantly vaporize the bottom-most row.</string>
+    <string name="relic_dual_vault_name">Dual Vault Chamber</string>
+    <string name="relic_dual_vault_desc">Enables vaulting pieces twice before requiring a lock.</string>
+    <string name="relic_conduit_name">Beam Conduit</string>
+    <string name="relic_conduit_desc">Injects an additional straight Beam into every 12-piece bag cycle.</string>
+    <string name="relic_bomb_name">Kinetic Core</string>
+    <string name="relic_bomb_desc">Hard dropping from 10+ rows height triggers a mini shockwave clearing adjacent blocks.</string>
+    <string name="relic_laser_name">Laser Cleaner</string>
+    <string name="relic_laser_desc">Vaporizes the bottom-most row automatically after completing each floor.</string>
+    <string name="relic_anchor_name">Gravity Anchor</string>
+    <string name="relic_anchor_desc">Soft drop moves at terminal hyper-speed and scores 3 points per cell.</string>
+
+    <!-- Floating In-Game Clear Banners -->
+    <string name="banner_single">SINGLE</string>
+    <string name="banner_double">DOUBLE</string>
+    <string name="banner_triple">TRIPLE</string>
+    <string name="banner_quad">QUAD CLEAR!</string>
+    <string name="banner_quad_surge">QUAD SURGE 3X!</string>
+    <string name="banner_spin_mini">OVERCLOCK MINI!</string>
+    <string name="banner_spin_full">OVERCLOCK SPIN!</string>
+    <string name="banner_spin_single">OVERCLOCK SINGLE!</string>
+    <string name="banner_spin_double">OVERCLOCK DOUBLE!</string>
+    <string name="banner_spin_triple">OVERCLOCK TRIPLE!</string>
+    <string name="banner_surge_prefix">SURGE %1$s</string>
+    <string name="banner_chain_suffix">%1$s (CHAIN x%2$d)</string>
+
+    <!-- Accessibility -->
+    <string name="cd_open_hall_of_fame">Open Hall of Fame</string>
+    <string name="cd_open_settings">Open Settings</string>
+    <string name="cd_close_settings">Close Settings</string>
+    <string name="cd_play_rogue">Play Rogue Spire Mode</string>
+    <string name="cd_play_endless">Play Endless Mode</string>
+    <string name="cd_select_controls">Select %1$s controls</string>
+    <string name="cd_open_calibration">Open Calibration Studio</string>
+    <string name="cd_pause_game">Pause game</string>
+    <string name="cd_move_left">Move left</string>
+    <string name="cd_move_right">Move right</string>
+    <string name="cd_soft_drop">Soft drop</string>
+    <string name="cd_vault_piece">Vault piece</string>
+    <string name="cd_hard_drop">Hard drop slam</string>
+    <string name="cd_rotate_ccw">Rotate counter-clockwise</string>
+    <string name="cd_rotate_cw">Rotate clockwise</string>
 </resources>

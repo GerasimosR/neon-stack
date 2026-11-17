@@ -14,13 +14,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.seniordev.neonstack.R
 import com.seniordev.neonstack.data.LeaderboardEntry
 import com.seniordev.neonstack.ui.compose.theme.*
 import com.seniordev.neonstack.ui.mvi.NeonStackUiState
@@ -54,15 +57,17 @@ fun LeaderboardDialog(
                 TrophyVectorIcon(tint = AccentYellow, size = 20.dp)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "HALL OF FAME",
+                    text = stringResource(R.string.hall_of_fame),
                     color = AccentYellow,
-                    fontSize = 20.sp,
+                    fontSize = 19.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 2.sp
+                    letterSpacing = 1.6.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
             Text(
-                text = "TOP 10 ARCADE LEGENDS",
+                text = stringResource(R.string.top_legends),
                 color = TextSecondary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
@@ -83,7 +88,7 @@ fun LeaderboardDialog(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "RANK #${state.latestRankAchieved}: ",
+                        text = stringResource(R.string.rank_prefix, state.latestRankAchieved),
                         color = AccentCyan,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold
@@ -108,7 +113,7 @@ fun LeaderboardDialog(
                         shape = RoundedCornerShape(8.dp),
                         modifier = Modifier.height(36.dp)
                     ) {
-                        Text("TAG", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.tag_button), fontSize = 11.sp, fontWeight = FontWeight.Bold)
                     }
                 }
             }
@@ -139,7 +144,14 @@ fun LeaderboardDialog(
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = BtnNormal)
                 ) {
-                    Text("RESET", color = TextSecondary, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = stringResource(R.string.reset),
+                        color = TextSecondary,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
 
                 Button(
@@ -149,7 +161,14 @@ fun LeaderboardDialog(
                     colors = ButtonDefaults.buttonColors(containerColor = BtnNormal),
                     border = androidx.compose.foundation.BorderStroke(1.5.dp, AccentCyan)
                 ) {
-                    Text("CLOSE", color = AccentCyan, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = stringResource(R.string.close),
+                        color = AccentCyan,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
         }
@@ -178,7 +197,6 @@ private fun LeaderboardRow(entry: LeaderboardEntry, isCurrentPlayer: Boolean) {
             .padding(horizontal = 10.dp, vertical = 7.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Rank Badge (Vector Medal for Top 3, numeric rank for 4-10)
         Box(
             modifier = Modifier.width(32.dp),
             contentAlignment = Alignment.Center
@@ -196,7 +214,6 @@ private fun LeaderboardRow(entry: LeaderboardEntry, isCurrentPlayer: Boolean) {
             }
         }
 
-        // Player Tag
         Text(
             text = entry.playerName,
             color = if (isCurrentPlayer) AccentCyan else TextPrimary,
@@ -206,7 +223,6 @@ private fun LeaderboardRow(entry: LeaderboardEntry, isCurrentPlayer: Boolean) {
             modifier = Modifier.width(64.dp)
         )
 
-        // Score
         Text(
             text = "%,d".format(entry.score),
             color = AccentYellow,
@@ -218,9 +234,8 @@ private fun LeaderboardRow(entry: LeaderboardEntry, isCurrentPlayer: Boolean) {
 
         Spacer(modifier = Modifier.width(10.dp))
 
-        // Level & Lines tag
         Text(
-            text = "L${entry.level} · ${entry.lines}L",
+            text = stringResource(R.string.leaderboard_meta, entry.level, entry.lines),
             color = TextSecondary,
             fontSize = 11.sp,
             fontWeight = FontWeight.Normal

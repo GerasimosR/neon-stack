@@ -1,0 +1,163 @@
+<resources>
+    <string name="app_name">Neon Stack</string>
+    <string name="brand_title">NEON STACK</string>
+    <string name="brand_subtitle">アーケードエディション</string>
+
+    <!-- Top & HUD Labels -->
+    <string name="score_label">スコア</string>
+    <string name="best_label">ベスト</string>
+    <string name="level_label">レベル</string>
+    <string name="lines_label">ライン</string>
+    <string name="floor_label">フロア</string>
+    <string name="boss_label">ボス</string>
+    <string name="quota_label">ノルマ</string>
+    <string name="relics_label">レリック:</string>
+    <string name="vault_label">保管</string>
+    <string name="queue_label">次</string>
+    <string name="slam_label">落下</string>
+    <string name="get_ready">レディ</string>
+
+    <!-- Welcome Screen -->
+    <string name="hall_of_fame">ランキング</string>
+    <string name="choose_mode">モード選択</string>
+    <string name="mode_rogue_title">ROGUE SPIRE</string>
+    <string name="mode_rogue_badge">デッキ構築</string>
+    <string name="mode_rogue_subtitle">フロア目標 • レリック • ボス階層</string>
+    <string name="mode_rogue_short_badge">スパイア</string>
+    <string name="mode_rogue_stat_floor_runs">最高 %1$dF • %2$d回挑戦</string>
+    <string name="mode_rogue_stat_floor">最高 %1$dF</string>
+    <string name="mode_rogue_stat_runs">%1$d回挑戦 • レリック9種</string>
+    <string name="mode_rogue_stat_default">レリック9種 • 3階層ごとにボス</string>
+
+    <string name="mode_endless_title">エンドレス</string>
+    <string name="mode_endless_badge">9×16 アーケード</string>
+    <string name="mode_endless_subtitle">12種ポリオミノ • オーバークロックスピン</string>
+    <string name="mode_endless_short_badge">エンドレス</string>
+    <string name="mode_endless_stat_best">ベスト %1$s</string>
+    <string name="mode_endless_stat_default">9×16 エンドレスアーケード</string>
+
+    <!-- Controls & Hints -->
+    <string name="control_arcade_pad">パッド操作</string>
+    <string name="control_gestures">ジェスチャー</string>
+    <string name="control_pad_short">パッド</string>
+    <string name="control_touch_short">タッチ</string>
+    <string name="control_hint_pad">両手パッド操作 • いつでも保管タップ可能</string>
+    <string name="control_hint_gestures">ドラッグで移動 • タップで回転 • 下フリックで落下</string>
+    <string name="gesture_hud_hint">ドラッグ移動 • タップ回転 • 下フリック落下 • 保管</string>
+
+    <!-- Settings & Pause -->
+    <string name="settings">設定</string>
+    <string name="language_label">言語</string>
+    <string name="language_auto">自動</string>
+    <string name="sound">効果音 (SFX)</string>
+    <string name="sound_subtitle">シンセサイズ・アーケード効果音</string>
+    <string name="music">チップチューンBGM</string>
+    <string name="music_subtitle">レベル連動ダイナミックBGM</string>
+    <string name="haptics">振動フィードバック</string>
+    <string name="haptics_subtitle">設置・消去時の触覚フィードバック</string>
+    <string name="crt_filter">レトロCRTスキャンライン</string>
+    <string name="crt_subtitle">ブラウン管風モニターシェーダー</string>
+    <string name="controls_label">操作方式</string>
+
+    <string name="pause">一時停止</string>
+    <string name="game_paused">一時停止中</string>
+    <string name="resume">再開</string>
+    <string name="restart">リスタート</string>
+    <string name="main_menu">メインメニュー</string>
+    <string name="quit">終了</string>
+    <string name="hard_drop">ハードドロップ</string>
+    <string name="hold">保管</string>
+
+    <!-- Calibration -->
+    <string name="calibration_studio">操作キャリブレーション</string>
+    <string name="pro_calibration_studio">プロ操作調整スタジオ</string>
+    <string name="calibration_summary">DAS %1$dms • ARR %2$dms • 落下 %3$dms</string>
+    <string name="das_label">DAS (初回遅延):</string>
+    <string name="arr_label">ARR (連続速度):</string>
+    <string name="arr_instant">0 ms (瞬間)</string>
+    <string name="soft_drop_label">ソフトドロップ間隔:</string>
+    <string name="ms_value">%1$d ms</string>
+    <string name="reset">リセット</string>
+    <string name="apply">適用</string>
+
+    <!-- Leaderboard -->
+    <string name="arcade_leaderboard">アーケードランキング</string>
+    <string name="view_leaderboard">ランキングを見る</string>
+    <string name="top_legends">トップ10 レジェンド</string>
+    <string name="rank_prefix">第%1$d位: </string>
+    <string name="rank_achieved">ランキング第%1$d位入賞！</string>
+    <string name="tag_button">登録</string>
+    <string name="close">閉じる</string>
+    <string name="leaderboard_meta">Lv%1$d · %2$d行</string>
+
+    <!-- Game Over -->
+    <string name="game_over">ゲームオーバー</string>
+    <string name="final_score">最終スコア:</string>
+    <string name="best_score_colon">ハイスコア:</string>
+    <string name="lines_cleared_colon">消去ライン:</string>
+    <string name="level_reached_colon">到達レベル:</string>
+    <string name="quads_spins_colon">クアッド / スピン:</string>
+    <string name="mode_colon">モード:</string>
+    <string name="floors_cleared_colon">突破フロア:</string>
+    <string name="relics_drafted_colon">獲得レリック:</string>
+    <string name="new_high_score">ハイスコア更新！</string>
+    <string name="play_again">もう一度プレイ</string>
+
+    <!-- Relic Draft -->
+    <string name="floor_cleared_title">フロア %1$d クリア！</string>
+    <string name="draft_relic_subtitle">レリックを1つ選択</string>
+    <string name="rarity_common">コモン</string>
+    <string name="rarity_rare">レア</string>
+    <string name="rarity_legendary">レジェンド</string>
+
+    <!-- Relics -->
+    <string name="relic_midas_name">ミダスの手</string>
+    <string name="relic_midas_desc">25%のブロックが黄金化し、消去ごとに+400ボーナスを獲得。</string>
+    <string name="relic_drill_name">オーバードリル</string>
+    <string name="relic_drill_desc">ハードドロップ時、着地地点の真下にある障害ブロックを1個貫通破壊。</string>
+    <string name="relic_chrono_name">クロノバッファ</string>
+    <string name="relic_chrono_desc">固定猶予を850msに延長し、移動・回転リセットを最大25回許可。</string>
+    <string name="relic_surge_name">クアッドサージ</string>
+    <string name="relic_surge_desc">4ライン同時消去でスコア3倍、さらに最下行を即座に消滅。</string>
+    <string name="relic_dual_vault_name">デュアル保管庫</string>
+    <string name="relic_dual_vault_desc">ブロック固定前に2回まで保管スワップが可能になる。</string>
+    <string name="relic_conduit_name">ビーム導管</string>
+    <string name="relic_conduit_desc">12種バッグサイクルごとに直線ビームを1本追加。</string>
+    <string name="relic_bomb_name">キネティックコア</string>
+    <string name="relic_bomb_desc">10行以上の高さからの落下で衝撃波が発生し周囲を破壊。</string>
+    <string name="relic_laser_name">レーザークリーナー</string>
+    <string name="relic_laser_desc">各フロア突破時に最下行を自動でレーザー消去。</string>
+    <string name="relic_anchor_name">グラビティアンカー</string>
+    <string name="relic_anchor_desc">ソフトドロップが超高速化し、1マスごとに3ポイント獲得。</string>
+
+    <!-- Floating In-Game Clear Banners -->
+    <string name="banner_single">シングル</string>
+    <string name="banner_double">ダブル</string>
+    <string name="banner_triple">トリプル</string>
+    <string name="banner_quad">クアッドクリア！</string>
+    <string name="banner_quad_surge">クアッドサージ 3X！</string>
+    <string name="banner_spin_mini">オーバークロック MINI！</string>
+    <string name="banner_spin_full">オーバークロックスピン！</string>
+    <string name="banner_spin_single">オーバークロック 1ライン！</string>
+    <string name="banner_spin_double">オーバークロック 2ライン！</string>
+    <string name="banner_spin_triple">オーバークロック 3ライン！</string>
+    <string name="banner_surge_prefix">サージ %1$s</string>
+    <string name="banner_chain_suffix">%1$s (チェイン x%2$d)</string>
+
+    <!-- Accessibility -->
+    <string name="cd_open_hall_of_fame">ランキングを開く</string>
+    <string name="cd_open_settings">設定を開く</string>
+    <string name="cd_close_settings">設定を閉じる</string>
+    <string name="cd_play_rogue">Rogue Spireをプレイ</string>
+    <string name="cd_play_endless">エンドレスをプレイ</string>
+    <string name="cd_select_controls">%1$s操作を選択</string>
+    <string name="cd_open_calibration">キャリブレーションを開く</string>
+    <string name="cd_pause_game">ゲームを一時停止</string>
+    <string name="cd_move_left">左に移動</string>
+    <string name="cd_move_right">右に移動</string>
+    <string name="cd_soft_drop">ソフトドロップ</string>
+    <string name="cd_vault_piece">ブロックを保管</string>
+    <string name="cd_hard_drop">ハードドロップ</string>
+    <string name="cd_rotate_ccw">反時計回りに回転</string>
+    <string name="cd_rotate_cw">時計回りに回転</string>
+</resources>

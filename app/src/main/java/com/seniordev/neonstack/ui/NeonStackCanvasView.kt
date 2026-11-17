@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.VelocityTracker
 import android.view.View
+import com.seniordev.neonstack.R
 import com.seniordev.neonstack.engine.*
 import com.seniordev.neonstack.engine.Point
 import kotlin.math.abs
@@ -753,7 +754,7 @@ class NeonStackCanvasView @JvmOverloads constructor(
         canvas.drawRoundRect(vaultRect, 14f, 14f, panelBorderPaint)
 
         val headerY = vaultRect.top + textHeaderPaint.textSize + 6f
-        canvas.drawText("VAULT", vaultRect.centerX(), headerY, textHeaderPaint)
+        canvas.drawText(context.getString(R.string.vault_label), vaultRect.centerX(), headerY, textHeaderPaint)
 
         val vaulted = eng.holdPiece
         if (vaulted != null) {
@@ -784,7 +785,7 @@ class NeonStackCanvasView @JvmOverloads constructor(
         canvas.drawRoundRect(queueRect, 14f, 14f, panelBorderPaint)
 
         val headerY = queueRect.top + textHeaderPaint.textSize + 6f
-        canvas.drawText("QUEUE", queueRect.centerX(), headerY, textHeaderPaint)
+        canvas.drawText(context.getString(R.string.queue_label), queueRect.centerX(), headerY, textHeaderPaint)
 
         val nextPieces = eng.randomizer.peek(3)
         val contentTop = headerY + 4f

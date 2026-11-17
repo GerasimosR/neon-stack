@@ -36,6 +36,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_25
     }
 
+    androidResources {
+        localeFilters += listOf("en", "el", "es", "de", "fr", "ja")
+    }
+
     buildFeatures {
         viewBinding = true
         compose = true

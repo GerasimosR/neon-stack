@@ -21,13 +21,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.seniordev.neonstack.R
 import com.seniordev.neonstack.ui.compose.theme.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -90,7 +93,7 @@ fun ArcadeGamepad(
         ) {
             // Left (DAS/ARR)
             SculptedDasPad(
-                contentDescription = "Move left",
+                contentDescription = stringResource(R.string.cd_move_left),
                 onAction = onMoveLeft,
                 initialDelayMs = dasDelayMs,
                 repeatRateMs = arrRateMs,
@@ -105,7 +108,7 @@ fun ArcadeGamepad(
 
             // Right (DAS/ARR)
             SculptedDasPad(
-                contentDescription = "Move right",
+                contentDescription = stringResource(R.string.cd_move_right),
                 onAction = onMoveRight,
                 initialDelayMs = dasDelayMs,
                 repeatRateMs = arrRateMs,
@@ -120,7 +123,7 @@ fun ArcadeGamepad(
 
             // Soft Drop (Continuous)
             SculptedDasPad(
-                contentDescription = "Soft drop",
+                contentDescription = stringResource(R.string.cd_soft_drop),
                 onAction = onSoftDrop,
                 initialDelayMs = 0L,
                 repeatRateMs = softDropRateMs,
@@ -141,7 +144,7 @@ fun ArcadeGamepad(
             verticalArrangement = Arrangement.Center
         ) {
             SculptedActionPad(
-                contentDescription = "Vault piece",
+                contentDescription = stringResource(R.string.cd_vault_piece),
                 onClick = onHold,
                 accentColor = AccentCyan,
                 shape = CircleShape,
@@ -151,11 +154,12 @@ fun ArcadeGamepad(
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = "VAULT",
+                text = stringResource(R.string.vault_label),
                 color = TextSecondary,
                 fontSize = 9.sp,
                 fontWeight = FontWeight.Bold,
-                letterSpacing = 1.2.sp
+                letterSpacing = 0.8.sp,
+                maxLines = 1
             )
         }
 
@@ -167,7 +171,7 @@ fun ArcadeGamepad(
         ) {
             // HARD DROP / SLAM (Top-center-right elevated neon sphere)
             SculptedActionPad(
-                contentDescription = "Hard drop slam",
+                contentDescription = stringResource(R.string.cd_hard_drop),
                 onClick = onHardDrop,
                 accentColor = AccentPink,
                 topFill = Color(0xFFB732D4),
@@ -175,29 +179,32 @@ fun ArcadeGamepad(
                 idleBorderAlpha = 0.85f,
                 shape = RoundedCornerShape(22.dp),
                 modifier = Modifier
-                    .width(74.dp)
+                    .width(78.dp)
                     .height(44.dp)
                     .align(Alignment.TopEnd)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.padding(horizontal = 4.dp)
                 ) {
-                    HardDropSlamVectorIcon(size = 16.dp, tint = AccentYellow)
-                    Spacer(modifier = Modifier.width(4.dp))
+                    HardDropSlamVectorIcon(size = 15.dp, tint = AccentYellow)
+                    Spacer(modifier = Modifier.width(3.dp))
                     Text(
-                        text = "SLAM",
+                        text = stringResource(R.string.slam_label),
                         color = TextPrimary,
-                        fontSize = 11.sp,
+                        fontSize = 10.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 0.8.sp
+                        letterSpacing = 0.4.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
             }
 
             // ROTATE CCW (Bottom-left satellite circle)
             SculptedActionPad(
-                contentDescription = "Rotate counter-clockwise",
+                contentDescription = stringResource(R.string.cd_rotate_ccw),
                 onClick = onRotateCcw,
                 accentColor = TextPrimary,
                 shape = CircleShape,
@@ -211,7 +218,7 @@ fun ArcadeGamepad(
 
             // ROTATE CW (Bottom-right Hero Primary circle)
             SculptedActionPad(
-                contentDescription = "Rotate clockwise",
+                contentDescription = stringResource(R.string.cd_rotate_cw),
                 onClick = onRotateCw,
                 accentColor = AccentCyan,
                 topFill = Color(0xFF17364A),

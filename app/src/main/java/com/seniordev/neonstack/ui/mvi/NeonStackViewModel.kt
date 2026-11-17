@@ -111,7 +111,7 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
                     if (event.rows.isNotEmpty()) {
                         sendEffect(NeonStackUiEffect.LineClearAnimation(event.rows, reward.message))
                     }
-                    sendEffect(NeonStackUiEffect.FloatingMessage(reward.message))
+                    sendEffect(NeonStackUiEffect.FloatingRewardBanner(reward))
                     syncState()
                 }
                 is GameEvent.LevelUp -> {

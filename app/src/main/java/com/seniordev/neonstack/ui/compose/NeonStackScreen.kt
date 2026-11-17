@@ -17,12 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.seniordev.neonstack.R
 import com.seniordev.neonstack.audio.SoundSynthesizer
 import com.seniordev.neonstack.data.ControlMode
 import com.seniordev.neonstack.engine.GameStatus
@@ -74,7 +77,9 @@ fun NeonStackScreen(
                 }
                 is NeonStackUiEffect.ScreenShake -> canvasViewRef?.triggerScreenShake(effect.magnitude)
                 is NeonStackUiEffect.LineClearAnimation -> canvasViewRef?.triggerLineClearAnimation(effect.rows)
-                is NeonStackUiEffect.FloatingMessage -> canvasViewRef?.showFloatingBanner(effect.text)
+                is NeonStackUiEffect.FloatingRewardBanner -> {
+                    canvasViewRef?.showFloatingBanner(formatLocalizedRewardBanner(context, effect.reward))
+                }
             }
         }
     }
@@ -254,11 +259,13 @@ fun NeonStackScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = "DRAG MOVE  •  TAP ROTATE  •  FLICK SLAM  •  TAP VAULT",
+                                    text = stringResource(R.string.gesture_hud_hint),
                                     color = TextSecondary.copy(alpha = 0.55f),
                                     fontSize = 9.sp,
                                     fontWeight = FontWeight.Bold,
-                                    letterSpacing = 1.sp
+                                    letterSpacing = 0.8.sp,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
                                 )
                             }
                         }
@@ -355,7 +362,7 @@ private fun CountdownOverlay(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(
-                text = "GET READY",
+                text = stringResource(R.string.get_ready),
                 color = TextSecondary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,

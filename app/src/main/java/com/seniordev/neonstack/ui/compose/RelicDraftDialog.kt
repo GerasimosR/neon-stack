@@ -10,13 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.seniordev.neonstack.R
 import com.seniordev.neonstack.engine.rogue.Relic
 import com.seniordev.neonstack.engine.rogue.RelicRarity
 import com.seniordev.neonstack.ui.compose.theme.*
@@ -41,19 +42,20 @@ fun RelicDraftDialog(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "FLOOR $currentFloor CLEARED!",
+                text = stringResource(R.string.floor_cleared_title, currentFloor),
                 color = AccentYellow,
-                fontSize = 20.sp,
+                fontSize = 19.sp,
                 fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 1.5.sp
+                letterSpacing = 1.2.sp,
+                textAlign = TextAlign.Center
             )
             Text(
-                text = "DRAFT A RELIC MODIFIER",
+                text = stringResource(R.string.draft_relic_subtitle),
                 color = AccentCyan,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 1.sp,
-                modifier = Modifier.padding(bottom = 14.dp)
+                modifier = Modifier.padding(top = 2.dp, bottom = 14.dp)
             )
 
             // 3 Relic Cards
@@ -90,7 +92,6 @@ private fun RelicCard(
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Icon Box
         Box(
             modifier = Modifier
                 .size(46.dp)
@@ -108,7 +109,6 @@ private fun RelicCard(
 
         Spacer(modifier = Modifier.width(12.dp))
 
-        // Info
         Column(modifier = Modifier.weight(1f)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -116,21 +116,23 @@ private fun RelicCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = relic.name,
+                    text = relic.localizedName(),
                     color = TextPrimary,
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.weight(1f)
                 )
+                Spacer(modifier = Modifier.width(6.dp))
                 Text(
-                    text = relic.rarity.name,
+                    text = relic.rarity.localizedLabel(),
                     color = rarityColor,
                     fontSize = 9.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 1.sp
+                    letterSpacing = 0.8.sp
                 )
             }
             Text(
-                text = relic.description,
+                text = relic.localizedDescription(),
                 color = TextSecondary,
                 fontSize = 12.sp,
                 lineHeight = 15.sp,

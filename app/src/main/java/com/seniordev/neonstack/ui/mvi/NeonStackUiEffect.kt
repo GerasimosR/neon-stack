@@ -1,6 +1,7 @@
 package com.seniordev.neonstack.ui.mvi
 
 import com.seniordev.neonstack.audio.SoundEffect
+import com.seniordev.neonstack.engine.LineClearReward
 
 enum class HapticType {
     TICK,
@@ -15,5 +16,5 @@ sealed interface NeonStackUiEffect {
     data class TriggerHaptic(val type: HapticType) : NeonStackUiEffect
     data class ScreenShake(val magnitude: Float) : NeonStackUiEffect
     data class LineClearAnimation(val rows: List<Int>, val message: String) : NeonStackUiEffect
-    data class FloatingMessage(val text: String) : NeonStackUiEffect
+    data class FloatingRewardBanner(val reward: LineClearReward) : NeonStackUiEffect
 }

@@ -1,0 +1,163 @@
+<resources>
+    <string name="app_name">Neon Stack</string>
+    <string name="brand_title">NEON STACK</string>
+    <string name="brand_subtitle">EDICIÓN ARCADE</string>
+
+    <!-- Top & HUD Labels -->
+    <string name="score_label">PUNTOS</string>
+    <string name="best_label">RÉCORD</string>
+    <string name="level_label">NIVEL</string>
+    <string name="lines_label">LÍNEAS</string>
+    <string name="floor_label">PISO</string>
+    <string name="boss_label">JEFE</string>
+    <string name="quota_label">META</string>
+    <string name="relics_label">RELIQUIAS:</string>
+    <string name="vault_label">RESERVA</string>
+    <string name="queue_label">SIGUIENTE</string>
+    <string name="slam_label">SLAM</string>
+    <string name="get_ready">PREPÁRATE</string>
+
+    <!-- Welcome Screen -->
+    <string name="hall_of_fame">SALÓN DE FAMA</string>
+    <string name="choose_mode">ELIGE MODO</string>
+    <string name="mode_rogue_title">ROGUE SPIRE</string>
+    <string name="mode_rogue_badge">DECKBUILDER</string>
+    <string name="mode_rogue_subtitle">Metas de Piso • Reliquias • Jefes</string>
+    <string name="mode_rogue_short_badge">TORRE</string>
+    <string name="mode_rogue_stat_floor_runs">MEJOR PISO %1$d • %2$d PARTIDAS</string>
+    <string name="mode_rogue_stat_floor">MEJOR PISO %1$d</string>
+    <string name="mode_rogue_stat_runs">%1$d PARTIDAS • 9 RELIQUIAS</string>
+    <string name="mode_rogue_stat_default">9 RELIQUIAS • JEFE CADA 3 PISOS</string>
+
+    <string name="mode_endless_title">SIN FIN</string>
+    <string name="mode_endless_badge">ARCADE 9×16</string>
+    <string name="mode_endless_subtitle">12 Poliominós • Giros Overclock</string>
+    <string name="mode_endless_short_badge">SIN FIN</string>
+    <string name="mode_endless_stat_best">RÉCORD %1$s</string>
+    <string name="mode_endless_stat_default">ARCADE SIN FIN 9×16</string>
+
+    <!-- Controls & Hints -->
+    <string name="control_arcade_pad">MANDO ARCADE</string>
+    <string name="control_gestures">GESTOS</string>
+    <string name="control_pad_short">MANDO</string>
+    <string name="control_touch_short">TÁCTIL</string>
+    <string name="control_hint_pad">Mando dual • Toca RESERVA cuando quieras</string>
+    <string name="control_hint_gestures">Arrastra mover • Toca girar • Desliza abajo caer</string>
+    <string name="gesture_hud_hint">ARRASTRA MOVER • TOCA GIRAR • ABAJO SLAM • RESERVA</string>
+
+    <!-- Settings & Pause -->
+    <string name="settings">AJUSTES</string>
+    <string name="language_label">IDIOMA</string>
+    <string name="language_auto">AUTO</string>
+    <string name="sound">Efectos SFX</string>
+    <string name="sound_subtitle">Efectos arcade sintetizados</string>
+    <string name="music">Música Chiptune</string>
+    <string name="music_subtitle">Música dinámica según nivel</string>
+    <string name="haptics">Vibración</string>
+    <string name="haptics_subtitle">Respuesta táctil al encajar y limpiar</string>
+    <string name="crt_filter">Filtro CRT Retro</string>
+    <string name="crt_subtitle">Líneas de monitor fósforo retro</string>
+    <string name="controls_label">Controles</string>
+
+    <string name="pause">PAUSA</string>
+    <string name="game_paused">JUEGO EN PAUSA</string>
+    <string name="resume">CONTINUAR</string>
+    <string name="restart">REINICIAR</string>
+    <string name="main_menu">MENÚ PRINCIPAL</string>
+    <string name="quit">SALIR</string>
+    <string name="hard_drop">CAÍDA RÁPIDA</string>
+    <string name="hold">RESERVA</string>
+
+    <!-- Calibration -->
+    <string name="calibration_studio">CALIBRACIÓN</string>
+    <string name="pro_calibration_studio">ESTUDIO DE CALIBRACIÓN</string>
+    <string name="calibration_summary">DAS %1$dms • ARR %2$dms • Caída %3$dms</string>
+    <string name="das_label">DAS (Retardo inicial):</string>
+    <string name="arr_label">ARR (Repetición):</string>
+    <string name="arr_instant">0 ms (INSTANTÁNEO)</string>
+    <string name="soft_drop_label">Caída suave:</string>
+    <string name="ms_value">%1$d ms</string>
+    <string name="reset">RESTABLECER</string>
+    <string name="apply">APLICAR</string>
+
+    <!-- Leaderboard -->
+    <string name="arcade_leaderboard">CLASIFICACIÓN ARCADE</string>
+    <string name="view_leaderboard">VER CLASIFICACIÓN</string>
+    <string name="top_legends">TOP 10 LEYENDAS ARCADE</string>
+    <string name="rank_prefix">PUESTO #%1$d: </string>
+    <string name="rank_achieved">¡PUESTO #%1$d EN EL RANKING!</string>
+    <string name="tag_button">OK</string>
+    <string name="close">CERRAR</string>
+    <string name="leaderboard_meta">N%1$d · %2$dL</string>
+
+    <!-- Game Over -->
+    <string name="game_over">FIN DE PARTIDA</string>
+    <string name="final_score">Puntuación:</string>
+    <string name="best_score_colon">Mejor Puntuación:</string>
+    <string name="lines_cleared_colon">Líneas:</string>
+    <string name="level_reached_colon">Nivel Alcanzado:</string>
+    <string name="quads_spins_colon">Cuádruples / Giros:</string>
+    <string name="mode_colon">Modo:</string>
+    <string name="floors_cleared_colon">Pisos Superados:</string>
+    <string name="relics_drafted_colon">Reliquias:</string>
+    <string name="new_high_score">¡NUEVO RÉCORD!</string>
+    <string name="play_again">JUGAR DE NUEVO</string>
+
+    <!-- Relic Draft -->
+    <string name="floor_cleared_title">¡PISO %1$d SUPERADO!</string>
+    <string name="draft_relic_subtitle">ELIGE UNA RELIQUIA</string>
+    <string name="rarity_common">COMÚN</string>
+    <string name="rarity_rare">RARA</string>
+    <string name="rarity_legendary">LEGENDARIA</string>
+
+    <!-- Relics -->
+    <string name="relic_midas_name">Toque de Midas</string>
+    <string name="relic_midas_desc">25% de los bloques aparecen Dorados. Limpiarlos otorga +400 puntos extra.</string>
+    <string name="relic_drill_name">Taladro de Impacto</string>
+    <string name="relic_drill_desc">La caída rápida perfora 1 bloque obstáculo justo debajo del punto de impacto.</string>
+    <string name="relic_chrono_name">Búfer Crono</string>
+    <string name="relic_chrono_desc">Amplía el tiempo de bloqueo a 850ms y permite hasta 25 movimientos/giros.</string>
+    <string name="relic_surge_name">Oleada Cuádruple</string>
+    <string name="relic_surge_desc">Limpiar 4 líneas da 3x puntos y vaporiza al instante la fila inferior.</string>
+    <string name="relic_dual_vault_name">Doble Cámara</string>
+    <string name="relic_dual_vault_desc">Permite guardar piezas en reserva dos veces antes de fijar una pieza.</string>
+    <string name="relic_conduit_name">Conducto de Haz</string>
+    <string name="relic_conduit_desc">Añade una barra recta extra en cada ciclo de 12 piezas.</string>
+    <string name="relic_bomb_name">Núcleo Cinético</string>
+    <string name="relic_bomb_desc">Caída rápida desde 10+ filas desata una onda expansiva que limpia bloques cercanos.</string>
+    <string name="relic_laser_name">Láser Limpiador</string>
+    <string name="relic_laser_desc">Vaporiza automáticamente la fila inferior al completar cada piso.</string>
+    <string name="relic_anchor_name">Ancla Gravitatoria</string>
+    <string name="relic_anchor_desc">La caída suave se mueve a hipervelocidad y otorga 3 puntos por celda.</string>
+
+    <!-- Floating In-Game Clear Banners -->
+    <string name="banner_single">SIMPLE</string>
+    <string name="banner_double">DOBLE</string>
+    <string name="banner_triple">TRIPLE</string>
+    <string name="banner_quad">¡CUÁDRUPLE!</string>
+    <string name="banner_quad_surge">¡OLEADA 3X!</string>
+    <string name="banner_spin_mini">¡OVERCLOCK MINI!</string>
+    <string name="banner_spin_full">¡GIRO OVERCLOCK!</string>
+    <string name="banner_spin_single">¡OVERCLOCK SIMPLE!</string>
+    <string name="banner_spin_double">¡OVERCLOCK DOBLE!</string>
+    <string name="banner_spin_triple">¡OVERCLOCK TRIPLE!</string>
+    <string name="banner_surge_prefix">RACHA %1$s</string>
+    <string name="banner_chain_suffix">%1$s (CADENA x%2$d)</string>
+
+    <!-- Accessibility -->
+    <string name="cd_open_hall_of_fame">Abrir Salón de Fama</string>
+    <string name="cd_open_settings">Abrir Ajustes</string>
+    <string name="cd_close_settings">Cerrar Ajustes</string>
+    <string name="cd_play_rogue">Jugar Rogue Spire</string>
+    <string name="cd_play_endless">Jugar Sin Fin</string>
+    <string name="cd_select_controls">Seleccionar controles %1$s</string>
+    <string name="cd_open_calibration">Abrir Estudio de Calibración</string>
+    <string name="cd_pause_game">Pausar partida</string>
+    <string name="cd_move_left">Mover a la izquierda</string>
+    <string name="cd_move_right">Mover a la derecha</string>
+    <string name="cd_soft_drop">Caída suave</string>
+    <string name="cd_vault_piece">Guardar pieza</string>
+    <string name="cd_hard_drop">Caída rápida</string>
+    <string name="cd_rotate_ccw">Girar a la izquierda</string>
+    <string name="cd_rotate_cw">Girar a la derecha</string>
+</resources>

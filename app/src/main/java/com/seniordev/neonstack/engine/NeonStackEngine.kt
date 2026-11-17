@@ -340,7 +340,7 @@ class NeonStackEngine(
             if (mode == GameMode.ROGUE && rogueState.hasRelic(RelicId.QUAD_SURGE) && completedRows.size == 4) {
                 scoreSystem.addHardDropPoints(reward.points * 2)
                 board.clearRows(listOf(Board.TOTAL_ROWS - 1))
-                reward = reward.copy(message = "QUAD SURGE 3X!")
+                reward = reward.copy(message = "QUAD SURGE 3X!", isQuadSurge = true)
             }
 
             emitEvent(GameEvent.LinesCleared(reward, completedRows))

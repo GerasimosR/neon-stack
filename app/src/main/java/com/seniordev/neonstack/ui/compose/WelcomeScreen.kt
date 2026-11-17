@@ -26,6 +26,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
@@ -38,6 +39,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.seniordev.neonstack.R
 import com.seniordev.neonstack.data.ControlMode
 import com.seniordev.neonstack.engine.BlockShape
 import com.seniordev.neonstack.engine.RotationState
@@ -66,6 +68,8 @@ fun WelcomeScreen(
     initialSettingsOpen: Boolean = false
 ) {
     var isSettingsOpen by remember { mutableStateOf(initialSettingsOpen) }
+    val cdHallOfFame = stringResource(R.string.cd_open_hall_of_fame)
+    val cdSettings = stringResource(R.string.cd_open_settings)
 
     Box(
         modifier = modifier
@@ -106,7 +110,7 @@ fun WelcomeScreen(
                             .border(1.dp, HairlineBorder, RoundedCornerShape(21.dp))
                             .clickable(onClick = onOpenLeaderboard)
                             .semantics {
-                                contentDescription = "Open Hall of Fame"
+                                contentDescription = cdHallOfFame
                                 role = Role.Button
                             }
                             .padding(horizontal = 14.dp),
@@ -115,12 +119,13 @@ fun WelcomeScreen(
                         TrophyVectorIcon(tint = AccentYellow, size = 18.dp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "HALL OF FAME",
+                            text = stringResource(R.string.hall_of_fame),
                             color = TextPrimary.copy(alpha = 0.92f),
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             letterSpacing = 1.sp,
-                            maxLines = 1
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
 
@@ -132,7 +137,7 @@ fun WelcomeScreen(
                             .border(1.dp, HairlineBorder, CircleShape)
                             .clickable { isSettingsOpen = true }
                             .semantics {
-                                contentDescription = "Open Settings"
+                                contentDescription = cdSettings
                                 role = Role.Button
                             },
                         contentAlignment = Alignment.Center
@@ -176,7 +181,7 @@ fun WelcomeScreen(
                     Spacer(modifier = Modifier.height(18.dp))
 
                     Text(
-                        text = "NEON STACK",
+                        text = stringResource(R.string.brand_title),
                         color = TextPrimary,
                         fontSize = 36.sp,
                         fontWeight = FontWeight.Black,
@@ -198,11 +203,12 @@ fun WelcomeScreen(
                                 .background(AccentCyan.copy(alpha = 0.45f))
                         )
                         Text(
-                            text = "ARCADE EDITION",
+                            text = stringResource(R.string.brand_subtitle),
                             color = AccentCyan.copy(alpha = 0.88f),
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            letterSpacing = 3.sp
+                            letterSpacing = 2.6.sp,
+                            maxLines = 1
                         )
                         Box(
                             modifier = Modifier
@@ -223,55 +229,55 @@ fun WelcomeScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         Text(
-                            text = "CHOOSE MODE",
+                            text = stringResource(R.string.choose_mode),
                             color = TextSecondary,
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
-                            letterSpacing = 2.2.sp,
+                            letterSpacing = 2.sp,
                             modifier = Modifier.padding(start = 4.dp)
                         )
 
                         val rogueStatText = when {
                             state.rogueBestFloor > 0 && state.rogueRuns > 0 ->
-                                "BEST FLOOR ${state.rogueBestFloor}  •  ${state.rogueRuns} RUNS"
+                                stringResource(R.string.mode_rogue_stat_floor_runs, state.rogueBestFloor, state.rogueRuns)
                             state.rogueBestFloor > 0 ->
-                                "BEST FLOOR ${state.rogueBestFloor}"
+                                stringResource(R.string.mode_rogue_stat_floor, state.rogueBestFloor)
                             state.rogueRuns > 0 ->
-                                "${state.rogueRuns} RUNS  •  9 RELICS"
+                                stringResource(R.string.mode_rogue_stat_runs, state.rogueRuns)
                             else ->
-                                "9 RELICS  •  BOSS EVERY 3RD FLOOR"
+                                stringResource(R.string.mode_rogue_stat_default)
                         }
 
                         ModeLaunchCard(
-                            title = "ROGUE SPIRE",
-                            badge = "DECKBUILDER",
+                            title = stringResource(R.string.mode_rogue_title),
+                            badge = stringResource(R.string.mode_rogue_badge),
                             badgeTextColor = RogueBadgeText,
-                            subtitle = "Floor Quotas • Relics • Bosses",
+                            subtitle = stringResource(R.string.mode_rogue_subtitle),
                             statText = rogueStatText,
                             statColor = if (state.rogueBestFloor > 0) RogueBadgeText else TextSecondary,
                             accentColor = RogueAccent,
                             icon = { LightningVectorIcon(tint = RogueAccent, size = 24.dp) },
-                            contentDescription = "Play Rogue Spire Mode",
+                            contentDescription = stringResource(R.string.cd_play_rogue),
                             onClick = onStartRogue
                         )
 
                         val classicBest = maxOf(state.classicBestScore, state.highScore)
                         val classicStatText = if (classicBest > 0L) {
-                            "BEST  %,d".format(classicBest)
+                            stringResource(R.string.mode_endless_stat_best, "%,d".format(classicBest))
                         } else {
-                            "9×16 ENDLESS ARCADE"
+                            stringResource(R.string.mode_endless_stat_default)
                         }
 
                         ModeLaunchCard(
-                            title = "ENDLESS",
-                            badge = "9×16 ARCADE",
+                            title = stringResource(R.string.mode_endless_title),
+                            badge = stringResource(R.string.mode_endless_badge),
                             badgeTextColor = ClassicBadgeText,
-                            subtitle = "12-Bag Polyominoes • Overclock Spins",
+                            subtitle = stringResource(R.string.mode_endless_subtitle),
                             statText = classicStatText,
                             statColor = if (classicBest > 0L) AccentYellow else TextSecondary,
                             accentColor = AccentCyan,
                             icon = { EndlessBlocksVectorIcon(tint = AccentCyan, size = 26.dp) },
-                            contentDescription = "Play Endless Mode",
+                            contentDescription = stringResource(R.string.cd_play_endless),
                             onClick = onStartClassic
                         )
                     }
@@ -288,9 +294,9 @@ fun WelcomeScreen(
                         )
 
                         val controlHint = if (state.controlMode == ControlMode.GESTURES) {
-                            "Drag to move • Tap to rotate • Flick down to slam"
+                            stringResource(R.string.control_hint_gestures)
                         } else {
-                            "Dual-thumb arcade pad • Tap VAULT anytime"
+                            stringResource(R.string.control_hint_pad)
                         }
                         Text(
                             text = controlHint,
@@ -369,7 +375,7 @@ private fun ModeLaunchCard(
             .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Mode Emblem (clean tinted surface without redundant inner border)
+        // Mode Emblem
         Box(
             modifier = Modifier
                 .size(50.dp)
@@ -388,10 +394,12 @@ private fun ModeLaunchCard(
                 Text(
                     text = title,
                     color = TextPrimary,
-                    fontSize = 18.sp,
+                    fontSize = 17.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 0.8.sp,
-                    maxLines = 1
+                    letterSpacing = 0.6.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f, fill = false)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Box(
@@ -405,7 +413,7 @@ private fun ModeLaunchCard(
                         color = badgeTextColor,
                         fontSize = 9.sp,
                         fontWeight = FontWeight.Bold,
-                        letterSpacing = 0.7.sp,
+                        letterSpacing = 0.6.sp,
                         maxLines = 1
                     )
                 }
@@ -428,7 +436,7 @@ private fun ModeLaunchCard(
                 color = statColor,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.ExtraBold,
-                letterSpacing = 1.sp,
+                letterSpacing = 0.8.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -468,13 +476,13 @@ private fun ControlModeToggleBar(
         horizontalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         ControlModeOption(
-            label = "ARCADE PAD",
+            label = stringResource(R.string.control_arcade_pad),
             selected = selectedMode == ControlMode.ARCADE_PAD,
             onClick = { onSelectMode(ControlMode.ARCADE_PAD) },
             modifier = Modifier.weight(1f)
         )
         ControlModeOption(
-            label = "GESTURES",
+            label = stringResource(R.string.control_gestures),
             selected = selectedMode == ControlMode.GESTURES,
             onClick = { onSelectMode(ControlMode.GESTURES) },
             modifier = Modifier.weight(1f)
@@ -489,6 +497,7 @@ private fun ControlModeOption(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val cd = stringResource(R.string.cd_select_controls, label)
     Box(
         modifier = modifier
             .height(38.dp)
@@ -496,7 +505,7 @@ private fun ControlModeOption(
             .background(if (selected) AccentCyan.copy(alpha = 0.18f) else Color.Transparent)
             .clickable(onClick = onClick)
             .semantics {
-                contentDescription = "Select $label controls"
+                contentDescription = cd
                 role = Role.Tab
             },
         contentAlignment = Alignment.Center
@@ -506,7 +515,7 @@ private fun ControlModeOption(
             color = if (selected) ClassicBadgeText else TextSecondary,
             fontSize = 11.sp,
             fontWeight = FontWeight.ExtraBold,
-            letterSpacing = 0.9.sp,
+            letterSpacing = 0.7.sp,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
@@ -524,6 +533,10 @@ private fun WelcomeSettingsDialog(
     onOpenCalibration: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    var selectedLangTag by remember { mutableStateOf(getCurrentAppLanguageTag()) }
+    val cdClose = stringResource(R.string.cd_close_settings)
+    val cdCalibration = stringResource(R.string.cd_open_calibration)
+
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
@@ -534,6 +547,7 @@ private fun WelcomeSettingsDialog(
                 .clip(RoundedCornerShape(22.dp))
                 .background(BgCard)
                 .border(1.5.dp, HairlineBorder, RoundedCornerShape(22.dp))
+                .verticalScroll(rememberScrollState())
                 .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -547,11 +561,11 @@ private fun WelcomeSettingsDialog(
                     SettingsGearVectorIcon(tint = AccentCyan, size = 18.dp)
                     Spacer(modifier = Modifier.width(10.dp))
                     Text(
-                        text = "SETTINGS",
+                        text = stringResource(R.string.settings),
                         color = TextPrimary,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 1.6.sp
+                        letterSpacing = 1.4.sp
                     )
                 }
                 Box(
@@ -561,7 +575,7 @@ private fun WelcomeSettingsDialog(
                         .background(BtnNormal)
                         .clickable(onClick = onDismiss)
                         .semantics {
-                            contentDescription = "Close Settings"
+                            contentDescription = cdClose
                             role = Role.Button
                         },
                     contentAlignment = Alignment.Center
@@ -579,32 +593,91 @@ private fun WelcomeSettingsDialog(
                     .padding(horizontal = 14.dp, vertical = 6.dp)
             ) {
                 SettingsToggleRow(
-                    title = "Sound FX",
-                    subtitle = "Synthesized arcade effects",
+                    title = stringResource(R.string.sound),
+                    subtitle = stringResource(R.string.sound_subtitle),
                     checked = state.isSoundEnabled,
                     onCheckedChange = onToggleSound
                 )
                 SettingsDivider()
                 SettingsToggleRow(
-                    title = "Chiptune Music",
-                    subtitle = "Dynamic level-reactive BGM",
+                    title = stringResource(R.string.music),
+                    subtitle = stringResource(R.string.music_subtitle),
                     checked = state.isMusicEnabled,
                     onCheckedChange = onToggleMusic
                 )
                 SettingsDivider()
                 SettingsToggleRow(
-                    title = "Haptics",
-                    subtitle = "Tactile lock & line-clear feedback",
+                    title = stringResource(R.string.haptics),
+                    subtitle = stringResource(R.string.haptics_subtitle),
                     checked = state.isHapticsEnabled,
                     onCheckedChange = onToggleHaptics
                 )
                 SettingsDivider()
                 SettingsToggleRow(
-                    title = "Retro CRT Scanlines",
-                    subtitle = "Subtle phosphor screen shader",
+                    title = stringResource(R.string.crt_filter),
+                    subtitle = stringResource(R.string.crt_subtitle),
                     checked = state.isCrtFilterEnabled,
                     onCheckedChange = onToggleCrtFilter
                 )
+            }
+
+            // Per-App Language Picker (EN / EL / ES / DE / FR / JA / Auto)
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(BgMain.copy(alpha = 0.65f))
+                    .padding(horizontal = 12.dp, vertical = 10.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.language_label),
+                    color = TextSecondary,
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 1.4.sp
+                )
+                val rows = remember { SupportedAppLanguages.chunked(4) }
+                rows.forEach { rowItems ->
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        rowItems.forEach { option ->
+                            val isSelected = selectedLangTag == option.tag
+                            val label = if (option.tag.isEmpty()) stringResource(R.string.language_auto) else option.shortLabel
+                            Box(
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(32.dp)
+                                    .clip(RoundedCornerShape(9.dp))
+                                    .background(if (isSelected) AccentCyan.copy(alpha = 0.20f) else BtnNormal.copy(alpha = 0.7f))
+                                    .border(
+                                        width = 1.dp,
+                                        color = if (isSelected) AccentCyan.copy(alpha = 0.75f) else Color.Transparent,
+                                        shape = RoundedCornerShape(9.dp)
+                                    )
+                                    .clickable {
+                                        selectedLangTag = option.tag
+                                        setAppLanguageTag(option.tag)
+                                    },
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = label,
+                                    color = if (isSelected) ClassicBadgeText else TextSecondary,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                            }
+                        }
+                        repeat(4 - rowItems.size) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
+                    }
+                }
             }
 
             // Control Mode
@@ -621,7 +694,7 @@ private fun WelcomeSettingsDialog(
                     .background(BtnNormal)
                     .clickable(onClick = onOpenCalibration)
                     .semantics {
-                        contentDescription = "Open Calibration Studio"
+                        contentDescription = cdCalibration
                         role = Role.Button
                     }
                     .padding(horizontal = 14.dp, vertical = 12.dp),
@@ -639,14 +712,21 @@ private fun WelcomeSettingsDialog(
                 Spacer(modifier = Modifier.width(12.dp))
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = "CALIBRATION STUDIO",
+                        text = stringResource(R.string.calibration_studio),
                         color = TextPrimary,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        letterSpacing = 0.8.sp
+                        letterSpacing = 0.8.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Text(
-                        text = "DAS ${state.dasDelayMs}ms • ARR ${state.arrRateMs}ms • Drop ${state.softDropRateMs}ms",
+                        text = stringResource(
+                            R.string.calibration_summary,
+                            state.dasDelayMs,
+                            state.arrRateMs,
+                            state.softDropRateMs
+                        ),
                         color = TextSecondary,
                         fontSize = 11.sp,
                         maxLines = 1,
@@ -678,7 +758,9 @@ private fun SettingsToggleRow(
                 text = title,
                 color = TextPrimary,
                 fontSize = 14.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = subtitle,
