@@ -4,7 +4,7 @@ import java.util.LinkedList
 import java.util.Random
 
 /**
- * Fair 9-Bag Prism Randomizer ensuring all 9 unique shapes appear once per cycle.
+ * Fair 12-Bag Polyomino Randomizer ensuring all 12 unique shapes appear once per cycle.
  */
 class BagRandomizer(private val random: Random = Random()) {
     private val queue = LinkedList<BlockShape>()

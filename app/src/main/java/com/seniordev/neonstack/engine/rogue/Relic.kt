@@ -65,7 +65,7 @@ data class Relic(
             Relic(
                 id = RelicId.GOLDEN_I_BAG,
                 name = "Beam Conduit",
-                description = "Injects an additional straight Beam into every 9-piece bag cycle.",
+                description = "Injects an additional straight Beam into every 12-piece bag cycle.",
                 icon = "diamond",
                 rarity = RelicRarity.LEGENDARY
             ),

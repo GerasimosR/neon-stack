@@ -7,15 +7,27 @@ import org.junit.Test
 class NeonStackEngineTest {
 
     @Test
-    fun test9BagRandomizerDistribution() {
+    fun test12BagPolyominoDistributionAndGeometry() {
         val randomizer = BagRandomizer()
-        val first9 = (1..9).map { randomizer.nextPiece() }.toSet()
-        assertEquals("First 9 pieces must contain all 9 unique prism shapes", 9, first9.size)
-        assertTrue("Roster must include signature 3-cell ELBOW", first9.contains(BlockShape.ELBOW))
-        assertTrue("Roster must include signature 3-cell PULSE", first9.contains(BlockShape.PULSE))
+        val first12 = (1..12).map { randomizer.nextPiece() }.toSet()
+        assertEquals("First 12 pieces must contain all 12 unique polyomino shapes", 12, first12.size)
+        assertTrue("Roster must include 2-cell SPARK domino", first12.contains(BlockShape.SPARK))
+        assertTrue("Roster must include 3-cell ELBOW", first12.contains(BlockShape.ELBOW))
+        assertTrue("Roster must include 3-cell PULSE", first12.contains(BlockShape.PULSE))
+        assertTrue("Roster must include 5-cell Ubongo THUMB (P)", first12.contains(BlockShape.THUMB))
+        assertTrue("Roster must include 5-cell Ubongo ARCH (U)", first12.contains(BlockShape.ARCH))
 
-        val next9 = (1..9).map { randomizer.nextPiece() }.toSet()
-        assertEquals("Next 9 pieces must also contain all 9 unique prism shapes", 9, next9.size)
+        val next12 = (1..12).map { randomizer.nextPiece() }.toSet()
+        assertEquals("Next 12 pieces must also contain all 12 unique polyomino shapes", 12, next12.size)
+
+        // Verify exact cell counts across all 4 rotation states for new polyominoes
+        for (state in RotationState.entries) {
+            assertEquals("SPARK must have 2 unique cells", 2, BlockShape.SPARK.getMinos(state).toSet().size)
+            assertEquals("ELBOW must have 3 unique cells", 3, BlockShape.ELBOW.getMinos(state).toSet().size)
+            assertEquals("PULSE must have 3 unique cells", 3, BlockShape.PULSE.getMinos(state).toSet().size)
+            assertEquals("THUMB must have 5 unique cells", 5, BlockShape.THUMB.getMinos(state).toSet().size)
+            assertEquals("ARCH must have 5 unique cells", 5, BlockShape.ARCH.getMinos(state).toSet().size)
+        }
     }
 
     @Test

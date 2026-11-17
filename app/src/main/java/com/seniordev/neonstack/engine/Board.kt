@@ -139,8 +139,8 @@ class Board {
                 }
                 if ((front1 && front2) || lastKickIndex >= 3) SpinBonus.FULL else SpinBonus.MINI
             }
-            BlockShape.ELBOW -> {
-                // Check if the 3-cell elbow was tucked under an overhang (occupied block directly above any cell)
+            BlockShape.ELBOW, BlockShape.THUMB, BlockShape.ARCH -> {
+                // Reward tight overhang tucks on signature 3-cell and 5-cell polyominoes
                 val minos = piece.getWorldMinos()
                 val minoSet = minos.toSet()
                 val hasOverhang = minos.any { m ->

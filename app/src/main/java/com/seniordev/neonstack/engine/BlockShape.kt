@@ -1,9 +1,10 @@
 package com.seniordev.neonstack.engine
 
 /**
- * Original 9-Shape Prism Roster for Neon Stack's 9x16 playfield.
- * Combines 7 four-cell poly-cores with 2 signature three-cell shapes (ELBOW and PULSE)
- * using a custom Synthwave Prism color palette.
+ * Original 12-Shape Polyomino Roster for Neon Stack's 9x16 playfield.
+ * Blends 2-cell (SPARK), 3-cell (ELBOW, PULSE), 4-cell poly-cores, and
+ * iconic 5-cell Ubongo-style pentominoes (THUMB P-piece and ARCH U-piece)
+ * in a custom Synthwave Prism color palette.
  */
 enum class BlockShape(
     val id: Int,
@@ -88,7 +89,7 @@ enum class BlockShape(
             arrayOf(Point(1, 0), Point(0, 1), Point(1, 1), Point(0, 2))
         )
     ),
-    // Signature 3-Cell Neon Elbow (tactical corner filler & Overclock Spin piece)
+    // 3-Cell Neon Elbow (tactical corner filler)
     ELBOW(
         id = 8,
         colorHex = 0xFFFF3D8BL, // Electric Rose
@@ -100,7 +101,7 @@ enum class BlockShape(
             arrayOf(Point(1, 0), Point(0, 1), Point(1, 1))
         )
     ),
-    // Signature 3-Cell Neon Pulse (compact tri-beam tailored for 9-column grids)
+    // 3-Cell Neon Pulse (compact tri-beam tailored for 9-column grids)
     PULSE(
         id = 9,
         colorHex = 0xFFFFD166L, // Radiant Gold
@@ -110,6 +111,42 @@ enum class BlockShape(
             arrayOf(Point(1, 0), Point(1, 1), Point(1, 2)),
             arrayOf(Point(0, 1), Point(1, 1), Point(2, 1)),
             arrayOf(Point(1, 0), Point(1, 1), Point(1, 2))
+        )
+    ),
+    // 2-Cell Spark Domino (precision gap-filler balancing the 5-cell pentominoes)
+    SPARK(
+        id = 10,
+        colorHex = 0xFF00F0FFL, // Ice Cyan
+        initialSpawnOffset = Point(3, 0),
+        stateMinos = arrayOf(
+            arrayOf(Point(0, 1), Point(1, 1)),
+            arrayOf(Point(1, 0), Point(1, 1)),
+            arrayOf(Point(0, 1), Point(1, 1)),
+            arrayOf(Point(0, 0), Point(0, 1))
+        )
+    ),
+    // 5-Cell Ubongo P-Pentomino (dense interlocking prism thumb)
+    THUMB(
+        id = 11,
+        colorHex = 0xFFFF6D00L, // Solar Orange
+        initialSpawnOffset = Point(3, 0),
+        stateMinos = arrayOf(
+            arrayOf(Point(0, 0), Point(1, 0), Point(2, 0), Point(0, 1), Point(1, 1)),
+            arrayOf(Point(1, 0), Point(2, 0), Point(1, 1), Point(2, 1), Point(2, 2)),
+            arrayOf(Point(1, 1), Point(2, 1), Point(0, 2), Point(1, 2), Point(2, 2)),
+            arrayOf(Point(0, 0), Point(0, 1), Point(1, 1), Point(0, 2), Point(1, 2))
+        )
+    ),
+    // 5-Cell Ubongo U-Pentomino (iconic bridge/arch that straddles towers)
+    ARCH(
+        id = 12,
+        colorHex = 0xFF00E676L, // Emerald Pulse
+        initialSpawnOffset = Point(3, 0),
+        stateMinos = arrayOf(
+            arrayOf(Point(0, 0), Point(1, 0), Point(2, 0), Point(0, 1), Point(2, 1)),
+            arrayOf(Point(1, 0), Point(2, 0), Point(2, 1), Point(1, 2), Point(2, 2)),
+            arrayOf(Point(0, 1), Point(2, 1), Point(0, 2), Point(1, 2), Point(2, 2)),
+            arrayOf(Point(0, 0), Point(1, 0), Point(0, 1), Point(0, 2), Point(1, 2))
         )
     );
 

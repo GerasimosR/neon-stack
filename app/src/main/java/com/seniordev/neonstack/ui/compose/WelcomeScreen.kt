@@ -266,7 +266,7 @@ fun WelcomeScreen(
                             title = "ENDLESS",
                             badge = "9×16 ARCADE",
                             badgeTextColor = ClassicBadgeText,
-                            subtitle = "9-Bag • Overclock Spins • Speed Scaling",
+                            subtitle = "12-Bag Polyominoes • Overclock Spins",
                             statText = classicStatText,
                             statColor = if (classicBest > 0L) AccentYellow else TextSecondary,
                             accentColor = AccentCyan,
@@ -738,13 +738,13 @@ private fun WelcomeBackdropCanvas(modifier: Modifier = Modifier) {
 
     val pieces = remember {
         listOf(
-            BackdropPiece(BlockShape.BEAM, RotationState.CLOCKWISE, 0.08f, 0.10f, 1.0f, 18f, 0.11f),
-            BackdropPiece(BlockShape.CROWN, RotationState.SPAWN, 0.28f, 0.45f, 2.0f, 20f, 0.10f),
+            BackdropPiece(BlockShape.ARCH, RotationState.SPAWN, 0.08f, 0.10f, 1.0f, 18f, 0.11f),
+            BackdropPiece(BlockShape.THUMB, RotationState.CLOCKWISE, 0.28f, 0.45f, 2.0f, 19f, 0.10f),
             BackdropPiece(BlockShape.ELBOW, RotationState.FLIP, 0.54f, 0.75f, 1.0f, 18f, 0.10f),
             BackdropPiece(BlockShape.PULSE, RotationState.CLOCKWISE, 0.78f, 0.25f, 2.0f, 19f, 0.10f),
-            BackdropPiece(BlockShape.CORE, RotationState.SPAWN, 0.88f, 0.65f, 1.0f, 16f, 0.10f),
-            BackdropPiece(BlockShape.ZAG, RotationState.SPAWN, 0.15f, 0.82f, 2.0f, 17f, 0.08f),
-            BackdropPiece(BlockShape.HOOK_L, RotationState.COUNTER_CLOCKWISE, 0.68f, 0.05f, 1.0f, 18f, 0.09f)
+            BackdropPiece(BlockShape.SPARK, RotationState.SPAWN, 0.88f, 0.65f, 1.0f, 17f, 0.11f),
+            BackdropPiece(BlockShape.CROWN, RotationState.SPAWN, 0.15f, 0.82f, 2.0f, 17f, 0.08f),
+            BackdropPiece(BlockShape.BEAM, RotationState.COUNTER_CLOCKWISE, 0.68f, 0.05f, 1.0f, 18f, 0.09f)
         )
     }
 

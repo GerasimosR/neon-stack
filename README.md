@@ -14,14 +14,14 @@ An original neon roguelike block deckbuilder and cyber-arcade game for Android, 
   - **Chrono Buffer** *(Common)*: Expands Lock Delay to 850ms and permits up to 25 movement/rotation resets.
   - **Quad Surge** *(Legendary)*: 4-line clears award 3x points and instantly vaporize the bottom-most row.
   - **Dual Vault Chamber** *(Rare)*: Enables vaulting pieces twice before requiring a lock.
-  - **Beam Conduit** *(Legendary)*: Injects an additional straight Beam into every 9-piece bag cycle.
+  - **Beam Conduit** *(Legendary)*: Injects an additional straight Beam into every 12-piece bag cycle.
   - **Kinetic Core** *(Rare)*: Hard dropping from 10+ rows height triggers a shockwave clearing adjacent blocks.
   - **Laser Cleaner** *(Common)*: Vaporizes the bottom-most row automatically after completing each floor.
   - **Gravity Anchor** *(Common)*: Soft drop moves at hyper-speed and scores 3 points per cell.
 
 ### 2. Endless Mode (9×16 Arcade)
-- **Original 9×16 Mobile-Native Playfield** paired with a **9-Shape Prism Roster** (7 four-cell poly-cores plus two signature 3-cell shapes: **Elbow** and **Pulse**).
-- **Custom Omni-Kick Table & Overclock Spins:** Rewards tight rotational tucks on both **Crown** and **Elbow** pieces, with Surge ($1.5\times$) and Chain multipliers (`150 / 400 / 750 / 1200` base scoring curve).
+- **Original 9×16 Mobile-Native Playfield** paired with a **12-Shape Ubongo-Inspired Polyomino Roster**: 2-cell **Spark** domino, 3-cell **Elbow** & **Pulse**, 7 four-cell poly-cores, plus iconic 5-cell pentominoes (**Thumb** P-piece and **Arch** U-piece).
+- **Custom Omni-Kick Table & Overclock Spins:** Rewards tight rotational tucks on **Crown**, **Elbow**, **Thumb**, and **Arch** pieces, with Surge ($1.5\times$) and Chain multipliers (`150 / 400 / 750 / 1200` base scoring curve).
 
 ---
 
