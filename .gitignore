@@ -1,0 +1,32 @@
+# Gradle / Build outputs
+.gradle/
+.gradle_home/
+.kotlin/
+build/
+app/build/
+*/build/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+captures/
+.cxx/
+.externalNativeBuild/
+
+# Local environment & signing
+local.properties
+*.jks
+*.keystore
+
+# Binary build artifacts
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+
+# OS / Misc
+.DS_Store
+Thumbs.db

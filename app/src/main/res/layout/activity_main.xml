@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_main"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="12dp">
+
+    <!-- Top Navigation / Header Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvAppTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="NEON STACK"
+            android:textColor="@color/accent_cyan"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/card_stat_bg"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BEST: "
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvHighScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/accent_yellow"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btnPause"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/btn_arcade_default"
+            android:src="@android:drawable/ic_media_pause"
+            app:tint="@color/text_primary"
+            android:contentDescription="@string/pause" />
+    </LinearLayout>
+
+    <!-- Score & Stats Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:weightSum="3">
+
+        <!-- Score Card -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/card_stat_bg"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginEnd="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score_label"
+                android:textColor="@color/text_secondary"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1" />
+
+            <TextView
+                android:id="@+id/tvScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/text_primary"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Level Card -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/card_stat_bg"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/level_label"
+                android:textColor="@color/text_secondary"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1" />
+
+            <TextView
+                android:id="@+id/tvLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="@color/accent_cyan"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Lines Card -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/card_stat_bg"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_marginStart="4dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lines_label"
+                android:textColor="@color/text_secondary"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:letterSpacing="0.1" />
+
+            <TextView
+                android:id="@+id/tvLines"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@color/accent_pink"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Main Game Board Canvas View -->
+    <com.seniordev.neonstack.ui.NeonStackCanvasView
+        android:id="@+id/gameCanvasView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp" />
+
+    <!-- Virtual Gamepad Controls Area -->
+    <LinearLayout
+        android:id="@+id/gamepadLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Top row of controls: Hold, Hard Drop, Rotate CW -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Hold Button -->
+            <Button
+                android:id="@+id/btnHold"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="⟳ HOLD"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:background="@drawable/btn_arcade_default"
+                android:layout_marginEnd="6dp" />
+
+            <!-- Hard Drop (SLAM) Button -->
+            <Button
+                android:id="@+id/btnHardDrop"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.6"
+                android:text="⚡ HARD DROP"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:background="@drawable/btn_arcade_hard_drop"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp" />
+
+            <!-- Rotate CCW Button -->
+            <Button
+                android:id="@+id/btnRotateCcw"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.8"
+                android:text="↺"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/text_primary"
+                android:background="@drawable/btn_arcade_default"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="4dp" />
+
+            <!-- Rotate CW Button -->
+            <Button
+                android:id="@+id/btnRotateCw"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="↻ ROT"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/accent_cyan"
+                android:background="@drawable/btn_arcade_default"
+                android:layout_marginStart="2dp" />
+        </LinearLayout>
+
+        <!-- Bottom row of controls: D-Pad (Left, Soft Drop, Right) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="6dp"
+            android:gravity="center">
+
+            <!-- Move Left -->
+            <Button
+                android:id="@+id/btnLeft"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="◄"
+                android:textSize="22sp"
+                android:textColor="@color/text_primary"
+                android:background="@drawable/btn_arcade_default"
+                android:layout_marginEnd="6dp" />
+
+            <!-- Soft Drop Down -->
+            <Button
+                android:id="@+id/btnDown"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.2"
+                android:text="▼ DROP"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/accent_yellow"
+                android:background="@drawable/btn_arcade_default"
+                android:layout_marginStart="3dp"
+                android:layout_marginEnd="3dp" />
+
+            <!-- Move Right -->
+            <Button
+                android:id="@+id/btnRight"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="►"
+                android:textSize="22sp"
+                android:textColor="@color/text_primary"
+                android:background="@drawable/btn_arcade_default"
+                android:layout_marginStart="6dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

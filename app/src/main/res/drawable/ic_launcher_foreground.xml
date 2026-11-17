@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Neon Stack Interlocked Prism Crest -->
+    <!-- Cyan L-pillar (left column + bottom-center) -->
+    <path
+        android:fillColor="#00E5FF"
+        android:pathData="M24,24 h18 v18 h-18 z M24,45 h18 v18 h-18 z M24,66 h18 v18 h-18 z M45,66 h18 v18 h-18 z" />
+    <!-- Radiant Magenta crown (top-center, top-right, center) -->
+    <path
+        android:fillColor="#E040FB"
+        android:pathData="M45,24 h18 v18 h-18 z M66,24 h18 v18 h-18 z M45,45 h18 v18 h-18 z" />
+    <!-- Gold keystone accent (bottom-right) -->
+    <path
+        android:fillColor="#FFD700"
+        android:pathData="M66,66 h18 v18 h-18 z" />
+
+    <!-- Specular jewel top highlights -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.30"
+        android:pathData="M26,26 h14 v4 h-14 z M47,26 h14 v4 h-14 z M68,26 h14 v4 h-14 z M26,47 h14 v4 h-14 z M47,47 h14 v4 h-14 z M26,68 h14 v4 h-14 z M47,68 h14 v4 h-14 z M68,68 h14 v4 h-14 z" />
+</vector>

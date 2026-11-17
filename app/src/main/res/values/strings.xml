@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Neon Stack</string>
+    <string name="score_label">SCORE</string>
+    <string name="best_label">BEST</string>
+    <string name="level_label">LEVEL</string>
+    <string name="lines_label">LINES</string>
+    <string name="pause">PAUSE</string>
+    <string name="resume">RESUME</string>
+    <string name="restart">RESTART</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="final_score">Final Score</string>
+    <string name="new_high_score">NEW HIGH SCORE!</string>
+    <string name="hard_drop">HARD DROP</string>
+    <string name="hold">HOLD</string>
+    <string name="sound">Sound FX</string>
+    <string name="haptics">Vibration</string>
+    <string name="settings">SETTINGS</string>
+    <string name="quit">QUIT</string>
+</resources>
