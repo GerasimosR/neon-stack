@@ -1,0 +1,45 @@
+package com.neonstack.ui.mvi
+
+import com.neonstack.engine.BlockShape
+import com.neonstack.engine.GameStatus
+
+data class NeonStackUiState(
+    val status: GameStatus = GameStatus.READY,
+    val score: Long = 0,
+    val highScore: Long = 0,
+    val classicBestScore: Long = 0,
+    val rogueBestFloor: Int = 0,
+    val rogueRuns: Int = 0,
+    val level: Int = 1,
+    val lines: Int = 0,
+    val holdPiece: BlockShape? = null,
+    val canHold: Boolean = true,
+    val nextQueue: List<BlockShape> = emptyList(),
+    val isSoundEnabled: Boolean = true,
+    val isMusicEnabled: Boolean = true,
+    val isHapticsEnabled: Boolean = true,
+    val isCrtFilterEnabled: Boolean = false,
+    val controlMode: com.neonstack.data.ControlMode = com.neonstack.data.ControlMode.ARCADE_PAD,
+    val dasDelayMs: Long = 150L,
+    val arrRateMs: Long = 38L,
+    val softDropRateMs: Long = 40L,
+    val isCalibrationOpen: Boolean = false,
+    val isLeaderboardOpen: Boolean = false,
+    val leaderboardEntries: List<com.neonstack.data.LeaderboardEntry> = emptyList(),
+    val latestRankAchieved: Int? = null,
+    val gameMode: com.neonstack.engine.rogue.GameMode = com.neonstack.engine.rogue.GameMode.CLASSIC,
+    val currentFloor: Int = 1,
+    val linesRemainingOnFloor: Int = 8,
+    val targetLinesForFloor: Int = 8,
+    val isBossFloor: Boolean = false,
+    val activeRelics: List<com.neonstack.engine.rogue.Relic> = emptyList(),
+    val isDraftingRelic: Boolean = false,
+    val draftOptions: List<com.neonstack.engine.rogue.Relic> = emptyList(),
+    val isGameOver: Boolean = false,
+    val isPaused: Boolean = false,
+    val isNewHighScore: Boolean = false,
+    val quadsCount: Int = 0,
+    val spinsCount: Int = 0,
+    val gamesPlayed: Int = 0,
+    val countdownValue: Int = 0
+)

@@ -3,29 +3,29 @@
 # ===========================================================================
 
 # 1. Core Neon Stack Engine & Rules (Preserve data classes & enums)
--keep class com.seniordev.neonstack.engine.** { *; }
--keepclassmembers enum com.seniordev.neonstack.engine.** { *; }
+-keep class com.neonstack.engine.** { *; }
+-keepclassmembers enum com.neonstack.engine.** { *; }
 
 # 2. Rogue Spire Deckbuilder & Relic Catalog
--keep class com.seniordev.neonstack.engine.rogue.** { *; }
--keepclassmembers enum com.seniordev.neonstack.engine.rogue.** { *; }
+-keep class com.neonstack.engine.rogue.** { *; }
+-keepclassmembers enum com.neonstack.engine.rogue.** { *; }
 
 # 3. Data Persistence & Arcade Leaderboard Serialization
--keep class com.seniordev.neonstack.data.** { *; }
--keepclassmembers class com.seniordev.neonstack.data.LeaderboardEntry {
+-keep class com.neonstack.data.** { *; }
+-keepclassmembers class com.neonstack.data.LeaderboardEntry {
     <fields>;
     <init>(...);
 }
 
 # 4. MVI Architecture (UiState, Intent, UiEffects)
--keep class com.seniordev.neonstack.ui.mvi.** { *; }
+-keep class com.neonstack.ui.mvi.** { *; }
 
 # 5. AGSL Runtime Shaders & Hardware Visual FX
--keep class com.seniordev.neonstack.ui.shaders.** { *; }
--keep class com.seniordev.neonstack.ui.NeonStackCanvasView** { *; }
+-keep class com.neonstack.ui.shaders.** { *; }
+-keep class com.neonstack.ui.NeonStackCanvasView** { *; }
 
 # 6. Audio Synthesizer & Polyphonic Chiptune Engine
--keep class com.seniordev.neonstack.audio.** { *; }
+-keep class com.neonstack.audio.** { *; }
 
 # 7. Kotlin Coroutines & Flow
 -keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}

@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.seniordev.neonstack"
+    namespace = "com.neonstack"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.seniordev.neonstack"
+        applicationId = "com.neonstack"
         minSdk = 24
         targetSdk = 35
         versionCode = 1

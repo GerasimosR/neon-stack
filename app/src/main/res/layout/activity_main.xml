@@ -172,7 +172,7 @@
     </LinearLayout>
 
     <!-- Main Game Board Canvas View -->
-    <com.seniordev.neonstack.ui.NeonStackCanvasView
+    <com.neonstack.ui.NeonStackCanvasView
         android:id="@+id/gameCanvasView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
