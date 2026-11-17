@@ -15,7 +15,7 @@
     <string name="vault_label">DEPOT</string>
     <string name="queue_label">NÄCHSTE</string>
     <string name="slam_label">SLAM</string>
-    <string name="get_ready">BEREIT MACHEN</string>
+    <string name="get_ready">BEREIT?</string>
 
     <!-- Welcome Screen -->
     <string name="hall_of_fame">HALL OF FAME</string>
@@ -31,7 +31,7 @@
 
     <string name="mode_endless_title">ENDLOS</string>
     <string name="mode_endless_badge">9×16 ARCADE</string>
-    <string name="mode_endless_subtitle">12 Polyominos • Overclock-Spins</string>
+    <string name="mode_endless_subtitle">12 Formen • Overclock-Spins</string>
     <string name="mode_endless_short_badge">ENDLOS</string>
     <string name="mode_endless_stat_best">REKORD %1$s</string>
     <string name="mode_endless_stat_default">9×16 ENDLOS-ARCADE</string>
@@ -41,22 +41,22 @@
     <string name="control_gestures">GESTEN</string>
     <string name="control_pad_short">PAD</string>
     <string name="control_touch_short">TOUCH</string>
-    <string name="control_hint_pad">Dual-Daumen-Pad • Tippe jederzeit auf DEPOT</string>
-    <string name="control_hint_gestures">Ziehen bewegen • Tippen drehen • Wischen fallen</string>
-    <string name="gesture_hud_hint">ZIEHEN • TIPPEN DREHEN • WISCHEN SLAM • DEPOT</string>
+    <string name="control_hint_pad">Arcade-Pad • Tippe jederzeit auf DEPOT</string>
+    <string name="control_hint_gestures">Ziehen: Bewegen • Tippen: Drehen • Wischen: Slam</string>
+    <string name="gesture_hud_hint">ZIEHEN: BEWEGEN • TIPPEN: DREHEN • WISCHEN: SLAM • DEPOT</string>
 
     <!-- Settings & Pause -->
     <string name="settings">EINSTELLUNGEN</string>
     <string name="language_label">SPRACHE</string>
     <string name="language_auto">AUTO</string>
     <string name="sound">Soundeffekte</string>
-    <string name="sound_subtitle">Synthetisierte Arcade-Effekte</string>
+    <string name="sound_subtitle">Retro-Arcade-Soundeffekte</string>
     <string name="music">Chiptune-Musik</string>
     <string name="music_subtitle">Dynamisches Tempo pro Level</string>
     <string name="haptics">Haptik</string>
-    <string name="haptics_subtitle">Vibration beim Einrasten &amp; Klären</string>
+    <string name="haptics_subtitle">Vibration beim Einrasten &amp; Auflösen</string>
     <string name="crt_filter">Retro-CRT-Filter</string>
-    <string name="crt_subtitle">Subtile Phosphor-Scanlines</string>
+    <string name="crt_subtitle">Subtiler Röhrenmonitor-Effekt</string>
     <string name="controls_label">Steuerung</string>
 
     <string name="pause">PAUSE</string>
@@ -94,9 +94,9 @@
     <string name="game_over">GAME OVER</string>
     <string name="final_score">Endpunktzahl:</string>
     <string name="best_score_colon">Bestleistung:</string>
-    <string name="lines_cleared_colon">Geklärte Reihen:</string>
+    <string name="lines_cleared_colon">Gelöschte Reihen:</string>
     <string name="level_reached_colon">Erreichtes Level:</string>
-    <string name="quads_spins_colon">Quads / Spins:</string>
+    <string name="quads_spins_colon">Vierer / Spins:</string>
     <string name="mode_colon">Modus:</string>
     <string name="floors_cleared_colon">Ebenen geschafft:</string>
     <string name="relics_drafted_colon">Relikte gewählt:</string>
@@ -112,37 +112,37 @@
 
     <!-- Relics -->
     <string name="relic_midas_name">Midas-Berührung</string>
-    <string name="relic_midas_desc">25% der Blöcke sind Golden. Jedes Klären bringt +400 Bonuspunkte.</string>
+    <string name="relic_midas_desc">25 % der Blöcke sind golden und bringen +400 Bonuspunkte beim Auflösen.</string>
     <string name="relic_drill_name">Überhang-Bohrer</string>
-    <string name="relic_drill_desc">Slam durchbohrt 1 blockierenden Überhang direkt unter dem Landepunkt.</string>
+    <string name="relic_drill_desc">Slam durchbohrt 1 Block direkt unter dem Landepunkt.</string>
     <string name="relic_chrono_name">Chrono-Puffer</string>
-    <string name="relic_chrono_desc">Erhöht Lock-Delay auf 850ms und erlaubt bis zu 25 Dreh-/Bewegungs-Resets.</string>
-    <string name="relic_surge_name">Quad-Welle</string>
-    <string name="relic_surge_desc">4-Reihen-Klären bringt 3x Punkte und löscht sofort die unterste Reihe.</string>
+    <string name="relic_chrono_desc">Erhöht die Einrastzeit auf 850 ms und erlaubt bis zu 25 Korrekturen.</string>
+    <string name="relic_surge_name">Vierer-Welle</string>
+    <string name="relic_surge_desc">4 Reihen auf einmal geben 3× Punkte und löschen sofort die unterste Reihe.</string>
     <string name="relic_dual_vault_name">Doppel-Depot</string>
-    <string name="relic_dual_vault_desc">Ermöglicht zweimaliges Tauschen im Depot vor dem Einrasten.</string>
-    <string name="relic_conduit_name">Strahl-Leitung</string>
-    <string name="relic_conduit_desc">Fügt jedem 12-Teile-Zyklus einen zusätzlichen geraden Strahl hinzu.</string>
+    <string name="relic_dual_vault_desc">Ermöglicht zweimaliges Tauschen im Depot, bevor ein Stein einrastet.</string>
+    <string name="relic_conduit_name">Laser-Leitung</string>
+    <string name="relic_conduit_desc">Fügt jedem 12er-Zyklus eine zusätzliche 4er-Leiste hinzu.</string>
     <string name="relic_bomb_name">Kinetik-Kern</string>
     <string name="relic_bomb_desc">Slam aus 10+ Reihen Höhe löst eine Schockwelle gegen Nachbarblöcke aus.</string>
     <string name="relic_laser_name">Laser-Reiniger</string>
     <string name="relic_laser_desc">Löscht automatisch die unterste Reihe nach Abschluss jeder Ebene.</string>
     <string name="relic_anchor_name">Schwerkraft-Anker</string>
-    <string name="relic_anchor_desc">Soft Drop bewegt sich mit Höchsttempo und gibt 3 Punkte pro Feld.</string>
+    <string name="relic_anchor_desc">Soft Drop fällt mit Höchsttempo und gibt 3 Punkte pro Feld.</string>
 
     <!-- Floating In-Game Clear Banners -->
     <string name="banner_single">EINZEL</string>
     <string name="banner_double">DOPPEL</string>
     <string name="banner_triple">DREIFACH</string>
-    <string name="banner_quad">QUAD CLEAR!</string>
-    <string name="banner_quad_surge">QUAD-WELLE 3X!</string>
-    <string name="banner_spin_mini">OVERCLOCK MINI!</string>
-    <string name="banner_spin_full">OVERCLOCK SPIN!</string>
-    <string name="banner_spin_single">OVERCLOCK EINZEL!</string>
-    <string name="banner_spin_double">OVERCLOCK DOPPEL!</string>
-    <string name="banner_spin_triple">OVERCLOCK DREIFACH!</string>
+    <string name="banner_quad">VIERFACH!</string>
+    <string name="banner_quad_surge">VIERER-WELLE 3×!</string>
+    <string name="banner_spin_mini">MINI-SPIN!</string>
+    <string name="banner_spin_full">OVERCLOCK-SPIN!</string>
+    <string name="banner_spin_single">OVERCLOCK 1×!</string>
+    <string name="banner_spin_double">OVERCLOCK 2×!</string>
+    <string name="banner_spin_triple">OVERCLOCK 3×!</string>
     <string name="banner_surge_prefix">SERIE %1$s</string>
-    <string name="banner_chain_suffix">%1$s (KETTE x%2$d)</string>
+    <string name="banner_chain_suffix">%1$s (KETTE ×%2$d)</string>
 
     <!-- Accessibility -->
     <string name="cd_open_hall_of_fame">Hall of Fame öffnen</string>
@@ -151,12 +151,12 @@
     <string name="cd_play_rogue">Rogue Spire spielen</string>
     <string name="cd_play_endless">Endlos-Modus spielen</string>
     <string name="cd_select_controls">%1$s-Steuerung wählen</string>
-    <string name="cd_open_calibration">Kalibrierungsstudio öffnen</string>
+    <string name="cd_open_calibration">Kalibrierung öffnen</string>
     <string name="cd_pause_game">Spiel pausieren</string>
     <string name="cd_move_left">Nach links bewegen</string>
     <string name="cd_move_right">Nach rechts bewegen</string>
     <string name="cd_soft_drop">Langsam fallen</string>
-    <string name="cd_vault_piece">Teil im Depot lagern</string>
+    <string name="cd_vault_piece">Stein im Depot lagern</string>
     <string name="cd_hard_drop">Sofort fallen (Slam)</string>
     <string name="cd_rotate_ccw">Gegen den Uhrzeigersinn drehen</string>
     <string name="cd_rotate_cw">Im Uhrzeigersinn drehen</string>

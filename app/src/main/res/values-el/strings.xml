@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Neon Stack</string>
     <string name="brand_title">NEON STACK</string>
-    <string name="brand_subtitle">ARCADE ΕΚΔΟΣΗ</string>
+    <string name="brand_subtitle">ΕΚΔΟΣΗ ARCADE</string>
 
     <!-- Top & HUD Labels -->
     <string name="score_label">ΣΚΟΡ</string>
@@ -12,9 +12,9 @@
     <string name="boss_label">ΑΡΧΗΓΟΣ</string>
     <string name="quota_label">ΣΤΟΧΟΣ</string>
     <string name="relics_label">ΚΕΙΜΗΛΙΑ:</string>
-    <string name="vault_label">ΘΥΡΙΔΑ</string>
+    <string name="vault_label">ΚΡΑΤΗΣΗ</string>
     <string name="queue_label">ΕΠΟΜΕΝΑ</string>
-    <string name="slam_label">ΒΟΥΤΙΑ</string>
+    <string name="slam_label">ΚΑΡΦΩΜΑ</string>
     <string name="get_ready">ΕΤΟΙΜΑΣΟΥ</string>
 
     <!-- Welcome Screen -->
@@ -27,11 +27,11 @@
     <string name="mode_rogue_stat_floor_runs">ΡΕΚΟΡ ΟΡΟΦΟΥ %1$d • %2$d ΓΥΡΟΙ</string>
     <string name="mode_rogue_stat_floor">ΡΕΚΟΡ ΟΡΟΦΟΥ %1$d</string>
     <string name="mode_rogue_stat_runs">%1$d ΓΥΡΟΙ • 9 ΚΕΙΜΗΛΙΑ</string>
-    <string name="mode_rogue_stat_default">9 ΚΕΙΜΗΛΙΑ • ΑΡΧΗΓΟΣ ΚΑΘΕ 3ο ΟΡΟΦΟ</string>
+    <string name="mode_rogue_stat_default">9 ΚΕΙΜΗΛΙΑ • ΑΡΧΗΓΟΣ ΑΝΑ 3 ΟΡΟΦΟΥΣ</string>
 
     <string name="mode_endless_title">ΑΤΕΛΕΙΩΤΟ</string>
     <string name="mode_endless_badge">9×16 ARCADE</string>
-    <string name="mode_endless_subtitle">12 Πολυόμινα • Overclock Περιστροφές</string>
+    <string name="mode_endless_subtitle">12 Σχήματα • Overclock Spins</string>
     <string name="mode_endless_short_badge">ΑΤΕΛΕΙΩΤΟ</string>
     <string name="mode_endless_stat_best">ΡΕΚΟΡ %1$s</string>
     <string name="mode_endless_stat_default">9×16 ΑΤΕΛΕΙΩΤΟ ARCADE</string>
@@ -41,41 +41,41 @@
     <string name="control_gestures">ΧΕΙΡΟΝΟΜΙΕΣ</string>
     <string name="control_pad_short">PAD</string>
     <string name="control_touch_short">ΑΦΗ</string>
-    <string name="control_hint_pad">Διπλό χειριστήριο • Πάτα ΘΥΡΙΔΑ όποτε θες</string>
-    <string name="control_hint_gestures">Σύρε για κίνηση • Πάτα περιστροφή • Κάτω για βουτιά</string>
-    <string name="gesture_hud_hint">ΣΥΡΕ ΚΙΝΗΣΗ • ΠΑΤΑ ΠΕΡΙΣΤΡΟΦΗ • ΚΑΤΩ ΒΟΥΤΙΑ • ΘΥΡΙΔΑ</string>
+    <string name="control_hint_pad">Arcade χειριστήριο • Πάτα ΚΡΑΤΗΣΗ όποτε θες</string>
+    <string name="control_hint_gestures">Σύρε: κίνηση • Πάτα: περιστροφή • Κάτω: κάρφωμα</string>
+    <string name="gesture_hud_hint">ΣΥΡΕ: ΚΙΝΗΣΗ • ΠΑΤΑ: ΠΕΡΙΣΤΡΟΦΗ • ΚΑΤΩ: ΚΑΡΦΩΜΑ • ΚΡΑΤΗΣΗ</string>
 
     <!-- Settings & Pause -->
     <string name="settings">ΡΥΘΜΙΣΕΙΣ</string>
     <string name="language_label">ΓΛΩΣΣΑ</string>
-    <string name="language_auto">ΑΥΤΟΜΑΤΟ</string>
+    <string name="language_auto">ΑΥΤΟΜ.</string>
     <string name="sound">Ηχητικά Εφέ</string>
-    <string name="sound_subtitle">Συνθετικά arcade εφέ</string>
+    <string name="sound_subtitle">Ηλεκτρονικά arcade ηχητικά εφέ</string>
     <string name="music">Μουσική Chiptune</string>
-    <string name="music_subtitle">Δυναμική μουσική ανά επίπεδο</string>
+    <string name="music_subtitle">Δυναμικός ρυθμός ανά επίπεδο</string>
     <string name="haptics">Δόνηση</string>
-    <string name="haptics_subtitle">Απτική ανάδραση σε κλείδωμα &amp; γραμμές</string>
-    <string name="crt_filter">Ρετρό CRT Φίλτρο</string>
-    <string name="crt_subtitle">Διακριτικές γραμμές παλιάς οθόνης</string>
+    <string name="haptics_subtitle">Δόνηση στην τοποθέτηση &amp; καθάρισμα γραμμών</string>
+    <string name="crt_filter">Ρετρό Φίλτρο CRT</string>
+    <string name="crt_subtitle">Εφέ παλιάς οθόνης CRT</string>
     <string name="controls_label">Χειρισμός</string>
 
     <string name="pause">ΠΑΥΣΗ</string>
-    <string name="game_paused">ΠΑΥΣΗ ΠΑΙΧΝΙΔΙΟΥ</string>
+    <string name="game_paused">ΠΑΥΣΗ</string>
     <string name="resume">ΣΥΝΕΧΕΙΑ</string>
     <string name="restart">ΕΠΑΝΕΚΚΙΝΗΣΗ</string>
     <string name="main_menu">ΚΥΡΙΟ ΜΕΝΟΥ</string>
     <string name="quit">ΕΞΟΔΟΣ</string>
-    <string name="hard_drop">ΒΟΥΤΙΑ</string>
-    <string name="hold">ΘΥΡΙΔΑ</string>
+    <string name="hard_drop">ΚΑΡΦΩΜΑ</string>
+    <string name="hold">ΚΡΑΤΗΣΗ</string>
 
     <!-- Calibration -->
     <string name="calibration_studio">ΒΑΘΜΟΝΟΜΗΣΗ</string>
     <string name="pro_calibration_studio">PRO ΒΑΘΜΟΝΟΜΗΣΗ</string>
     <string name="calibration_summary">DAS %1$dms • ARR %2$dms • Πτώση %3$dms</string>
-    <string name="das_label">DAS (Καθυστέρηση):</string>
-    <string name="arr_label">ARR (Επανάληψη):</string>
+    <string name="das_label">DAS (Καθυστέρηση κίνησης):</string>
+    <string name="arr_label">ARR (Ταχύτητα επανάληψης):</string>
     <string name="arr_instant">0 ms (ΑΜΕΣΟ)</string>
-    <string name="soft_drop_label">Ταχύτητα Ήπιας Πτώσης:</string>
+    <string name="soft_drop_label">Ρυθμός ήπιας πτώσης:</string>
     <string name="ms_value">%1$d ms</string>
     <string name="reset">ΕΠΑΝΑΦΟΡΑ</string>
     <string name="apply">ΕΦΑΡΜΟΓΗ</string>
@@ -104,7 +104,7 @@
     <string name="play_again">ΠΑΙΞΕ ΞΑΝΑ</string>
 
     <!-- Relic Draft -->
-    <string name="floor_cleared_title">ΟΡΟΦΟΣ %1$d ΟΛΟΚΛΗΡΩΘΗΚΕ!</string>
+    <string name="floor_cleared_title">ΟΡΟΦΟΣ %1$d: ΕΠΙΤΥΧΙΑ!</string>
     <string name="draft_relic_subtitle">ΕΠΙΛΕΞΕ ΕΝΑ ΚΕΙΜΗΛΙΟ</string>
     <string name="rarity_common">ΚΟΙΝΟ</string>
     <string name="rarity_rare">ΣΠΑΝΙΟ</string>
@@ -112,37 +112,37 @@
 
     <!-- Relics -->
     <string name="relic_midas_name">Άγγιγμα του Μίδα</string>
-    <string name="relic_midas_desc">25% των κομματιών γίνονται Χρυσά. Το καθάρισμά τους δίνει +400 μπόνους πόντους.</string>
+    <string name="relic_midas_desc">25% των μπλοκ γίνονται Χρυσά και δίνουν +400 μπόνους πόντους όταν καθαριστούν.</string>
     <string name="relic_drill_name">Τρυπάνι Εμποδίων</string>
-    <string name="relic_drill_desc">Η γρήγορη βουτιά διαπερνά 1 εμπόδιο ακριβώς κάτω από το σημείο προσγείωσης.</string>
-    <string name="relic_chrono_name">Χρονικό Περιθώριο</string>
-    <string name="relic_chrono_desc">Αυξάνει το Lock Delay στα 850ms και επιτρέπει έως 25 κινήσεις πριν κλειδώσει.</string>
+    <string name="relic_drill_desc">Το κάρφωμα διαπερνά 1 εμπόδιο ακριβώς κάτω από το σημείο προσγείωσης.</string>
+    <string name="relic_chrono_name">Χρονική Παράταση</string>
+    <string name="relic_chrono_desc">Αυξάνει τον χρόνο τοποθέτησης στα 850ms και επιτρέπει έως 25 διορθώσεις.</string>
     <string name="relic_surge_name">Τετραπλή Έκρηξη</string>
-    <string name="relic_surge_desc">Καθάρισμα 4 γραμμών δίνει 3x πόντους και εξαϋλώνει την κάτω σειρά.</string>
-    <string name="relic_dual_vault_name">Διπλή Θυρίδα</string>
-    <string name="relic_dual_vault_desc">Επιτρέπει αποθήκευση κομματιών 2 φορές πριν απαιτηθεί κλείδωμα.</string>
+    <string name="relic_surge_desc">Καθάρισμα 4 γραμμών δίνει 3× πόντους και εξαφανίζει την κάτω σειρά.</string>
+    <string name="relic_dual_vault_name">Διπλή Κράτηση</string>
+    <string name="relic_dual_vault_desc">Επιτρέπει αλλαγή κομματιού στην κράτηση 2 φορές πριν την τοποθέτηση.</string>
     <string name="relic_conduit_name">Αγωγός Δέσμης</string>
-    <string name="relic_conduit_desc">Προσθέτει μία επιπλέον ευθεία Δέσμη σε κάθε κύκλο 12 κομματιών.</string>
+    <string name="relic_conduit_desc">Προσθέτει μία επιπλέον ευθεία μπάρα σε κάθε κύκλο 12 κομματιών.</string>
     <string name="relic_bomb_name">Κινητικός Πυρήνας</string>
-    <string name="relic_bomb_desc">Βουτιά από 10+ σειρές ύψος προκαλεί ωστικό κύμα που καθαρίζει γειτονικά μπλοκ.</string>
+    <string name="relic_bomb_desc">Κάρφωμα από 10+ σειρές ύψος προκαλεί ωστικό κύμα που καθαρίζει γειτονικά μπλοκ.</string>
     <string name="relic_laser_name">Λέιζερ Καθαρισμού</string>
-    <string name="relic_laser_desc">Εξαϋλώνει αυτόματα την κάτω γραμμή μετά την ολοκλήρωση κάθε ορόφου.</string>
+    <string name="relic_laser_desc">Καθαρίζει αυτόματα την κάτω σειρά μετά από κάθε όροφο.</string>
     <string name="relic_anchor_name">Άγκυρα Βαρύτητας</string>
-    <string name="relic_anchor_desc">Η ήπια πτώση κινείται με υπερταχύτητα και δίνει 3 πόντους ανά κελί.</string>
+    <string name="relic_anchor_desc">Η ήπια πτώση γίνεται αστραπιαία και δίνει 3 πόντους ανά τετράγωνο.</string>
 
     <!-- Floating In-Game Clear Banners -->
     <string name="banner_single">ΜΟΝΗ</string>
     <string name="banner_double">ΔΙΠΛΗ</string>
     <string name="banner_triple">ΤΡΙΠΛΗ</string>
     <string name="banner_quad">ΤΕΤΡΑΠΛΗ!</string>
-    <string name="banner_quad_surge">ΕΚΡΗΞΗ 3X!</string>
-    <string name="banner_spin_mini">OVERCLOCK MINI!</string>
+    <string name="banner_quad_surge">ΕΚΡΗΞΗ 3×!</string>
+    <string name="banner_spin_mini">ΜΙΝΙ SPIN!</string>
     <string name="banner_spin_full">OVERCLOCK SPIN!</string>
-    <string name="banner_spin_single">OVERCLOCK ΜΟΝΗ!</string>
-    <string name="banner_spin_double">OVERCLOCK ΔΙΠΛΗ!</string>
-    <string name="banner_spin_triple">OVERCLOCK ΤΡΙΠΛΗ!</string>
+    <string name="banner_spin_single">SPIN ΜΟΝΗ!</string>
+    <string name="banner_spin_double">SPIN ΔΙΠΛΗ!</string>
+    <string name="banner_spin_triple">SPIN ΤΡΙΠΛΗ!</string>
     <string name="banner_surge_prefix">ΣΕΡΙ %1$s</string>
-    <string name="banner_chain_suffix">%1$s (ΑΛΥΣΙΔΑ x%2$d)</string>
+    <string name="banner_chain_suffix">%1$s (ΑΛΥΣΙΔΑ ×%2$d)</string>
 
     <!-- Accessibility -->
     <string name="cd_open_hall_of_fame">Άνοιγμα Πίνακα Κατάταξης</string>
@@ -156,8 +156,8 @@
     <string name="cd_move_left">Κίνηση αριστερά</string>
     <string name="cd_move_right">Κίνηση δεξιά</string>
     <string name="cd_soft_drop">Ήπια πτώση</string>
-    <string name="cd_vault_piece">Αποθήκευση στη θυρίδα</string>
-    <string name="cd_hard_drop">Γρήγορη βουτιά</string>
+    <string name="cd_vault_piece">Κράτηση κομματιού</string>
+    <string name="cd_hard_drop">Κάρφωμα</string>
     <string name="cd_rotate_ccw">Περιστροφή αριστερόστροφα</string>
     <string name="cd_rotate_cw">Περιστροφή δεξιόστροφα</string>
 </resources>
