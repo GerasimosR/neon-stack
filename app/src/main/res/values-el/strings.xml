@@ -68,17 +68,28 @@
     <string name="hard_drop">ΚΑΡΦΩΜΑ</string>
     <string name="hold">ΚΡΑΤΗΣΗ</string>
 
-    <!-- Calibration -->
-    <string name="calibration_studio">ΒΑΘΜΟΝΟΜΗΣΗ</string>
-    <string name="pro_calibration_studio">PRO ΒΑΘΜΟΝΟΜΗΣΗ</string>
-    <string name="calibration_summary">DAS %1$dms • ARR %2$dms • Πτώση %3$dms</string>
-    <string name="das_label">DAS (Καθυστέρηση κίνησης):</string>
-    <string name="arr_label">ARR (Ταχύτητα επανάληψης):</string>
-    <string name="arr_instant">0 ms (ΑΜΕΣΟ)</string>
-    <string name="soft_drop_label">Ρυθμός ήπιας πτώσης:</string>
+    <!-- Controls & Speed -->
+    <string name="calibration_studio">ΧΕΙΡΙΣΜΟΣ &amp; ΤΑΧΥΤΗΤΑ</string>
+    <string name="pro_calibration_studio">ΕΥΑΙΣΘΗΣΙΑ ΧΕΙΡΙΣΤΗΡΙΟΥ</string>
+    <string name="calibration_subtitle">Ρύθμιση ευαισθησίας πλήκτρων και ταχύτητας πτώσης</string>
+    <string name="calibration_summary">Πάτημα %1$dms • Κίνηση %2$dms • Πτώση %3$dms</string>
+    <string name="das_label">Καθυστέρηση Πατήματος</string>
+    <string name="das_hint">Χρόνος πατήματος πριν αρχίσει η συνεχόμενη κίνηση</string>
+    <string name="arr_label">Ταχύτητα Συνεχόμενης Κίνησης</string>
+    <string name="arr_hint">Πόσο γρήγορα γλιστράει όσο κρατάς αριστερά/δεξιά</string>
+    <string name="arr_instant">0 ms (Ακαριαία)</string>
+    <string name="soft_drop_label">Ταχύτητα Πλήκτρου Κάτω</string>
+    <string name="soft_drop_hint">Ταχύτητα πτώσης όταν πατάς το κάτω βελάκι</string>
+    <string name="speed_presets">ΕΤΟΙΜΕΣ ΠΡΟΕΠΙΛΟΓΕΣ</string>
+    <string name="preset_normal">ΚΑΝΟΝΙΚΗ</string>
+    <string name="preset_normal_sub">Ισορροπημένη</string>
+    <string name="preset_fast">ΓΡΗΓΟΡΗ</string>
+    <string name="preset_fast_sub">Σβέλτη</string>
+    <string name="preset_instant">ΑΚΑΡΙΑΙΑ</string>
+    <string name="preset_instant_sub">Pro Teleport</string>
     <string name="ms_value">%1$d ms</string>
     <string name="reset">ΕΠΑΝΑΦΟΡΑ</string>
-    <string name="apply">ΕΦΑΡΜΟΓΗ</string>
+    <string name="apply">ΑΠΟΘΗΚΕΥΣΗ</string>
 
     <!-- Leaderboard -->
     <string name="arcade_leaderboard">ΠΙΝΑΚΑΣ ΚΑΤΑΤΑΞΗΣ</string>

@@ -492,6 +492,11 @@ fun CalibrationDialog(
     var arr by remember { mutableFloatStateOf(state.arrRateMs.toFloat()) }
     var softDrop by remember { mutableFloatStateOf(state.softDropRateMs.toFloat()) }
 
+    // Detect active preset
+    val isNormal = (das.toInt() == 160 && arr.toInt() == 35 && softDrop.toInt() == 45)
+    val isFast = (das.toInt() == 125 && arr.toInt() == 18 && softDrop.toInt() == 25)
+    val isInstant = (das.toInt() == 95 && arr.toInt() == 0 && softDrop.toInt() == 15)
+
     Dialog(
         onDismissRequest = onDismiss,
         properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
@@ -505,9 +510,10 @@ fun CalibrationDialog(
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            // Header
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 12.dp)
+                modifier = Modifier.padding(bottom = 2.dp)
             ) {
                 SlidersVectorIcon(tint = AccentCyan, size = 18.dp)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -516,20 +522,88 @@ fun CalibrationDialog(
                     color = AccentCyan,
                     fontSize = 17.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 1.sp,
+                    letterSpacing = 0.5.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
             }
+            Text(
+                text = stringResource(R.string.calibration_subtitle),
+                color = TextSecondary,
+                fontSize = 11.sp,
+                modifier = Modifier.padding(bottom = 14.dp)
+            )
 
-            // Slider 1: DAS
+            // Speed Presets Row
+            Text(
+                text = stringResource(R.string.speed_presets),
+                color = TextSecondary,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 1.sp,
+                modifier = Modifier.fillMaxWidth().padding(bottom = 6.dp)
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                PresetChip(
+                    label = stringResource(R.string.preset_normal),
+                    sub = stringResource(R.string.preset_normal_sub),
+                    isSelected = isNormal,
+                    accentColor = AccentCyan,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        das = 160f
+                        arr = 35f
+                        softDrop = 45f
+                    }
+                )
+                PresetChip(
+                    label = stringResource(R.string.preset_fast),
+                    sub = stringResource(R.string.preset_fast_sub),
+                    isSelected = isFast,
+                    accentColor = AccentYellow,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        das = 125f
+                        arr = 18f
+                        softDrop = 25f
+                    }
+                )
+                PresetChip(
+                    label = stringResource(R.string.preset_instant),
+                    sub = stringResource(R.string.preset_instant_sub),
+                    isSelected = isInstant,
+                    accentColor = AccentPink,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        das = 95f
+                        arr = 0f
+                        softDrop = 15f
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // Slider 1: DAS (Hold-to-slide delay)
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = stringResource(R.string.das_label), color = TextSecondary, fontSize = 13.sp)
-                    Text(text = stringResource(R.string.ms_value, das.toInt()), color = AccentYellow, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(text = stringResource(R.string.das_label), color = TextPrimary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                        Text(text = stringResource(R.string.das_hint), color = TextSecondary, fontSize = 10.sp)
+                    }
+                    Text(
+                        text = stringResource(R.string.ms_value, das.toInt()),
+                        color = AccentYellow,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
                 Slider(
                     value = das,
@@ -544,19 +618,28 @@ fun CalibrationDialog(
                 )
             }
 
-            // Slider 2: ARR
+            // Slider 2: ARR (Auto Repeat Speed)
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = stringResource(R.string.arr_label), color = TextSecondary, fontSize = 13.sp)
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(text = stringResource(R.string.arr_label), color = TextPrimary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                        Text(text = stringResource(R.string.arr_hint), color = TextSecondary, fontSize = 10.sp)
+                    }
                     val label = if (arr.toInt() == 0) {
                         stringResource(R.string.arr_instant)
                     } else {
                         stringResource(R.string.ms_value, arr.toInt())
                     }
-                    Text(text = label, color = AccentCyan, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Text(
+                        text = label,
+                        color = AccentCyan,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
                 Slider(
                     value = arr,
@@ -575,10 +658,19 @@ fun CalibrationDialog(
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = stringResource(R.string.soft_drop_label), color = TextSecondary, fontSize = 13.sp)
-                    Text(text = stringResource(R.string.ms_value, softDrop.toInt()), color = AccentPink, fontSize = 13.sp, fontWeight = FontWeight.Bold)
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(text = stringResource(R.string.soft_drop_label), color = TextPrimary, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                        Text(text = stringResource(R.string.soft_drop_hint), color = TextSecondary, fontSize = 10.sp)
+                    }
+                    Text(
+                        text = stringResource(R.string.ms_value, softDrop.toInt()),
+                        color = AccentPink,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold
+                    )
                 }
                 Slider(
                     value = softDrop,
@@ -602,12 +694,12 @@ fun CalibrationDialog(
             ) {
                 Button(
                     onClick = {
-                        das = 150f
-                        arr = 38f
-                        softDrop = 40f
+                        das = 160f
+                        arr = 35f
+                        softDrop = 45f
                         onReset()
                     },
-                    modifier = Modifier.weight(1f).height(46.dp),
+                    modifier = Modifier.weight(1f).height(44.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = BtnNormal)
                 ) {
@@ -625,7 +717,7 @@ fun CalibrationDialog(
                     onClick = {
                         onSave(das.toLong(), arr.toLong(), softDrop.toLong())
                     },
-                    modifier = Modifier.weight(1.3f).height(46.dp),
+                    modifier = Modifier.weight(1.3f).height(44.dp),
                     shape = RoundedCornerShape(10.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = BtnHardDrop)
                 ) {
@@ -640,5 +732,43 @@ fun CalibrationDialog(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun PresetChip(
+    label: String,
+    sub: String,
+    isSelected: Boolean,
+    accentColor: Color,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(if (isSelected) accentColor.copy(alpha = 0.18f) else BgMain)
+            .border(
+                width = if (isSelected) 1.5.dp else 1.dp,
+                color = if (isSelected) accentColor else BorderCard,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .clickable(onClick = onClick)
+            .padding(vertical = 8.dp, horizontal = 4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = label,
+            color = if (isSelected) accentColor else TextPrimary,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.ExtraBold,
+            maxLines = 1
+        )
+        Text(
+            text = sub,
+            color = if (isSelected) accentColor.copy(alpha = 0.85f) else TextSecondary,
+            fontSize = 9.sp,
+            maxLines = 1
+        )
     }
 }

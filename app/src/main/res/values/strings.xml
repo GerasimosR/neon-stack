@@ -68,17 +68,28 @@
     <string name="hard_drop">HARD DROP</string>
     <string name="hold">VAULT</string>
 
-    <!-- Calibration -->
-    <string name="calibration_studio">CALIBRATION STUDIO</string>
-    <string name="pro_calibration_studio">PRO CALIBRATION STUDIO</string>
-    <string name="calibration_summary">DAS %1$dms • ARR %2$dms • Drop %3$dms</string>
-    <string name="das_label">DAS (Shift Delay):</string>
-    <string name="arr_label">ARR (Repeat Rate):</string>
-    <string name="arr_instant">0 ms (INSTANT)</string>
-    <string name="soft_drop_label">Soft Drop Repeat:</string>
+    <!-- Controls & Speed -->
+    <string name="calibration_studio">CONTROLS &amp; SPEED</string>
+    <string name="pro_calibration_studio">CONTROLS SENSITIVITY</string>
+    <string name="calibration_subtitle">Adjust button repeat timing and drop velocity</string>
+    <string name="calibration_summary">Hold %1$dms • Slide %2$dms • Drop %3$dms</string>
+    <string name="das_label">Hold-to-Slide Delay</string>
+    <string name="das_hint">Wait time before block starts auto-sliding</string>
+    <string name="arr_label">Auto-Slide Speed</string>
+    <string name="arr_hint">Speed blocks glide while holding Left/Right</string>
+    <string name="arr_instant">0 ms (Instant)</string>
+    <string name="soft_drop_label">Soft Drop Speed</string>
+    <string name="soft_drop_hint">Falling speed while pressing DOWN button</string>
+    <string name="speed_presets">SPEED PRESETS</string>
+    <string name="preset_normal">NORMAL</string>
+    <string name="preset_normal_sub">Balanced</string>
+    <string name="preset_fast">FAST</string>
+    <string name="preset_fast_sub">Snappy</string>
+    <string name="preset_instant">INSTANT</string>
+    <string name="preset_instant_sub">Pro Teleport</string>
     <string name="ms_value">%1$d ms</string>
     <string name="reset">RESET</string>
-    <string name="apply">APPLY</string>
+    <string name="apply">SAVE &amp; APPLY</string>
 
     <!-- Leaderboard -->
     <string name="arcade_leaderboard">ARCADE LEADERBOARD</string>
