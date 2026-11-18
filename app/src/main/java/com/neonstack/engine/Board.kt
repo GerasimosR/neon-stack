@@ -162,6 +162,19 @@ class Board {
         val minos = piece.getWorldMinos()
         return minos.all { it.y < BUFFER_ROWS }
     }
+
+    /**
+     * Determines whether the current placed stack has reached critical danger height
+     * (top 4 visible rows, y <= 5 in the 22-row grid).
+     */
+    fun isStackInDanger(): Boolean {
+        for (y in 0..5) {
+            for (x in 0 until WIDTH) {
+                if (grid[y][x] != 0) return true
+            }
+        }
+        return false
+    }
 }
 
 enum class SpinBonus {

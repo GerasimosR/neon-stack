@@ -34,6 +34,8 @@ class SoundSynthesizer {
 
     private val soundBuffers = mutableMapOf<SoundEffect, ShortArray>()
     private val preloadedTracks = mutableMapOf<SoundEffect, AudioTrack>()
+    private var secondaryMoveTrack: AudioTrack? = null
+    private var moveToggle = false
 
     init {
         generateAllSounds()
@@ -56,57 +58,105 @@ class SoundSynthesizer {
         soundBuffers[SoundEffect.GAME_OVER] = generateGameOverSound()
     }
 
+    private fun createStaticTrack(buffer: ShortArray): AudioTrack {
+        val minBufferSize = AudioTrack.getMinBufferSize(
+            SAMPLE_RATE,
+            AudioFormat.CHANNEL_OUT_MONO,
+            AudioFormat.ENCODING_PCM_16BIT
+        )
+        val bufferSize = maxOf(minBufferSize, buffer.size * 2)
+
+        val audioTrack = AudioTrack.Builder()
+            .setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_GAME)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build()
+            )
+            .setAudioFormat(
+                AudioFormat.Builder()
+                    .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
+                    .setSampleRate(SAMPLE_RATE)
+                    .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
+                    .build()
+            )
+            .setBufferSizeInBytes(bufferSize)
+            .setTransferMode(AudioTrack.MODE_STATIC)
+            .build()
+
+        audioTrack.write(buffer, 0, buffer.size)
+        return audioTrack
+    }
+
     private fun initAudioTracks() {
         for ((effect, buffer) in soundBuffers) {
             try {
-                val minBufferSize = AudioTrack.getMinBufferSize(
-                    SAMPLE_RATE,
-                    AudioFormat.CHANNEL_OUT_MONO,
-                    AudioFormat.ENCODING_PCM_16BIT
-                )
-                val bufferSize = maxOf(minBufferSize, buffer.size * 2)
-
-                val audioTrack = AudioTrack.Builder()
-                    .setAudioAttributes(
-                        AudioAttributes.Builder()
-                            .setUsage(AudioAttributes.USAGE_GAME)
-                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                            .build()
-                    )
-                    .setAudioFormat(
-                        AudioFormat.Builder()
-                            .setEncoding(AudioFormat.ENCODING_PCM_16BIT)
-                            .setSampleRate(SAMPLE_RATE)
-                            .setChannelMask(AudioFormat.CHANNEL_OUT_MONO)
-                            .build()
-                    )
-                    .setBufferSizeInBytes(bufferSize)
-                    .setTransferMode(AudioTrack.MODE_STATIC)
-                    .build()
-
-                audioTrack.write(buffer, 0, buffer.size)
-                preloadedTracks[effect] = audioTrack
+                preloadedTracks[effect] = createStaticTrack(buffer)
             } catch (_: Exception) {
                 // Silently skip if device audio resources are limited
             }
         }
+        // Double-buffered secondary track for MOVE to eliminate DAS stutter
+        soundBuffers[SoundEffect.MOVE]?.let { buffer ->
+            try {
+                secondaryMoveTrack = createStaticTrack(buffer)
+            } catch (_: Exception) {}
+        }
     }
 
     /**
-     * Replays preloaded static AudioTrack with sub-millisecond hardware latency
-     * and zero allocation overhead.
+     * Plays sound with optional combo pitch-scaling and directional stereo panning.
+     * Sub-millisecond hardware latency, zero allocations.
+     *
+     * @param effect Target SoundEffect
+     * @param combo Combo multiplier count (pitches up by musical semitone per combo step)
+     * @param pan Stereo panning in [-1.0f (left), +1.0f (right)]
      */
-    fun play(effect: SoundEffect) {
+    fun play(effect: SoundEffect, combo: Int = 0, pan: Float = 0f) {
         if (!isEnabled) return
-        val track = preloadedTracks[effect] ?: return
+        val track = if (effect == SoundEffect.MOVE && secondaryMoveTrack != null) {
+            moveToggle = !moveToggle
+            if (moveToggle) preloadedTracks[effect] else secondaryMoveTrack
+        } else {
+            preloadedTracks[effect]
+        } ?: return
 
         try {
+            // Directional stereo balance (panning)
+            if (pan != 0f) {
+                val leftGain = if (pan > 0f) (1f - pan).coerceIn(0.15f, 1f) else 1f
+                val rightGain = if (pan < 0f) (1f + pan).coerceIn(0.15f, 1f) else 1f
+                @Suppress("DEPRECATION")
+                track.setStereoVolume(leftGain, rightGain)
+            } else {
+                @Suppress("DEPRECATION")
+                track.setStereoVolume(1f, 1f)
+            }
+
+            // Combo pitch scaling (semitone step per combo)
+            if (combo > 0) {
+                val pitch = (1.0f + combo.coerceIn(0, 8) * 0.05946f)
+                val params = track.playbackParams
+                params.pitch = pitch
+                track.playbackParams = params
+            } else {
+                if (track.playbackParams.pitch != 1.0f) {
+                    val params = track.playbackParams
+                    params.pitch = 1.0f
+                    track.playbackParams = params
+                }
+            }
+
             track.pause()
             track.playbackHeadPosition = 0
             track.play()
         } catch (_: Exception) {
             // Silently ignore if audio subsystem is interrupted
         }
+    }
+
+    fun play(effect: SoundEffect) {
+        play(effect, combo = 0, pan = 0f)
     }
 
     fun release() {
@@ -117,6 +167,11 @@ class SoundSynthesizer {
             } catch (_: Exception) {}
         }
         preloadedTracks.clear()
+        try {
+            secondaryMoveTrack?.stop()
+            secondaryMoveTrack?.release()
+        } catch (_: Exception) {}
+        secondaryMoveTrack = null
     }
 
     // --- Procedural Waveform Generators ---

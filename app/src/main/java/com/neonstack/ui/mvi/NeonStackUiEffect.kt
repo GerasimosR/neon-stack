@@ -12,7 +12,11 @@ enum class HapticType {
 }
 
 sealed interface NeonStackUiEffect {
-    data class PlaySound(val sound: SoundEffect) : NeonStackUiEffect
+    data class PlaySound(
+        val sound: SoundEffect,
+        val combo: Int = 0,
+        val pan: Float = 0f
+    ) : NeonStackUiEffect
     data class TriggerHaptic(val type: HapticType) : NeonStackUiEffect
     data class ScreenShake(val magnitude: Float) : NeonStackUiEffect
     data class LineClearAnimation(val rows: List<Int>, val message: String) : NeonStackUiEffect

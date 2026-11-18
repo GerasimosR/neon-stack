@@ -71,7 +71,8 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
         engine.addEventListener { event ->
             when (event) {
                 is GameEvent.PieceMoved -> {
-                    sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.MOVE))
+                    val pan = if (event.dx < 0) -0.55f else if (event.dx > 0) 0.55f else 0f
+                    sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.MOVE, pan = pan))
                     sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.TICK))
                 }
                 is GameEvent.PieceRotated -> {
@@ -99,30 +100,31 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
                 is GameEvent.LinesCleared -> {
                     val reward = event.reward
                     val isSpin = reward.spin != com.neonstack.engine.SpinBonus.NONE
+                    val combo = reward.comboCount
                     if (isSpin) {
-                        sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.SPIN_BONUS))
+                        sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.SPIN_BONUS, combo = combo))
                         sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.QUAD_CLEAR))
                         sendEffect(NeonStackUiEffect.ScreenShake(14f))
                     } else {
                         when (event.rows.size) {
                             4 -> {
-                                sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.QUAD_CLEAR))
+                                sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.QUAD_CLEAR, combo = combo))
                                 sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.QUAD_CLEAR))
                                 sendEffect(NeonStackUiEffect.ScreenShake(18f))
                             }
                             3 -> {
-                                sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR_3))
+                                sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR_3, combo = combo))
                                 sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.LINE_CLEAR))
                                 sendEffect(NeonStackUiEffect.ScreenShake(12f))
                             }
                             2 -> {
-                                sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR_2))
+                                sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR_2, combo = combo))
                                 sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.LINE_CLEAR))
                                 sendEffect(NeonStackUiEffect.ScreenShake(8f))
                             }
                             else -> {
                                 if (event.rows.isNotEmpty()) {
-                                    sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR_1))
+                                    sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR_1, combo = combo))
                                     sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.LINE_CLEAR))
                                     sendEffect(NeonStackUiEffect.ScreenShake(5f))
                                 }
@@ -142,6 +144,7 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
                     syncState()
                 }
                 is GameEvent.FloorCleared -> {
+                    chiptuneMusicEngine.setFilterMuffled(true)
                     sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LEVEL_UP))
                     prefsManager.updateRogueBestFloor(event.floor)
                     _uiState.update {
@@ -159,6 +162,8 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
                 }
                 is GameEvent.GameOver -> {
                     chiptuneMusicEngine.pause()
+                    chiptuneMusicEngine.setDangerMode(false)
+                    chiptuneMusicEngine.setFilterMuffled(false)
                     sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.GAME_OVER))
                     sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.HEAVY_IMPACT))
 
@@ -210,12 +215,13 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
                 if (engine.status != GameStatus.RUNNING) return
                 countdownJob?.cancel()
                 engine.pause()
-                chiptuneMusicEngine.pause()
+                chiptuneMusicEngine.setFilterMuffled(true)
                 _uiState.update { it.copy(isPaused = true, status = GameStatus.PAUSED, countdownValue = 0) }
             }
             NeonStackIntent.Resume -> {
                 if (engine.status != GameStatus.PAUSED) return
                 engine.resume()
+                chiptuneMusicEngine.setFilterMuffled(false)
                 if (prefsManager.isMusicEnabled) {
                     audioFocusHelper.requestAudioFocus()
                     chiptuneMusicEngine.play()
@@ -283,6 +289,7 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
                 startNewGame()
             }
             is NeonStackIntent.SelectRelic -> {
+                chiptuneMusicEngine.setFilterMuffled(false)
                 _uiState.update { it.copy(isDraftingRelic = false) }
                 engine.applyRelicDraft(intent.relic)
                 syncState()
@@ -330,6 +337,8 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
         engine.start()
         chiptuneMusicEngine.pause()
         chiptuneMusicEngine.setLevel(1)
+        chiptuneMusicEngine.setFilterMuffled(false)
+        chiptuneMusicEngine.setDangerMode(false)
 
         _uiState.update {
             NeonStackUiState(
@@ -390,6 +399,8 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
         countdownJob?.cancel()
         engine.resetToMenu()
         chiptuneMusicEngine.pause()
+        chiptuneMusicEngine.setFilterMuffled(false)
+        chiptuneMusicEngine.setDangerMode(false)
         audioFocusHelper.abandonAudioFocus()
 
         _uiState.update {
@@ -415,6 +426,9 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun syncState() {
+        if (engine.status == GameStatus.RUNNING) {
+            chiptuneMusicEngine.setDangerMode(engine.board.isStackInDanger())
+        }
         _uiState.update {
             it.copy(
                 status = engine.status,

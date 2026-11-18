@@ -65,7 +65,7 @@ fun NeonStackScreen(
     LaunchedEffect(Unit) {
         viewModel.uiEffects.collect { effect ->
             when (effect) {
-                is NeonStackUiEffect.PlaySound -> soundSynthesizer.play(effect.sound)
+                is NeonStackUiEffect.PlaySound -> soundSynthesizer.play(effect.sound, effect.combo, effect.pan)
                 is NeonStackUiEffect.TriggerHaptic -> {
                     when (effect.type) {
                         HapticType.TICK -> hapticManager.tick()
