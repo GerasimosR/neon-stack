@@ -72,7 +72,7 @@ class ChiptuneMusicEngine {
     private data class MusicNote(val freq: Double, val steps: Int)
 
     // Percussion enum
-    private enum class DrumType { NONE, HIHAT, SNARE }
+    private enum class DrumType { NONE, KICK, HIHAT, SNARE }
 
     // Original "Neon Pulse" Synthwave Lead (16 bars = 256 sixteenth-note steps)
     private val leadMelody = listOf(
@@ -222,6 +222,7 @@ class ChiptuneMusicEngine {
 
         var leadPhase = 0.0
         var bassPhase = 0.0
+        var kickPhase = 0.0
         var noiseSeed = 0x7FFF
 
         fun samplesPerStep(bpm: Double): Int {
@@ -255,8 +256,11 @@ class ChiptuneMusicEngine {
                         leadPhase += leadNote.freq / SAMPLE_RATE
                         if (leadPhase >= 1.0) leadPhase -= 1.0
                         val pulse = if (leadPhase < 0.25) 1.0 else -1.0
+                        // Anti-click 4% linear attack ramp + 15% decay
                         val noteProgress = leadSampleProgress.toDouble() / leadSamplesInCurrentNote
-                        val envelope = if (noteProgress > 0.85) (1.0 - noteProgress) / 0.15 else 1.0
+                        val attack = (noteProgress / 0.04).coerceIn(0.0, 1.0)
+                        val release = if (noteProgress > 0.85) (1.0 - noteProgress) / 0.15 else 1.0
+                        val envelope = attack * release
                         leadSample = pulse * envelope
                     }
 
@@ -273,7 +277,11 @@ class ChiptuneMusicEngine {
                     if (bassNote.freq > 0.0) {
                         bassPhase += bassNote.freq / SAMPLE_RATE
                         if (bassPhase >= 1.0) bassPhase -= 1.0
-                        bassSample = 2.0 * abs(2.0 * (bassPhase - floor(bassPhase + 0.5))) - 1.0
+                        val rawTriangle = 2.0 * abs(2.0 * (bassPhase - floor(bassPhase + 0.5))) - 1.0
+                        val noteProgress = bassSampleProgress.toDouble() / bassSamplesInCurrentNote
+                        val attack = (noteProgress / 0.03).coerceIn(0.0, 1.0)
+                        val release = if (noteProgress > 0.90) (1.0 - noteProgress) / 0.10 else 1.0
+                        bassSample = rawTriangle * attack * release
                     }
 
                     bassSampleProgress++
@@ -283,20 +291,35 @@ class ChiptuneMusicEngine {
                         bassSamplesInCurrentNote = bassMelody[bassIndex].steps * currentStepSamples
                     }
 
-                    // --- Channel 3: Chiptune Drums (LFSR Noise) ---
+                    // --- Channel 3: Chiptune Drums (Kick, Snare, HiHat) ---
                     var drumSample = 0.0
                     drumSampleProgress++
                     if (drumSampleProgress >= currentStepSamples) {
                         drumSampleProgress = 0
                         stepCounter = (stepCounter + 1) % 16
-                        currentDrum = when {
-                            stepCounter == 4 || stepCounter == 12 -> DrumType.SNARE
-                            stepCounter % 2 == 0 -> DrumType.HIHAT
+                        // Beat 1 & 3 = Kick, Beat 2 & 4 = Snare, Off-beats = HiHat
+                        currentDrum = when (stepCounter) {
+                            0, 8 -> {
+                                kickPhase = 0.0
+                                DrumType.KICK
+                            }
+                            4, 12 -> DrumType.SNARE
+                            2, 6, 10, 14 -> DrumType.HIHAT
                             else -> DrumType.NONE
                         }
                     }
 
-                    if (currentDrum != DrumType.NONE) {
+                    if (currentDrum == DrumType.KICK) {
+                        // Procedural TR-808 Kick: fast downward pitch drop from 145Hz down to 42Hz
+                        val kickDuration = currentStepSamples * 1.3
+                        val progress = (drumSampleProgress.toDouble() / kickDuration).coerceIn(0.0, 1.0)
+                        val kickFreq = 42.0 + 103.0 * kotlin.math.exp(-progress * 15.0)
+                        kickPhase += kickFreq / SAMPLE_RATE
+                        if (kickPhase >= 1.0) kickPhase -= 1.0
+                        val kickSine = kotlin.math.sin(2.0 * kotlin.math.PI * kickPhase)
+                        val kickEnv = kotlin.math.exp(-progress * 6.5)
+                        drumSample = kickSine * kickEnv * 0.95
+                    } else if (currentDrum != DrumType.NONE) {
                         val bit = ((noiseSeed shr 0) xor (noiseSeed shr 1)) and 1
                         noiseSeed = (noiseSeed shr 1) or (bit shl 14)
                         val rawNoise = (noiseSeed.toDouble() / 16384.0) - 1.0
@@ -306,8 +329,8 @@ class ChiptuneMusicEngine {
                         drumSample = rawNoise * env * (if (currentDrum == DrumType.SNARE) 0.8 else 0.3)
                     }
 
-                    // Mix Channels (Lead 45%, Bass 35%, Drum 20%)
-                    val mixed = (leadSample * 0.45 + bassSample * 0.35 + drumSample * 0.20) * masterVolume
+                    // Mix Channels (Lead 42%, Bass 33%, Drum 25%)
+                    val mixed = (leadSample * 0.42 + bassSample * 0.33 + drumSample * 0.25) * masterVolume
                     pcmBuffer[i] = (mixed * Short.MAX_VALUE).toInt().coerceIn(-32768, 32767).toShort()
                 }
 

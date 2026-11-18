@@ -16,7 +16,11 @@ enum class SoundEffect {
     HARD_DROP,
     HOLD,
     LINE_CLEAR,
+    LINE_CLEAR_1,
+    LINE_CLEAR_2,
+    LINE_CLEAR_3,
     QUAD_CLEAR,
+    SPIN_BONUS,
     LEVEL_UP,
     GAME_OVER
 }
@@ -42,8 +46,12 @@ class SoundSynthesizer {
         soundBuffers[SoundEffect.SOFT_DROP] = generateSoftDropSound()
         soundBuffers[SoundEffect.HARD_DROP] = generateHardDropSound()
         soundBuffers[SoundEffect.HOLD] = generateHoldSound()
-        soundBuffers[SoundEffect.LINE_CLEAR] = generateLineClearSound()
+        soundBuffers[SoundEffect.LINE_CLEAR] = generateLineClear1Sound()
+        soundBuffers[SoundEffect.LINE_CLEAR_1] = generateLineClear1Sound()
+        soundBuffers[SoundEffect.LINE_CLEAR_2] = generateLineClear2Sound()
+        soundBuffers[SoundEffect.LINE_CLEAR_3] = generateLineClear3Sound()
         soundBuffers[SoundEffect.QUAD_CLEAR] = generateQuadClearSound()
+        soundBuffers[SoundEffect.SPIN_BONUS] = generateSpinBonusSound()
         soundBuffers[SoundEffect.LEVEL_UP] = generateLevelUpSound()
         soundBuffers[SoundEffect.GAME_OVER] = generateGameOverSound()
     }
@@ -145,15 +153,18 @@ class SoundSynthesizer {
     }
 
     private fun generateSoftDropSound(): ShortArray {
-        val durationMs = 25
+        // Fast, non-fatiguing 20ms sine pulse with 2ms attack to avoid clicking on rapid repeat
+        val durationMs = 20
         val numSamples = (SAMPLE_RATE * durationMs / 1000)
         val samples = ShortArray(numSamples)
 
         for (i in 0 until numSamples) {
+            val progress = i.toDouble() / numSamples
             val t = i.toDouble() / SAMPLE_RATE
-            val envelope = exp(-t * 90.0)
-            val wave = sin(2.0 * PI * 220.0 * t)
-            samples[i] = (wave * envelope * Short.MAX_VALUE * 0.3).toInt().coerceIn(-32768, 32767).toShort()
+            val attack = (progress / 0.10).coerceIn(0.0, 1.0)
+            val envelope = attack * exp(-progress * 5.0)
+            val wave = sin(2.0 * PI * 240.0 * t)
+            samples[i] = (wave * envelope * Short.MAX_VALUE * 0.28).toInt().coerceIn(-32768, 32767).toShort()
         }
         return samples
     }
@@ -191,12 +202,30 @@ class SoundSynthesizer {
         return samples
     }
 
-    private fun generateLineClearSound(): ShortArray {
-        val durationMs = 220
+    private fun generateLineClear1Sound(): ShortArray {
+        // Tier 1: Crisp single clear chime (C5 with subtle C6 shimmer)
+        val durationMs = 130
         val numSamples = (SAMPLE_RATE * durationMs / 1000)
         val samples = ShortArray(numSamples)
 
-        val notes = doubleArrayOf(523.25, 659.25, 783.99) // C5, E5, G5
+        for (i in 0 until numSamples) {
+            val progress = i.toDouble() / numSamples
+            val t = i.toDouble() / SAMPLE_RATE
+            val attack = (progress / 0.05).coerceIn(0.0, 1.0)
+            val envelope = attack * exp(-progress * 4.5)
+            val wave = 0.8 * sin(2.0 * PI * 523.25 * t) + 0.2 * sin(2.0 * PI * 1046.50 * t)
+            samples[i] = (wave * envelope * Short.MAX_VALUE * 0.48).toInt().coerceIn(-32768, 32767).toShort()
+        }
+        return samples
+    }
+
+    private fun generateLineClear2Sound(): ShortArray {
+        // Tier 2: Dual rising chime chord (C5 -> G5)
+        val durationMs = 210
+        val numSamples = (SAMPLE_RATE * durationMs / 1000)
+        val samples = ShortArray(numSamples)
+
+        val notes = doubleArrayOf(523.25, 783.99)
         val seg = numSamples / notes.size
 
         for (i in 0 until numSamples) {
@@ -204,9 +233,56 @@ class SoundSynthesizer {
             val freq = notes[noteIdx]
             val t = i.toDouble() / SAMPLE_RATE
             val segProgress = (i % seg).toDouble() / seg
-            val envelope = exp(-segProgress * 2.5)
+            val attack = (segProgress / 0.06).coerceIn(0.0, 1.0)
+            val envelope = attack * exp(-segProgress * 3.5)
             val wave = sin(2.0 * PI * freq * t)
-            samples[i] = (wave * envelope * Short.MAX_VALUE * 0.5).toInt().coerceIn(-32768, 32767).toShort()
+            samples[i] = (wave * envelope * Short.MAX_VALUE * 0.50).toInt().coerceIn(-32768, 32767).toShort()
+        }
+        return samples
+    }
+
+    private fun generateLineClear3Sound(): ShortArray {
+        // Tier 3: Triple harmonic ascending arpeggio (C5 -> E5 -> G5 -> Bb5 dominant 7th lift)
+        val durationMs = 300
+        val numSamples = (SAMPLE_RATE * durationMs / 1000)
+        val samples = ShortArray(numSamples)
+
+        val notes = doubleArrayOf(523.25, 659.25, 783.99, 932.33)
+        val seg = numSamples / notes.size
+
+        for (i in 0 until numSamples) {
+            val noteIdx = (i / seg).coerceIn(0, notes.size - 1)
+            val freq = notes[noteIdx]
+            val t = i.toDouble() / SAMPLE_RATE
+            val segProgress = (i % seg).toDouble() / seg
+            val attack = (segProgress / 0.06).coerceIn(0.0, 1.0)
+            val envelope = attack * exp(-segProgress * 2.8)
+            val wave = 0.85 * sin(2.0 * PI * freq * t) + 0.15 * (if (sin(2.0 * PI * freq * t) >= 0) 1.0 else -1.0)
+            samples[i] = (wave * envelope * Short.MAX_VALUE * 0.52).toInt().coerceIn(-32768, 32767).toShort()
+        }
+        return samples
+    }
+
+    private fun generateSpinBonusSound(): ShortArray {
+        // Signature Sci-Fi Resonant Warp (Overclock Spin):
+        // Dual-sine frequency modulation sweeping from 320Hz to 780Hz with sub-bass punch
+        val durationMs = 230
+        val numSamples = (SAMPLE_RATE * durationMs / 1000)
+        val samples = ShortArray(numSamples)
+
+        var phase = 0.0
+        for (i in 0 until numSamples) {
+            val progress = i.toDouble() / numSamples
+            val t = i.toDouble() / SAMPLE_RATE
+            val carrierFreq = 320.0 + 460.0 * sin(PI * progress) // Up and down frequency arc
+            val mod = 40.0 * sin(2.0 * PI * 65.0 * t) // 65Hz vibrato modulation
+            phase += (carrierFreq + mod) / SAMPLE_RATE
+            if (phase >= 1.0) phase -= 1.0
+
+            val attack = (progress / 0.08).coerceIn(0.0, 1.0)
+            val envelope = attack * (1.0 - progress * 0.85)
+            val wave = sin(2.0 * PI * phase)
+            samples[i] = (wave * envelope * Short.MAX_VALUE * 0.55).toInt().coerceIn(-32768, 32767).toShort()
         }
         return samples
     }

@@ -98,14 +98,36 @@ class NeonStackViewModel(application: Application) : AndroidViewModel(applicatio
                 }
                 is GameEvent.LinesCleared -> {
                     val reward = event.reward
-                    if (event.rows.size == 4) {
-                        sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.QUAD_CLEAR))
+                    val isSpin = reward.spin != com.neonstack.engine.SpinBonus.NONE
+                    if (isSpin) {
+                        sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.SPIN_BONUS))
                         sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.QUAD_CLEAR))
-                        sendEffect(NeonStackUiEffect.ScreenShake(18f))
-                    } else if (event.rows.isNotEmpty()) {
-                        sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR))
-                        sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.LINE_CLEAR))
-                        sendEffect(NeonStackUiEffect.ScreenShake(8f))
+                        sendEffect(NeonStackUiEffect.ScreenShake(14f))
+                    } else {
+                        when (event.rows.size) {
+                            4 -> {
+                                sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.QUAD_CLEAR))
+                                sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.QUAD_CLEAR))
+                                sendEffect(NeonStackUiEffect.ScreenShake(18f))
+                            }
+                            3 -> {
+                                sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR_3))
+                                sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.LINE_CLEAR))
+                                sendEffect(NeonStackUiEffect.ScreenShake(12f))
+                            }
+                            2 -> {
+                                sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR_2))
+                                sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.LINE_CLEAR))
+                                sendEffect(NeonStackUiEffect.ScreenShake(8f))
+                            }
+                            else -> {
+                                if (event.rows.isNotEmpty()) {
+                                    sendEffect(NeonStackUiEffect.PlaySound(SoundEffect.LINE_CLEAR_1))
+                                    sendEffect(NeonStackUiEffect.TriggerHaptic(HapticType.LINE_CLEAR))
+                                    sendEffect(NeonStackUiEffect.ScreenShake(5f))
+                                }
+                            }
+                        }
                     }
 
                     if (event.rows.isNotEmpty()) {
