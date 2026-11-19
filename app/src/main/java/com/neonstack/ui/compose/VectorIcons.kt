@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
@@ -849,45 +850,201 @@ fun HeroBrandEmblemIcon(
     modifier: Modifier = Modifier
 ) {
     Canvas(modifier = modifier.size(size)) {
-        val cell = this.size.width * 0.26f
-        val gap = this.size.width * 0.05f
+        val w = this.size.width
+        val h = this.size.height
+        val cell = w * 0.26f
+        val gap = w * 0.05f
         val total = cell * 3 + gap * 2
-        val startX = (this.size.width - total) / 2f
-        val startY = (this.size.height - total) / 2f
-        val r = CornerRadius(cell * 0.24f, cell * 0.24f)
+        val startX = (w - total) / 2f
+        val startY = (h - total) / 2f
+        val r = CornerRadius(cell * 0.22f, cell * 0.22f)
 
-        fun drawMino(col: Int, row: Int, baseColor: Color) {
+        // 1. Holographic Puzzle Reticle at Slot (col 2, row 1)
+        val slotX = startX + 2 * (cell + gap)
+        val slotY = startY + 1 * (cell + gap)
+        val bracketLen = cell * 0.28f
+        val reticleStroke = Stroke(width = cell * 0.09f, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        val reticleColor = AccentCyan.copy(alpha = 0.45f)
+
+        val tl = Path().apply {
+            moveTo(slotX, slotY + bracketLen)
+            lineTo(slotX, slotY)
+            lineTo(slotX + bracketLen, slotY)
+        }
+        drawPath(tl, reticleColor, style = reticleStroke)
+
+        val tr = Path().apply {
+            moveTo(slotX + cell - bracketLen, slotY)
+            lineTo(slotX + cell, slotY)
+            lineTo(slotX + cell, slotY + bracketLen)
+        }
+        drawPath(tr, reticleColor, style = reticleStroke)
+
+        val bl = Path().apply {
+            moveTo(slotX, slotY + cell - bracketLen)
+            lineTo(slotX, slotY + cell)
+            lineTo(slotX + bracketLen, slotY + cell)
+        }
+        drawPath(bl, reticleColor, style = reticleStroke)
+
+        val br = Path().apply {
+            moveTo(slotX + cell - bracketLen, slotY + cell)
+            lineTo(slotX + cell, slotY + cell)
+            lineTo(slotX + cell, slotY + cell - bracketLen)
+        }
+        drawPath(br, reticleColor, style = reticleStroke)
+
+        val centerSlotX = slotX + cell * 0.5f
+        val centerSlotY = slotY + cell * 0.5f
+        drawLine(
+            color = reticleColor.copy(alpha = 0.35f),
+            start = Offset(centerSlotX, centerSlotY - cell * 0.15f),
+            end = Offset(centerSlotX, centerSlotY + cell * 0.15f),
+            strokeWidth = cell * 0.08f,
+            cap = StrokeCap.Round
+        )
+        drawLine(
+            color = reticleColor.copy(alpha = 0.35f),
+            start = Offset(centerSlotX - cell * 0.15f, centerSlotY),
+            end = Offset(centerSlotX + cell * 0.15f, centerSlotY),
+            strokeWidth = cell * 0.08f,
+            cap = StrokeCap.Round
+        )
+
+        // Polyomino cell coordinates
+        val cyanCells = listOf(Pair(0, 0), Pair(0, 1), Pair(0, 2), Pair(1, 2))
+        val magCells = listOf(Pair(1, 0), Pair(2, 0), Pair(1, 1))
+        val goldCells = listOf(Pair(2, 2))
+
+        // 2. Diffuse Ambient Outer Bloom (Stroke)
+        val outerBloomStroke = Stroke(width = cell * 0.35f, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        cyanCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
+            drawRoundRect(color = AccentCyan.copy(alpha = 0.18f), topLeft = Offset(x, y), size = Size(cell, cell), cornerRadius = r, style = outerBloomStroke)
+        }
+        magCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
+            drawRoundRect(color = Color(0xFFE040FB).copy(alpha = 0.18f), topLeft = Offset(x, y), size = Size(cell, cell), cornerRadius = r, style = outerBloomStroke)
+        }
+        goldCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
+            drawRoundRect(color = AccentYellow.copy(alpha = 0.22f), topLeft = Offset(x, y), size = Size(cell, cell), cornerRadius = r, style = outerBloomStroke)
+        }
+
+        // 3. Concentrated Mid Bloom (Stroke)
+        val midBloomStroke = Stroke(width = cell * 0.16f, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        cyanCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
+            drawRoundRect(color = AccentCyan.copy(alpha = 0.38f), topLeft = Offset(x, y), size = Size(cell, cell), cornerRadius = r, style = midBloomStroke)
+        }
+        magCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
+            drawRoundRect(color = Color(0xFFE040FB).copy(alpha = 0.38f), topLeft = Offset(x, y), size = Size(cell, cell), cornerRadius = r, style = midBloomStroke)
+        }
+        goldCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
+            drawRoundRect(color = AccentYellow.copy(alpha = 0.42f), topLeft = Offset(x, y), size = Size(cell, cell), cornerRadius = r, style = midBloomStroke)
+        }
+
+        // 4. Vibrant Gradient Cores
+        cyanCells.forEach { (col, row) ->
             val x = startX + col * (cell + gap)
             val y = startY + row * (cell + gap)
             drawRoundRect(
-                color = baseColor,
+                brush = Brush.linearGradient(
+                    colors = listOf(Color(0xFF22EEFF), Color(0xFF008CAE)),
+                    start = Offset(x, y),
+                    end = Offset(x + cell, y + cell)
+                ),
                 topLeft = Offset(x, y),
                 size = Size(cell, cell),
                 cornerRadius = r
             )
-            // Subtle top-left jewel specular highlight
+        }
+        magCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
             drawRoundRect(
-                color = Color.White.copy(alpha = 0.28f),
-                topLeft = Offset(x + cell * 0.14f, y + cell * 0.14f),
-                size = Size(cell * 0.72f, cell * 0.24f),
-                cornerRadius = CornerRadius(cell * 0.12f, cell * 0.12f)
+                brush = Brush.linearGradient(
+                    colors = listOf(Color(0xFFF355FF), Color(0xFF9C00B8)),
+                    start = Offset(x, y),
+                    end = Offset(x + cell, y + cell)
+                ),
+                topLeft = Offset(x, y),
+                size = Size(cell, cell),
+                cornerRadius = r
+            )
+        }
+        goldCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
+            drawRoundRect(
+                brush = Brush.linearGradient(
+                    colors = listOf(Color(0xFFFFF066), Color(0xFFC99A00)),
+                    start = Offset(x, y),
+                    end = Offset(x + cell, y + cell)
+                ),
+                topLeft = Offset(x, y),
+                size = Size(cell, cell),
+                cornerRadius = r
             )
         }
 
-        // Stylized interlocked polyomino crest:
-        // Cyan L-pillar (left + bottom-left)
-        drawMino(0, 0, AccentCyan)
-        drawMino(0, 1, AccentCyan)
-        drawMino(0, 2, AccentCyan)
-        drawMino(1, 2, AccentCyan)
+        // 5. Crystal Facet Inset Rim
+        val facetStroke = Stroke(width = cell * 0.06f, cap = StrokeCap.Round, join = StrokeJoin.Round)
+        val allCells = cyanCells + magCells + goldCells
+        allCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
+            val inset = cell * 0.08f
+            drawRoundRect(
+                color = Color.White.copy(alpha = 0.22f),
+                topLeft = Offset(x + inset, y + inset),
+                size = Size(cell - inset * 2, cell - inset * 2),
+                cornerRadius = CornerRadius(r.x * 0.8f, r.y * 0.8f),
+                style = facetStroke
+            )
+        }
 
-        // Radiant Magenta crown (top-right + center)
-        val brightMagenta = Color(0xFFE040FB)
-        drawMino(1, 0, brightMagenta)
-        drawMino(2, 0, brightMagenta)
-        drawMino(1, 1, brightMagenta)
+        // 6. White-Hot Phosphor Gas Filaments
+        allCells.forEach { (col, row) ->
+            val x = startX + col * (cell + gap)
+            val y = startY + row * (cell + gap)
+            drawRoundRect(
+                color = Color.White.copy(alpha = 0.80f),
+                topLeft = Offset(x + cell * 0.18f, y + cell * 0.16f),
+                size = Size(cell * 0.50f, cell * 0.16f),
+                cornerRadius = CornerRadius(cell * 0.08f, cell * 0.08f)
+            )
+        }
 
-        // Gold keystone accent (bottom-right)
-        drawMino(2, 2, AccentYellow)
+        // 7. Midas Keystone Diamond Sparkle at (col 2, row 2)
+        val goldX = startX + 2 * (cell + gap) + cell * 0.5f
+        val goldY = startY + 2 * (cell + gap) + cell * 0.5f
+        val sparkH = cell * 0.24f
+        val sparkW = cell * 0.09f
+        val diamond = Path().apply {
+            moveTo(goldX, goldY - sparkH)
+            lineTo(goldX + sparkW, goldY)
+            lineTo(goldX, goldY + sparkH)
+            lineTo(goldX - sparkW, goldY)
+            close()
+        }
+        val diamondCross = Path().apply {
+            moveTo(goldX - sparkH, goldY)
+            lineTo(goldX, goldY + sparkW)
+            lineTo(goldX + sparkH, goldY)
+            lineTo(goldX, goldY - sparkW)
+            close()
+        }
+        drawPath(diamond, Color.White.copy(alpha = 0.95f))
+        drawPath(diamondCross, Color.White.copy(alpha = 0.80f))
+        drawCircle(Color.White, radius = cell * 0.04f, center = Offset(goldX, goldY))
     }
 }

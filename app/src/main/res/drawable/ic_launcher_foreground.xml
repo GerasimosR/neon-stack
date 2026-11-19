@@ -1,26 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Neon Stack Interlocked Prism Crest -->
-    <!-- Cyan L-pillar (left column + bottom-center) -->
+
+    <!-- ======================================================== -->
+    <!-- LAYER 1: HOLOGRAPHIC PUZZLE RETICLE (Slot at col 2, row 1) -->
+    <!-- ======================================================== -->
+    <!-- Corner brackets marking the target lock slot -->
+    <path
+        android:strokeColor="#00E5FF"
+        android:strokeAlpha="0.40"
+        android:strokeWidth="1.2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M65,49.5 v-2 h2 M73.5,47.5 h2 v2 M65,58.5 v2 h2 M73.5,60.5 h2 v-2" />
+    <!-- Center reticle dot -->
+    <path
+        android:strokeColor="#00E5FF"
+        android:strokeAlpha="0.30"
+        android:strokeWidth="1.0"
+        android:strokeLineCap="round"
+        android:pathData="M70,52 v4 M68,54 h4" />
+
+    <!-- ======================================================== -->
+    <!-- LAYER 2: WIDE DIFFUSE NEON HALO (Ambient Outer Bloom)    -->
+    <!-- ======================================================== -->
+    <!-- Cyan L-pillar outer bloom -->
     <path
         android:fillColor="#00E5FF"
-        android:pathData="M24,24 h18 v18 h-18 z M24,45 h18 v18 h-18 z M24,66 h18 v18 h-18 z M45,66 h18 v18 h-18 z" />
-    <!-- Radiant Magenta crown (top-center, top-right, center) -->
+        android:fillAlpha="0.10"
+        android:strokeColor="#00E5FF"
+        android:strokeAlpha="0.16"
+        android:strokeWidth="5.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 33.50,31.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 33.50,47.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 33.50,63.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 49.50,63.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z" />
+    <!-- Magenta crown outer bloom -->
     <path
         android:fillColor="#E040FB"
-        android:pathData="M45,24 h18 v18 h-18 z M66,24 h18 v18 h-18 z M45,45 h18 v18 h-18 z" />
-    <!-- Gold keystone accent (bottom-right) -->
+        android:fillAlpha="0.10"
+        android:strokeColor="#E040FB"
+        android:strokeAlpha="0.16"
+        android:strokeWidth="5.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 49.50,31.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 65.50,31.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 49.50,47.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z" />
+    <!-- Gold keystone outer bloom -->
     <path
         android:fillColor="#FFD700"
-        android:pathData="M66,66 h18 v18 h-18 z" />
+        android:fillAlpha="0.12"
+        android:strokeColor="#FFD700"
+        android:strokeAlpha="0.20"
+        android:strokeWidth="5.0"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 65.50,63.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z" />
 
-    <!-- Specular jewel top highlights -->
+    <!-- ======================================================== -->
+    <!-- LAYER 3: MID NEON GLOW (Saturated Concentrated Bloom)    -->
+    <!-- ======================================================== -->
+    <path
+        android:strokeColor="#00E5FF"
+        android:strokeAlpha="0.35"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 33.50,31.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 33.50,47.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 33.50,63.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 49.50,63.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z" />
+    <path
+        android:strokeColor="#E040FB"
+        android:strokeAlpha="0.35"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 49.50,31.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 65.50,31.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 49.50,47.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z" />
+    <path
+        android:strokeColor="#FFD700"
+        android:strokeAlpha="0.40"
+        android:strokeWidth="2.2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 65.50,63.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z" />
+
+    <!-- ======================================================== -->
+    <!-- LAYER 4: VIBRANT NEON BLOCK CORES                        -->
+    <!-- ======================================================== -->
+    <!-- Cyan L-pillar: 4-cell tetromino -->
+    <path android:pathData="M 33.50,31.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 33.50,47.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 33.50,63.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 49.50,63.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="31"
+                android:startY="31"
+                android:endX="61"
+                android:endY="77"
+                android:type="linear">
+                <item android:color="#22EEFF" android:offset="0.0" />
+                <item android:color="#00C4ED" android:offset="0.55" />
+                <item android:color="#008CAE" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Magenta crown: 3-cell cluster -->
+    <path android:pathData="M 49.50,31.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 65.50,31.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z M 49.50,47.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="47"
+                android:startY="31"
+                android:endX="77"
+                android:endY="61"
+                android:type="linear">
+                <item android:color="#F355FF" android:offset="0.0" />
+                <item android:color="#D500F9" android:offset="0.55" />
+                <item android:color="#9C00B8" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Gold keystone: 1-cell Midas relic block -->
+    <path android:pathData="M 65.50,63.00 h 9.00 a 2.50,2.50 0 0 1 2.50,2.50 v 9.00 a 2.50,2.50 0 0 1 -2.50,2.50 h -9.00 a 2.50,2.50 0 0 1 -2.50,-2.50 v -9.00 a 2.50,2.50 0 0 1 2.50,-2.50 z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="63"
+                android:startY="63"
+                android:endX="77"
+                android:endY="77"
+                android:type="linear">
+                <item android:color="#FFF066" android:offset="0.0" />
+                <item android:color="#FFD700" android:offset="0.55" />
+                <item android:color="#C99A00" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- ======================================================== -->
+    <!-- LAYER 5: INNER BEVEL & CRYSTAL FACET RIMS                -->
+    <!-- ======================================================== -->
+    <!-- Subtle inset crisp edge to distinguish adjacent blocks -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.22"
+        android:strokeWidth="0.8"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M 34.00,32.20 h 8.00 a 1.80,1.80 0 0 1 1.80,1.80 v 8.00 a 1.80,1.80 0 0 1 -1.80,1.80 h -8.00 a 1.80,1.80 0 0 1 -1.80,-1.80 v -8.00 a 1.80,1.80 0 0 1 1.80,-1.80 z M 34.00,48.20 h 8.00 a 1.80,1.80 0 0 1 1.80,1.80 v 8.00 a 1.80,1.80 0 0 1 -1.80,1.80 h -8.00 a 1.80,1.80 0 0 1 -1.80,-1.80 v -8.00 a 1.80,1.80 0 0 1 1.80,-1.80 z M 34.00,64.20 h 8.00 a 1.80,1.80 0 0 1 1.80,1.80 v 8.00 a 1.80,1.80 0 0 1 -1.80,1.80 h -8.00 a 1.80,1.80 0 0 1 -1.80,-1.80 v -8.00 a 1.80,1.80 0 0 1 1.80,-1.80 z M 50.00,64.20 h 8.00 a 1.80,1.80 0 0 1 1.80,1.80 v 8.00 a 1.80,1.80 0 0 1 -1.80,1.80 h -8.00 a 1.80,1.80 0 0 1 -1.80,-1.80 v -8.00 a 1.80,1.80 0 0 1 1.80,-1.80 z M 50.00,32.20 h 8.00 a 1.80,1.80 0 0 1 1.80,1.80 v 8.00 a 1.80,1.80 0 0 1 -1.80,1.80 h -8.00 a 1.80,1.80 0 0 1 -1.80,-1.80 v -8.00 a 1.80,1.80 0 0 1 1.80,-1.80 z M 66.00,32.20 h 8.00 a 1.80,1.80 0 0 1 1.80,1.80 v 8.00 a 1.80,1.80 0 0 1 -1.80,1.80 h -8.00 a 1.80,1.80 0 0 1 -1.80,-1.80 v -8.00 a 1.80,1.80 0 0 1 1.80,-1.80 z M 50.00,48.20 h 8.00 a 1.80,1.80 0 0 1 1.80,1.80 v 8.00 a 1.80,1.80 0 0 1 -1.80,1.80 h -8.00 a 1.80,1.80 0 0 1 -1.80,-1.80 v -8.00 a 1.80,1.80 0 0 1 1.80,-1.80 z M 66.00,64.20 h 8.00 a 1.80,1.80 0 0 1 1.80,1.80 v 8.00 a 1.80,1.80 0 0 1 -1.80,1.80 h -8.00 a 1.80,1.80 0 0 1 -1.80,-1.80 v -8.00 a 1.80,1.80 0 0 1 1.80,-1.80 z" />
+
+    <!-- ======================================================== -->
+    <!-- LAYER 6: WHITE-HOT NEON GAS FILAMENTS (Phosphor Spines)  -->
+    <!-- ======================================================== -->
     <path
         android:fillColor="#FFFFFF"
-        android:fillAlpha="0.30"
-        android:pathData="M26,26 h14 v4 h-14 z M47,26 h14 v4 h-14 z M68,26 h14 v4 h-14 z M26,47 h14 v4 h-14 z M47,47 h14 v4 h-14 z M26,68 h14 v4 h-14 z M47,68 h14 v4 h-14 z M68,68 h14 v4 h-14 z" />
+        android:fillAlpha="0.78"
+        android:pathData="M 34.60,33.20 h 4.80 a 1.10,1.10 0 0 1 1.10,1.10 v 0.00 a 1.10,1.10 0 0 1 -1.10,1.10 h -4.80 a 1.10,1.10 0 0 1 -1.10,-1.10 v -0.00 a 1.10,1.10 0 0 1 1.10,-1.10 z M 34.60,49.20 h 4.80 a 1.10,1.10 0 0 1 1.10,1.10 v 0.00 a 1.10,1.10 0 0 1 -1.10,1.10 h -4.80 a 1.10,1.10 0 0 1 -1.10,-1.10 v -0.00 a 1.10,1.10 0 0 1 1.10,-1.10 z M 34.60,65.20 h 4.80 a 1.10,1.10 0 0 1 1.10,1.10 v 0.00 a 1.10,1.10 0 0 1 -1.10,1.10 h -4.80 a 1.10,1.10 0 0 1 -1.10,-1.10 v -0.00 a 1.10,1.10 0 0 1 1.10,-1.10 z M 50.60,65.20 h 4.80 a 1.10,1.10 0 0 1 1.10,1.10 v 0.00 a 1.10,1.10 0 0 1 -1.10,1.10 h -4.80 a 1.10,1.10 0 0 1 -1.10,-1.10 v -0.00 a 1.10,1.10 0 0 1 1.10,-1.10 z M 50.60,33.20 h 4.80 a 1.10,1.10 0 0 1 1.10,1.10 v 0.00 a 1.10,1.10 0 0 1 -1.10,1.10 h -4.80 a 1.10,1.10 0 0 1 -1.10,-1.10 v -0.00 a 1.10,1.10 0 0 1 1.10,-1.10 z M 66.60,33.20 h 4.80 a 1.10,1.10 0 0 1 1.10,1.10 v 0.00 a 1.10,1.10 0 0 1 -1.10,1.10 h -4.80 a 1.10,1.10 0 0 1 -1.10,-1.10 v -0.00 a 1.10,1.10 0 0 1 1.10,-1.10 z M 50.60,49.20 h 4.80 a 1.10,1.10 0 0 1 1.10,1.10 v 0.00 a 1.10,1.10 0 0 1 -1.10,1.10 h -4.80 a 1.10,1.10 0 0 1 -1.10,-1.10 v -0.00 a 1.10,1.10 0 0 1 1.10,-1.10 z M 66.60,65.20 h 4.80 a 1.10,1.10 0 0 1 1.10,1.10 v 0.00 a 1.10,1.10 0 0 1 -1.10,1.10 h -4.80 a 1.10,1.10 0 0 1 -1.10,-1.10 v -0.00 a 1.10,1.10 0 0 1 1.10,-1.10 z" />
+
+    <!-- ======================================================== -->
+    <!-- LAYER 7: MIDAS KEYSTONE DIAMOND GLEAM                    -->
+    <!-- ======================================================== -->
+    <!-- 4-point diamond sparkle inside the Gold relic block -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.90"
+        android:pathData="M70,66.8 L71.2,70 L70,73.2 L68.8,70 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.75"
+        android:pathData="M67.2,70 L70,70.9 L72.8,70 L70,69.1 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M70,69.5 A0.5,0.5 0 1 1 70,70.5 A0.5,0.5 0 1 1 70,69.5 Z" />
 </vector>
